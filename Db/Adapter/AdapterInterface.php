@@ -1,0 +1,100 @@
+<?php
+
+namespace TE\Db\Adapter;
+
+use TE\Db\Query\Select as SelectQuery;
+use TE\Db\Query\Delete as DeleteQuery;
+use TE\Db\Query\Insert as InsertQuery;
+use TE\Db\Query\Update as UpdateQuery;
+
+/**
+ * AdapterInterface 
+ * 
+ * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
+ * @author Joyqi <magike.net@gmail.com> 
+ * @license GNU General Public License 2.0
+ */
+interface AdapterInterface
+{
+    /**
+     * fetchOne  
+     * 
+     * @param mixed $handle 
+     * @access public
+     * @return void
+     */
+    public function fetchOne($handle);
+
+    /**
+     * fetchAll  
+     * 
+     * @param mixed $handle 
+     * @access public
+     * @return void
+     */
+    public function fetchAll($handle);
+
+    /**
+     * query  
+     * 
+     * @param mixed $query 
+     * @access public
+     * @return void
+     */
+    public function query($query);
+
+    /**
+     * lastInsertId  
+     * 
+     * @param mixed $handle 
+     * @access public
+     * @return void
+     */
+    public function lastInsertId($handle);
+
+    /**
+     * affectedRows  
+     * 
+     * @param mixed $handle 
+     * @access public
+     * @return void
+     */
+    public function affectedRows($handle);
+
+    /**
+     * parseSelect 
+     * 
+     * @param SelectQuery $query 
+     * @access public
+     * @return void
+     */
+    public function parseSelect(SelectQuery $query);
+
+    /**
+     * parseDelete  
+     * 
+     * @param DeleteQuery $query 
+     * @access public
+     * @return void
+     */
+    public function parseDelete(DeleteQuery $query);
+
+    /**
+     * parseUpdate  
+     * 
+     * @param UpdateQuery $query 
+     * @access public
+     * @return void
+     */
+    public function parseUpdate(UpdateQuery $query);
+
+    /**
+     * parseInsert  
+     * 
+     * @param InsertQuery $query 
+     * @access public
+     * @return void
+     */
+    public function parseInsert(InsertQuery $query);
+}
+
