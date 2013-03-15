@@ -3,14 +3,14 @@
 namespace TE\Mvc\Action;
 
 /**
- * DefaultExeptionAction
+ * ExeptionAction
  * 
  * @uses AbstractAction
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class DefaultExeptionAction extends AbstractAction
+class ExeptionAction extends AbstractAction
 {
     /**
      * _content

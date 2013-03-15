@@ -114,7 +114,7 @@ class DefaultRouter implements RouterInterface
     {
         $result = $this->createResult(array(
             'action'    =>  isset($routes['exception']) 
-                ? $routes['exception'] : 'TE\Mvc\Action\DefaultExeptionAction',
+                ? $routes['exception'] : 'TE\Mvc\Action\ExeptionAction',
             'params'    =>  array('exception' =>  $e)
         ));
         return $result;
