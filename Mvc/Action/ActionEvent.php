@@ -80,6 +80,12 @@ class ActionEvent
         $interceptor = $this->_manager->fetch();
 
         if (empty($interceptor)) {
+            foreach ($this->_data as $key => $val) {
+                if (isset($this->_action->{$key})) {
+                    $this->_action->{$key} = $val;
+                }
+            }
+
             $result = $this->_action->execute();
 
             if (NULL === $result) {
