@@ -69,6 +69,7 @@ class JsonpView extends AbstractView
     public function render()
     {
         echo $this->_callback . '(' . json_encode($this->_data) . ')';
+        exit;
     }
 }
 

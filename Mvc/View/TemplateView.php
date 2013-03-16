@@ -101,6 +101,7 @@ class TemplateView extends AbstractView
         };
 
         $template($_file);
+        exit;
     }
 }
 

@@ -45,6 +45,8 @@ class EmptyView extends AbstractView
      * @return void
      */
     public function render()
-    {}
+    {
+        exit;
+    }
 }
 

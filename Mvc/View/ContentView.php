@@ -68,6 +68,7 @@ class ContentView extends AbstractView
     public function render()
     {
         echo $this->_content;
+        exit;
     }
 }
 

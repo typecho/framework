@@ -69,6 +69,7 @@ class RedirectView extends AbstractView
     {
         echo '<h1>Moved ' . ($this->_isPermanently ? 'permanently' : 'temporarily') . '</h1>'
             . '<p>Click the <a href="' . $this->_url . '">url</a> to redirect</p>';
+        exit;
     }
 }
 
