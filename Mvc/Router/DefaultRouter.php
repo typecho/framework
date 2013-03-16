@@ -2,6 +2,7 @@
 
 namespace TE\Mvc\Router;
 
+use TE\Mvc\Base;
 use TE\Mvc\Server\RequestInterface as Request;
 use TE\Mvc\Server\ResponseInterface as Response;
 
@@ -13,7 +14,7 @@ use TE\Mvc\Server\ResponseInterface as Response;
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class DefaultRouter implements RouterInterface
+class DefaultRouter extends Base implements RouterInterface
 {
     /**
      * _routes  
