@@ -10,7 +10,7 @@ namespace TE\Mvc\Action;
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class ExeptionAction extends AbstractAction
+class ExceptionAction extends AbstractAction
 {
     /**
      * _content

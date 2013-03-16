@@ -81,7 +81,7 @@ abstract class Base
         do {
             $this->injectProperties($class, $shared);
             $class = get_parent_class($class);
-        } while ('TF\Mvc\Base' != ltrim($class, '\\') && !empty($class));
+        } while ('TE\Mvc\Base' != ltrim($class, '\\') && !empty($class));
     }
 
     /**
@@ -136,7 +136,7 @@ abstract class Base
 
         foreach ($props as $prop) {
             $name = $prop->getName();
-            if ($prop->isDefault() && 0 === strpos($name, '_')) {
+            if ($prop->isDefault() && 0 !== strpos($name, '_')) {
                 $result[] = $name;
             }
         }
