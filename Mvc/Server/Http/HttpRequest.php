@@ -603,48 +603,6 @@ class HttpRequest implements Request
     }
 
     /**
-     * 获取当前pathUrl
-     *
-     * @access public
-     * @return string
-     */
-    public function getPathUrl()
-    {
-        /** 缓存信息 */
-        if (NULL !== $this->_pathUrl) {
-            return $this->_pathUrl;
-        }
-
-        //参考Zend Framework对pahtinfo的处理, 更好的兼容性
-        $pathUrl = NULL;
-        $requestUri = $this->getRequestUri();
-        $finalBaseUrl = $this->getBaseUrl();
-        $query = '';
-
-        // Remove the query string from REQUEST_URI
-        if ($pos = strpos($requestUri, '?')) {
-            $query = substr($requestUri, $pos);
-            $requestUri = substr($requestUri, 0, $pos);
-        }
-
-        if ((NULL !== $finalBaseUrl)
-            && (false === ($pathUrl = substr($requestUri, strlen($finalBaseUrl)))))
-        {
-            // If substr() returns false then PATH_INFO is set to an empty string
-            $pathUrl = '/';
-        } elseif (NULL === $finalBaseUrl) {
-            $pathUrl = $requestUri;
-        }
-
-        if (empty($pathUrl)) {
-            $pathUrl = '/';
-        }
-
-        // fix issue 456
-        return ($this->_pathUrl = '/' . ltrim(urldecode($pathUrl), '/') . $query);
-    }
-
-    /**
      * getAcceptLangs  
      * 
      * @static
