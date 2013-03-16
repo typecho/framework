@@ -144,7 +144,7 @@ class QueryExecutor
     {
         if ('select' == $this->_name) {
             $handle = $this->_adapter->query((string) $this);
-            return $this->_adapter->fetchAll();
+            return $this->_adapter->fetchAll($handle);
         }
     }
 
