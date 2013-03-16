@@ -1,8 +1,8 @@
 <?php
 
-namespace TF\Mvc\Data;
+namespace TE\Mvc\Data;
 
-use TF\Mvc\Base;
+use TE\Mvc\Base;
 
 /**
  * ViewData 
