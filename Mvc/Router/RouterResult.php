@@ -44,7 +44,7 @@ class RouterResult
      * @access public
      * @return void
      */
-    public function __construct($action, array $params = NULL, array $interceptors = NULL)
+    public function __construct($action, array $params = NULL, $interceptors = NULL)
     {
         $this->_action = $action;
 
@@ -53,7 +53,7 @@ class RouterResult
         }
 
         if (!empty($interceptors)) {
-            $this->_interceptors = $interceptors;
+            $this->_interceptors = is_array($interceptors) ? $interceptors : array($interceptors);
         }
     }
 
