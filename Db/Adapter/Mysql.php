@@ -40,9 +40,11 @@ class Mysql extends AbstractAdapter
                 mysql_query('SET NAMES ' . $this->quoteValue($charset));
                 return;
             }
+            
+            throw new AdapterException(mysql_error($this->_dbLink));
         }
 
-        throw new AdapterException(@mysql_error($this->_dbLink));
+        throw new AdapterException(mysql_error());
     }
 
     /**
