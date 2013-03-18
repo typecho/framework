@@ -18,5 +18,22 @@ interface RequestInterface
      * @return void
      */
     public function getPathInfo();
+
+    /**
+     * getArgs  
+     * 
+     * @access public
+     * @return void
+     */
+    public function getArgs();
+
+    /**
+     * setParams  
+     * 
+     * @param array $params 
+     * @access public
+     * @return void
+     */
+    public function setParams(array $params);
 }
 
