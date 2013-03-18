@@ -85,7 +85,7 @@ class HttpRequest extends AbstractRequest
      * @var array
      * @access private
      */
-    private $_args = array();
+    private $_args = NULL;
 
     /**
      * 命令行模式
