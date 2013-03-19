@@ -33,7 +33,20 @@ class ValidatorExecutor
      * @var array
      * @access private
      */
-    private $_validatorClasses = array();
+    private $_validatorClasses = array(
+        'between'       =>  'TE\Validator\Between',
+        'birthday'      =>  'TE\Validator\Birthday',
+        'confirm'       =>  'TE\Validator\Confirm',
+        'email'         =>  'TE\Validator\Email',
+        'greaterThan'   =>  'TE\Validator\GreaterThan',
+        'inArray'       =>  'TE\Validator\InArray',
+        'lessThan'      =>  'TE\Validator\LessThan',
+        'number'        =>  'TE\Validator\Number',
+        'regex'         =>  'TE\Validator\Regex',
+        'required'      =>  'TE\Validator\Required',
+        'strLen'        =>  'TE\Validator\StrLen',
+        'url'           =>  'TE\Validator\Url'
+    );
 
     /**
      * _validatorObjects  
@@ -106,10 +119,16 @@ class ValidatorExecutor
                     $name = array_shift($args);
                 } else {
                     $name = $args;
-                    $args = NULL;
+                    $args = array();
+                }
+                
+                $validator = $this->getValidator($name);
+                if ($validator instanceof FilledValidatorInterface
+                    && empty($this->_data[$key])) {
+                    continue;    
                 }
 
-                if (!$this->runValidator($this->getValidator($name), $key, $args)) {
+                if (!$this->runValidator($validator, $key, $args)) {
                     $result[$key] = $message;
                     break;
                 }

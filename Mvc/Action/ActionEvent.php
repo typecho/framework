@@ -137,11 +137,8 @@ class ActionEvent
      */
     public function getData($name = NULL)
     {
-        if (empty($name)) {
-            return $this->_data;
-        } else {
-            return isset($this->_data[$name]) ? $this->_data[$name] : NULL;
-        }
+        return empty($name) ? $this->_data : 
+            (isset($this->_data[$name]) ? $this->_data[$name] : NULL);
     }
 }
 
