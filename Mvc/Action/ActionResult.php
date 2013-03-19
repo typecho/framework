@@ -60,6 +60,22 @@ class ActionResult
     }
 
     /**
+     * setViewName  
+     * 
+     * @param mixed $viewName 
+     * @access public
+     * @return void
+     */
+    public function setViewName($viewName)
+    {
+        if ($this->_viewName == $this->_viewClass) {
+            $this->_viewClass = $viewName;
+        }
+
+        $this->_viewName = $viewName;
+    }
+
+    /**
      * getParams  
      * 
      * @access public
