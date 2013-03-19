@@ -1,21 +1,21 @@
 <?php
 
-namespace TE\Mvc\Server\Http;
+namespace TE\Mvc\Server;
 
-use TE\Mvc\Server\ServerInterface as Server;
 use TE\Mvc\Router\RouterInterface as Router;
 use TE\Mvc\Router\RouterResult;
-use TE\Mvc\Action\Interceptor\InterceptorManagerInterface as InterceptorManager;
+use TE\Mvc\Action\Interceptor\InterceptorManager;
 
 /**
- * HttpServer 
+ * AbstractServer 
  * 
- * @uses Server
+ * @uses ServerInterface
+ * @abstract
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class HttpServer implements Server
+abstract class AbstractServer implements ServerInterface
 {
     /**
      * _request  
@@ -60,11 +60,29 @@ class HttpServer implements Server
     {
         $this->_router = $router;
         $this->_manager = $manager;
-        $this->_request = new HttpRequest();
-        $this->_response = new HttpResponse();
+        $this->_request = $this->createRequest();
+        $this->_response = $this->createResponse();
 
         $this->serve();
     }
+
+    /**
+     * createRequest  
+     * 
+     * @abstract
+     * @access protected
+     * @return void
+     */
+    abstract protected function createRequest();
+
+    /**
+     * createResponse  
+     * 
+     * @abstract
+     * @access protected
+     * @return void
+     */
+    abstract protected function createResponse();
 
     /**
      * serve  

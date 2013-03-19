@@ -5,14 +5,14 @@ namespace TE\Mvc\Action\Interceptor;
 use TE\Mvc\Action\ActionEvent as Event;
 
 /**
- * ViewClassInterceptor  
+ * ViewClass  
  * 
  * @uses InterceptorInterface
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class ViewClassInterceptor implements InterceptorInterface
+class ViewClass implements InterceptorInterface
 {
     /**
      * _viewClasses 
@@ -21,14 +21,14 @@ class ViewClassInterceptor implements InterceptorInterface
      * @access private
      */
     private $_viewClasses = array(
-        'content'           =>  'TE\Mvc\View\ContentView',
-        'empty'             =>  'TE\Mvc\View\EmptyView',
-        'error'             =>  'TE\Mvc\View\ErrorView',
-        'json'              =>  'TE\Mvc\View\JsonView',
-        'jsonp'             =>  'TE\Mvc\View\JsonpView',
-        'notFound'          =>  'TE\Mvc\View\NotFoundView',
-        'redirect'          =>  'TE\Mvc\View\RedirectView',
-        'template'          =>  'TE\Mvc\View\TemplateView'
+        'blank'             =>  'TE\Mvc\View\Blank',
+        'content'           =>  'TE\Mvc\View\Content',
+        'error'             =>  'TE\Mvc\View\Error',
+        'json'              =>  'TE\Mvc\View\Json',
+        'jsonp'             =>  'TE\Mvc\View\Jsonp',
+        'notFound'          =>  'TE\Mvc\View\NotFound',
+        'redirect'          =>  'TE\Mvc\View\Redirect',
+        'template'          =>  'TE\Mvc\View\Template'
     );
 
     /**

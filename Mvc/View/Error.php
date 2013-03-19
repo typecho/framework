@@ -2,31 +2,38 @@
 
 namespace TE\Mvc\View;
 
+use TE\System;
 use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Action\ActionEvent as Event;
 
 /**
- * EmptyView 
+ * Error  
  * 
- * @uses AbstractView
+ * @uses Template
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class EmptyView extends AbstractView
+class Error extends TemplateView
 {
     /**
-     * __construct  
+     * __construct 
      * 
      * @param Event $event 
+     * @param string $content 
+     * @param string $template 
+     * @param string $prefix 
      * @access public
      * @return void
      */
-    public function __construct(Event $event)
-    {}
+    public function __construct(Event $event, $content = 'Server error', $template = '500.php', $prefix = '')
+    {
+        parent::__construct($event, $template, $prefix);
+        $this->vars['content'] = $content;
+    }
 
     /**
-     * prepareResponse 
+     * prepareResponse  
      * 
      * @param Response $response 
      * @access public
@@ -34,19 +41,8 @@ class EmptyView extends AbstractView
      */
     public function prepareResponse(Response $response)
     {
-        $response->setStatusCode(200)
+        $response->setStatusCode(500)
             ->setContentType('text/html');
-    }
-
-    /**
-     * render  
-     * 
-     * @access public
-     * @return void
-     */
-    public function render()
-    {
-        exit;
     }
 }
 

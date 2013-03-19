@@ -7,14 +7,14 @@ use TE\Mvc\Server\RequestInterface as Request;
 use TE\Mvc\Server\ResponseInterface as Response;
 
 /**
- * DefaultRouter 
+ * Simple
  * 
  * @uses RouterInterface
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class DefaultRouter extends Base implements RouterInterface
+class Simple extends Base implements RouterInterface
 {
     /**
      * _routes  
@@ -98,7 +98,7 @@ class DefaultRouter extends Base implements RouterInterface
         
         if (empty($found)) {
             return $this->createResult(isset($routes['routeNotFound']) 
-                ? $routes['routeNotFound'] : 'TE\Mvc\Action\RouteNotFoundAction');
+                ? $routes['routeNotFound'] : 'TE\Mvc\Action\RouteNotFound');
         }
 
         return $this->createResult($found);
@@ -115,7 +115,7 @@ class DefaultRouter extends Base implements RouterInterface
     {
         $result = $this->createResult(array(
             'action'    =>  isset($routes['exception']) 
-                ? $routes['exception'] : 'TE\Mvc\Action\ExeptionAction',
+                ? $routes['exception'] : 'TE\Mvc\Action\ExceptionHandler',
             'params'    =>  array('exception' =>  $e)
         ));
         return $result;

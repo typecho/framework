@@ -2,52 +2,52 @@
 
 namespace TE\Mvc\View;
 
-use TE\System;
 use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Action\ActionEvent as Event;
 
 /**
- * ContentView  
+ * Jsonp
  * 
  * @uses AbstractView
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class ContentView extends AbstractView
+class Jsonp extends AbstractView
 {
     /**
-     * _content 
+     * _data
      * 
      * @var mixed
      * @access private
      */
-    private $_content;
+    private $_data;
 
     /**
-     * _contentType 
+     * _callback  
      * 
      * @var mixed
      * @access private
      */
-    private $_contentType;
+    private $_callback;
 
     /**
      * __construct 
      * 
-     * @param Event $event 
-     * @param mixed $template 
+     * @param Event $event
+     * @param mixed $data 
+     * @param string $callback 
      * @access public
      * @return void
      */
-    public function __construct(Event $event, $content, $contentType = 'text/html')
+    public function __construct(Event $event, $data, $callback = 'callback')
     {
-        $this->_content = $content;
-        $this->_contentType = $contentType;
+        $this->_data = $data;
+        $this->_callback = $event->getAction()->getRequest()->get($callback, 'jsonp');
     }
 
     /**
-     * prepareResponse  
+     * prepareResponse 
      * 
      * @param Response $response 
      * @access public
@@ -56,18 +56,19 @@ class ContentView extends AbstractView
     public function prepareResponse(Response $response)
     {
         $response->setStatusCode(200)
-            ->setContentType($this->_contentType);
+            ->setHeader('Cache-Control', 'no-cache')
+            ->setContentType('text/javascript');
     }
 
     /**
-     * render 
+     * render  
      * 
      * @access public
      * @return void
      */
     public function render()
     {
-        echo $this->_content;
+        echo $this->_callback . '(' . json_encode($this->_data) . ')';
         exit;
     }
 }

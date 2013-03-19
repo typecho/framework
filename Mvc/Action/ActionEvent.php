@@ -89,7 +89,7 @@ class ActionEvent
             $result = $this->_action->execute();
 
             if (NULL === $result) {
-                $result = 'empty';
+                $result = 'blank';
             }
 
             $viewName = is_array($result) ? array_shift($result) : $result;

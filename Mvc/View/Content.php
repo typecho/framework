@@ -2,52 +2,52 @@
 
 namespace TE\Mvc\View;
 
+use TE\System;
 use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Action\ActionEvent as Event;
 
 /**
- * RedirectView  
+ * Content  
  * 
  * @uses AbstractView
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class RedirectView extends AbstractView
+class Content extends AbstractView
 {
     /**
-     * _url  
+     * _content 
      * 
      * @var mixed
      * @access private
      */
-    private $_url;
+    private $_content;
 
     /**
-     * _isPermanently  
+     * _contentType 
      * 
      * @var mixed
      * @access private
      */
-    private $_isPermanently = false;
+    private $_contentType;
 
     /**
-     * __construct  
+     * __construct 
      * 
-     * @param Event $event
-     * @param string $url 
-     * @param boolean $isPermanently 
+     * @param Event $event 
+     * @param mixed $template 
      * @access public
      * @return void
      */
-    public function __construct(Event $event, $url, $isPermanently = false)
+    public function __construct(Event $event, $content, $contentType = 'text/html')
     {
-        $this->_url = $url;
-        $this->_isPermanently = $isPermanently;
+        $this->_content = $content;
+        $this->_contentType = $contentType;
     }
 
     /**
-     * prepareResponse 
+     * prepareResponse  
      * 
      * @param Response $response 
      * @access public
@@ -55,20 +55,19 @@ class RedirectView extends AbstractView
      */
     public function prepareResponse(Response $response)
     {
-        $response->setStatusCode($this->_isPermanently ? 301 : 302)
-            ->setHeader('Location', $this->_url);
+        $response->setStatusCode(200)
+            ->setContentType($this->_contentType);
     }
 
     /**
-     * render  
+     * render 
      * 
      * @access public
      * @return void
      */
     public function render()
     {
-        echo '<h1>Moved ' . ($this->_isPermanently ? 'permanently' : 'temporarily') . '</h1>'
-            . '<p>Click the <a href="' . $this->_url . '">url</a> to redirect</p>';
+        echo $this->_content;
         exit;
     }
 }

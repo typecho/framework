@@ -7,14 +7,14 @@ use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Action\ActionEvent as Event;
 
 /**
- * ErrorView  
+ * NotFound  
  * 
  * @uses Template
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class ErrorView extends TemplateView
+class NotFound extends TemplateView
 {
     /**
      * __construct 
@@ -26,9 +26,9 @@ class ErrorView extends TemplateView
      * @access public
      * @return void
      */
-    public function __construct(Event $event, $content = 'Server error', $template = '500.php', $prefix = '')
+    public function __construct(Event $event, $content = 'Page not found', $template = '404.php', $prefix = '')
     {
-        parent::__construct($event, $template, $prefix);
+        parent::__construct($event, $template);
         $this->vars['content'] = $content;
     }
 
@@ -41,7 +41,7 @@ class ErrorView extends TemplateView
      */
     public function prepareResponse(Response $response)
     {
-        $response->setStatusCode(500)
+        $response->setStatusCode(404)
             ->setContentType('text/html');
     }
 }

@@ -2,8 +2,6 @@
 
 namespace TE\Validator;
 
-use TE\Mvc\Server\RequestInterface as Request;
-
 /**
  * ValidatorInterface  
  * 
@@ -16,11 +14,12 @@ interface ValidatorInterface
     /**
      * validate 
      * 
-     * @param array $args 
      * @param array $data 
+     * @param mixed $key 
+     * @param array $args 
      * @access public
      * @return void
      */
-    public function validate(array $args, array $data);
+    public function validate(array $data, $key, array $args);
 }
 

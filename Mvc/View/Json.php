@@ -6,14 +6,14 @@ use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Action\ActionEvent as Event;
 
 /**
- * JsonView  
+ * Json  
  * 
  * @uses AbstractView
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class JsonView extends AbstractView
+class Json extends AbstractView
 {
     /**
      * _data

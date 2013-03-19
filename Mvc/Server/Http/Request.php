@@ -6,14 +6,14 @@ use TE\Mvc\Server\AbstractRequest;
 
 
 /**
- * HttpRequest 
+ * Request 
  * 
  * @uses AbstractRequest
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class HttpRequest extends AbstractRequest
+class Request extends AbstractRequest
 {
     /**
      * 客户端ip 
@@ -48,14 +48,6 @@ class HttpRequest extends AbstractRequest
     private $_pathInfo = NULL;
 
     /**
-     * 路径url
-     *
-     * @access private
-     * @var string
-     */
-    private $_pathUrl = NULL;
-
-    /**
      * 请求方法 
      * 
      * @var string
@@ -88,14 +80,6 @@ class HttpRequest extends AbstractRequest
     private $_args = NULL;
 
     /**
-     * 命令行模式
-     * 
-     * @var boolean
-     * @access private
-     */
-    private $_commandMode = NULL;
-
-    /**
      * 来路
      * 
      * @var string
@@ -118,22 +102,6 @@ class HttpRequest extends AbstractRequest
      * @access private
      */
     private $_isMobile = NULL;
-
-    /**
-     * 是否为命令行模式运行
-     * 
-     * @static
-     * @access public
-     * @return void
-     */
-    public function commandMode()
-    {
-        if (NULL === $this->_commandMode) {
-            $this->_commandMode = isset($_SERVER['_']) || isset($_SERVER['COMMAND_MODE']);
-        }
-
-        return $this->_commandMode;
-    }
 
     /**
      * 获取客户端识别串 
@@ -161,58 +129,6 @@ class HttpRequest extends AbstractRequest
         }
 
         return $this->_args;
-    }
-
-    /**
-     * getCliArgs  
-     * 
-     * @static
-     * @access public
-     * @return void
-     */
-    public function getCliArgs()
-    {
-        if (NULL === $this->_cliArgs) {
-            global $argv;
-            $this->_cliArgs = array();
-
-            if (!empty($argv)) {
-                foreach ($argv as $arg) {
-                    $arg = trim($arg);
-                    if (tf_start_with($arg, '--')) {
-                        $parts = explode('=', substr($arg, 2), 2);
-                        $count = count($parts);
-
-                        if (2 == $count) {
-                            list ($key, $value) = $parts;
-                            $this->_cliArgs[$key] = preg_replace("|^('\")(.*)\\1$|", "\\2", $value);
-                        } else if (1 == $count) {
-                            list ($key) = $parts;
-                            $this->_cliArgs[$key] = '';
-                        } else {
-                            continue;
-                        }
-                    } else if (tf_start_with($arg, '-')) {
-                        $arg = substr($arg, 1);
-                        $len = strlen($arg);
-
-                        if ($len > 1) {
-                            $key = substr($arg, 0, 1);
-                            $value = substr($arg, 1);
-                            $this->_cliArgs[$key] = preg_replace("|^('\")(.*)\\1$|", "\\2", $value);
-                        } else if (1 == $len) {
-                            $this->_cliArgs[$arg] = '';
-                        } else {
-                            continue;
-                        }
-                    } else {
-                        continue;
-                    }
-                }
-            }
-        }
-
-        return $this->_cliArgs;
     }
 
     /**

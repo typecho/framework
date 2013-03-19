@@ -6,7 +6,7 @@ use TE\System;
 use TE\Mvc\Server\RequestInterface as Request;
 use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Base;
-use TE\Mvc\Action\Interceptor\InterceptorManagerInterface as InterceptorManager;
+use TE\Mvc\Action\Interceptor\InterceptorManager;
 
 /**
  * AbstractAction

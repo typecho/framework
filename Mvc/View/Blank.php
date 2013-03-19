@@ -2,38 +2,31 @@
 
 namespace TE\Mvc\View;
 
-use TE\System;
 use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Action\ActionEvent as Event;
 
 /**
- * NotFoundView  
+ * Blank
  * 
- * @uses Template
+ * @uses AbstractView
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class NotFoundView extends TemplateView
+class Blank extends AbstractView
 {
     /**
-     * __construct 
+     * __construct  
      * 
      * @param Event $event 
-     * @param string $content 
-     * @param string $template 
-     * @param string $prefix 
      * @access public
      * @return void
      */
-    public function __construct(Event $event, $content = 'Page not found', $template = '404.php', $prefix = '')
-    {
-        parent::__construct($event, $template);
-        $this->vars['content'] = $content;
-    }
+    public function __construct(Event $event)
+    {}
 
     /**
-     * prepareResponse  
+     * prepareResponse 
      * 
      * @param Response $response 
      * @access public
@@ -41,8 +34,19 @@ class NotFoundView extends TemplateView
      */
     public function prepareResponse(Response $response)
     {
-        $response->setStatusCode(404)
+        $response->setStatusCode(200)
             ->setContentType('text/html');
+    }
+
+    /**
+     * render  
+     * 
+     * @access public
+     * @return void
+     */
+    public function render()
+    {
+        exit;
     }
 }
 

@@ -3,14 +3,13 @@
 namespace TE\Mvc\Action\Interceptor;
 
 /**
- * DefaultInterceptorManager 
+ * InterceptorManager 
  * 
- * @uses InterceptorManagerInterface
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class DefaultInterceptorManager implements InterceptorManagerInterface
+class InterceptorManager
 {
     /**
      * _interceptors  
@@ -24,10 +23,10 @@ class DefaultInterceptorManager implements InterceptorManagerInterface
             'template'
         ),
         'template'  =>  array(
-            'interceptor'   =>  'TE\Mvc\Action\Interceptor\TemplateInterceptor',
+            'interceptor'   =>  'TE\Mvc\Action\Interceptor\Template',
             'params'        =>  array()
         ),
-        'viewClass' =>  'TE\Mvc\Action\Interceptor\ViewClassInterceptor'
+        'viewClass' =>  'TE\Mvc\Action\Interceptor\ViewClass'
     );
 
     /**

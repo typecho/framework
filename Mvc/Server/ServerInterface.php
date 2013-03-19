@@ -3,7 +3,7 @@
 namespace TE\Mvc\Server;
 
 use TE\Mvc\Router\RouterInterface as Router;
-use TE\Mvc\Action\Interceptor\InterceptorManagerInterface as InterceptorManager;
+use TE\Mvc\Action\Interceptor\InterceptorManager;
 
 /**
  * ServerInterface 

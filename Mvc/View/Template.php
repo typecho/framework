@@ -7,14 +7,14 @@ use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Action\ActionEvent as Event;
 
 /**
- * TemplateView  
+ * Template  
  * 
  * @uses AbstractView
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class TemplateView extends AbstractView
+class Template extends AbstractView
 {
     /**
      * _template  

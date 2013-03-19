@@ -3,22 +3,22 @@
 namespace TE\Mvc\Action;
 
 /**
- * RouteNotFoundAction
+ * Redirect
  * 
  * @uses AbstractAction
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class RouteNotFoundAction extends AbstractAction
+class Redirect extends AbstractAction
 {
     /**
-     * _content
+     * _url
      * 
      * @var mixed
      * @access private
      */
-    private $_content;
+    private $_url;
 
     /**
      * execute  
@@ -28,19 +28,24 @@ class RouteNotFoundAction extends AbstractAction
      */
     public function execute()
     {
-        return array('notFound', $this->_content);
+        $request = $this->request;
+        $url = preg_replace_callback("/\{([_a-z0-9-]+)\}/i", function ($matches) use ($request) {
+            return $request->get($matches[1]);
+        }, $this->_url);
+
+        return array('redirect', $url);
     }
 
     /**
-     * setContent
+     * setUrl
      * 
-     * @param mixed $content
+     * @param mixed $url
      * @access public
      * @return void
      */
-    public function setContent($content)
+    public function setUrl($url)
     {
-        $this->_content = $content;
+        $this->_url = $url;
     }
 }
 

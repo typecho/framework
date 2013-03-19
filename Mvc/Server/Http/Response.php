@@ -2,18 +2,18 @@
 
 namespace TE\Mvc\Server\Http;
 
-use TE\Mvc\Server\ResponseInterface as Response;
+use TE\Mvc\Server\ResponseInterface;
 use TE\Mvc\View\AbstractView as View;
 
 /**
- * HttpResponse  
+ * Response  
  * 
- * @uses Response
+ * @uses ResponseInterface
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class HttpResponse implements Response
+class Response implements ResponseInterface
 {
     /**
      * http code

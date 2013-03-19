@@ -6,44 +6,44 @@ use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Action\ActionEvent as Event;
 
 /**
- * JsonpView
+ * Redirect  
  * 
  * @uses AbstractView
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class JsonpView extends AbstractView
+class Redirect extends AbstractView
 {
     /**
-     * _data
+     * _url  
      * 
      * @var mixed
      * @access private
      */
-    private $_data;
+    private $_url;
 
     /**
-     * _callback  
+     * _isPermanently  
      * 
      * @var mixed
      * @access private
      */
-    private $_callback;
+    private $_isPermanently = false;
 
     /**
-     * __construct 
+     * __construct  
      * 
      * @param Event $event
-     * @param mixed $data 
-     * @param string $callback 
+     * @param string $url 
+     * @param boolean $isPermanently 
      * @access public
      * @return void
      */
-    public function __construct(Event $event, $data, $callback = 'callback')
+    public function __construct(Event $event, $url, $isPermanently = false)
     {
-        $this->_data = $data;
-        $this->_callback = $event->getAction()->getRequest()->get($callback, 'jsonp');
+        $this->_url = $url;
+        $this->_isPermanently = $isPermanently;
     }
 
     /**
@@ -55,9 +55,8 @@ class JsonpView extends AbstractView
      */
     public function prepareResponse(Response $response)
     {
-        $response->setStatusCode(200)
-            ->setHeader('Cache-Control', 'no-cache')
-            ->setContentType('text/javascript');
+        $response->setStatusCode($this->_isPermanently ? 301 : 302)
+            ->setHeader('Location', $this->_url);
     }
 
     /**
@@ -68,7 +67,8 @@ class JsonpView extends AbstractView
      */
     public function render()
     {
-        echo $this->_callback . '(' . json_encode($this->_data) . ')';
+        echo '<h1>Moved ' . ($this->_isPermanently ? 'permanently' : 'temporarily') . '</h1>'
+            . '<p>Click the <a href="' . $this->_url . '">url</a> to redirect</p>';
         exit;
     }
 }
