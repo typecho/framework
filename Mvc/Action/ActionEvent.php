@@ -2,7 +2,7 @@
 
 namespace TE\Mvc\Action;
 
-use TE\Mvc\Action\Interceptor\InterceptorManagerInterface as InterceptorManager;
+use TE\Mvc\Action\Interceptor\InterceptorManager;
 
 /**
  * ActionEvent  
