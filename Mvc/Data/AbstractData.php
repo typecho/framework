@@ -143,7 +143,7 @@ abstract class AbstractData extends Base implements \Iterator, \Countable
         if (empty($args)) {
             echo $this->{$name};
         } else {
-            $method = 'get' . $name;
+            $method = 'get' . ucfirst($name);
             echo call_user_func_array(array($this, $method), $args);
         }
     }

@@ -81,9 +81,7 @@ class ActionEvent
 
         if (empty($interceptor)) {
             foreach ($this->_data as $key => $val) {
-                if (isset($this->_action->{$key})) {
-                    $this->_action->{$key} = $val;
-                }
+                $this->_action->{$key} = $val;
             }
 
             $result = $this->_action->execute();
