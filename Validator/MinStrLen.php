@@ -24,7 +24,7 @@ class MinStrLen extends AbstractFilledValidator
     public function validateCallback($str, $min, $me = false)
     {
         $len = strlen($str);
-        return $me ? $len <= $min : $len < $min;
+        return $me ? $len >= $min : $len > $min;
     }
 }
 

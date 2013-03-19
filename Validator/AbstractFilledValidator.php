@@ -36,7 +36,7 @@ abstract class AbstractFilledValidator implements FilledValidatorInterface
         array_unshift($args, $data[$key]);
 
         if (method_exists($this, 'validateCallback')) {
-            return call_user_func(array($this, 'validateCallback'), $args);
+            return call_user_func_array(array($this, 'validateCallback'), $args);
         }
 
         return true;

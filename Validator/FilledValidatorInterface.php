@@ -1,5 +1,7 @@
 <?php
 
+namespace TE\Validator;
+
 /**
  * FilledValidatorInterface  
  * 
