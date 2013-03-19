@@ -7,6 +7,7 @@ use TE\Db\Query\Select as SelectQuery;
 use TE\Db\Query\Delete as DeleteQuery;
 use TE\Db\Query\Insert as InsertQuery;
 use TE\Db\Query\Update as UpdateQuery;
+use TE\Db\Query\Query as SqlQuery;
 
 /**
  * AbstractAdapter  
@@ -270,6 +271,18 @@ abstract class AbstractAdapter implements AdapterInterface
             'table' =>  $query->getQuery('table'),
             'values'=>  $values
         ));
+    }
+
+    /**
+     * parseQuery  
+     * 
+     * @param SqlQuery $query 
+     * @access public
+     * @return void
+     */
+    public function parseQuery(SqlQuery $query)
+    {
+        return $query->getQuery('query');
     }
 }
 

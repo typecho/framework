@@ -112,7 +112,7 @@ class QueryExecutor
             case 'delete':
                 return $this->_adapter->parseDelete($this->_query);
             case 'query':
-                return $this->_query;
+                return $this->_adapter->parseQuery($this->_query);
             default:
                 return;
         }
