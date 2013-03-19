@@ -105,5 +105,17 @@ class Connector
     {
         return $this->_executor->insert($table);
     }
+
+    /**
+     * query
+     * 
+     * @param mixed $query
+     * @access public
+     * @return void
+     */
+    public function query($query)
+    {
+        return $this->_executor->query($query);
+    }
 }
 
