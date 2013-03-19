@@ -34,7 +34,15 @@ class Connector
      * @var QueryExecutor
      * @access private
      */
-    private $_executor;
+    private $_adapter;
+
+    /**
+     * _prefix  
+     * 
+     * @var mixed
+     * @access private
+     */
+    private $_prefix;
 
     /**
      * __construct 
@@ -52,9 +60,8 @@ class Connector
         }
 
         $adapterReflect = new \ReflectionClass($this->_adapters[$adapterName]);
-        $adapter = $adapterReflect->newInstanceArgs($params);
-
-        $this->_executor = new QueryExecutor($adapter, $prefix);
+        $this->_adapter = $adapterReflect->newInstanceArgs($params);
+        $this->_prefix = $prefix;
     }
 
     /**
@@ -67,7 +74,8 @@ class Connector
      */
     public function select($table, array $columns = array())
     {
-        return $this->_executor->select($table, $columns);
+        $executor = new QueryExecutor($this->_adapter, $this->_prefix);
+        return $executor->select($table, $columns);
     }
 
     /**
@@ -79,7 +87,8 @@ class Connector
      */
     public function update($table)
     {
-        return $this->_executor->update($table);
+        $executor = new QueryExecutor($this->_adapter, $this->_prefix);
+        return $executor->update($table);
     }
 
     /**
@@ -91,7 +100,8 @@ class Connector
      */
     public function delete($table)
     {
-        return $this->_executor->delete($table);
+        $executor = new QueryExecutor($this->_adapter, $this->_prefix);
+        return $executor->delete($table);
     }
 
     /**
@@ -103,7 +113,8 @@ class Connector
      */
     public function insert($table)
     {
-        return $this->_executor->insert($table);
+        $executor = new QueryExecutor($this->_adapter, $this->_prefix);
+        return $executor->insert($table);
     }
 
     /**
@@ -115,7 +126,8 @@ class Connector
      */
     public function query($query)
     {
-        return $this->_executor->query($query);
+        $executor = new QueryExecutor($this->_adapter, $this->_prefix);
+        return $executor->query($query);
     }
 }
 
