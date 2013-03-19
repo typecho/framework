@@ -41,10 +41,11 @@ class ValidatorExecutor
         'greaterThan'   =>  'TE\Validator\GreaterThan',
         'inArray'       =>  'TE\Validator\InArray',
         'lessThan'      =>  'TE\Validator\LessThan',
-        'number'        =>  'TE\Validator\Number',
+        'digit'         =>  'TE\Validator\Digit',
         'regex'         =>  'TE\Validator\Regex',
         'required'      =>  'TE\Validator\Required',
-        'strLen'        =>  'TE\Validator\StrLen',
+        'maxStrLen'     =>  'TE\Validator\MaxStrLen',
+        'minStrLen'     =>  'TE\Validator\MinStrLen',
         'url'           =>  'TE\Validator\Url'
     );
 
