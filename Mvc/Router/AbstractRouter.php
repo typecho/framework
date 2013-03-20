@@ -3,6 +3,8 @@
 namespace TE\Mvc\Router;
 
 use TE\Mvc\Base;
+use TE\Mvc\Server\RequestInterface as Request;
+use TE\Mvc\Server\ResponseInterface as Response;
 
 /**
  * AbstractRouter 
