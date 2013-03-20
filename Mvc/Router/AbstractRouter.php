@@ -5,15 +5,16 @@ namespace TE\Mvc\Router;
 use TE\Mvc\Base;
 
 /**
- * AbstractRouter  
+ * AbstractRouter 
  * 
  * @uses Base
  * @uses RouterInterface
+ * @abstract
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class AbstractRouter extends Base implements RouterInterface
+abstract class AbstractRouter extends Base implements RouterInterface
 {
     /**
      * _exceptionHandler  
@@ -40,6 +41,16 @@ class AbstractRouter extends Base implements RouterInterface
             return new RouterResult($found);
         }
     }
+
+    /**
+     * route  
+     * 
+     * @param Request $request 
+     * @param Response $response 
+     * @access public
+     * @return void
+     */
+    abstract public function route(Request $request, Response $response);
 
     /**
      * setExceptionHandler  
