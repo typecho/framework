@@ -56,6 +56,8 @@ class ActionEvent
     {
         $this->_action = $action;
         $this->_manager = $manager;
+        $this->_result = new ActionResult('blank');
+        $this->_result->setViewClass('TE\Mvc\View\Blank');
     }
 
     /**
@@ -92,7 +94,8 @@ class ActionEvent
 
             $viewName = is_array($result) ? array_shift($result) : $result;
             $params = is_array($result) ? $result : array();
-            $this->_result = new ActionResult($viewName, $params);
+            $this->_result->setViewName($viewName);
+            $this->_result->setParams($params);
 
             $data = get_object_vars($this->_action);
             $this->_data = array_merge($this->_data, $data);
