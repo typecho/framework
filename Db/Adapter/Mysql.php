@@ -102,7 +102,7 @@ class Mysql extends AbstractAdapter
      */
     public function lastInsertId($handle)
     {
-        return mysql_insert_id($handle);
+        return mysql_insert_id($this->_dbLink);
     }
 
     /**
@@ -114,7 +114,7 @@ class Mysql extends AbstractAdapter
      */
     public function affectedRows($handle)
     {
-        return mysql_affected_rows($handle);
+        return mysql_affected_rows($this->_dbLink);
     }
 
     /**

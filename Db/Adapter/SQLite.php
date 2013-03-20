@@ -149,7 +149,7 @@ class SQLite extends AbstractAdapter
      */
     public function affectedRows($handle)
     {
-        return sqlite_changes($handle);
+        return sqlite_changes($this->_dbHandle);
     }
     
     /**
@@ -161,6 +161,7 @@ class SQLite extends AbstractAdapter
      */
     public function lastInsertId($handle)
     {
-        return sqlite_last_insert_rowid($handle);
+        return sqlite_last_insert_rowid($this->_dbHandle);
     }
 }
+
