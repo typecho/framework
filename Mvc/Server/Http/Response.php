@@ -160,7 +160,7 @@ class Response implements ResponseInterface
      * @param string $domain 域名信息
      * @return void
      */
-    public function setCookie($key, $value, $timeout = 0, $path = NULL, $domain = NULL)
+    public function setCookie($key, $value, $timeout = 0, $path = '/', $domain = NULL)
     {
         if (is_array($value)) {
             foreach ($value as $name => $val) {
@@ -182,7 +182,7 @@ class Response implements ResponseInterface
      * @param string $domain 域名信息
      * @return void
      */
-    public function deleteCookie($key, $path = NULL, $domain = NULL)
+    public function deleteCookie($key, $path = '/', $domain = NULL)
     {
         if (!isset($_COOKIE[$key])) {
             return;
