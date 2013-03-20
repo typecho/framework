@@ -86,6 +86,18 @@ abstract class AbstractData extends Base implements \Iterator, \Countable
     }
 
     /**
+     * fallback  
+     * 
+     * @param mixed $name 
+     * @access protected
+     * @return void
+     */
+    protected function fallback($name)
+    {
+        return NULL;
+    }
+
+    /**
      * isMulti  
      * 
      * @access public
@@ -116,18 +128,18 @@ abstract class AbstractData extends Base implements \Iterator, \Countable
      */
     public function __get($name)
     {
-        $method = 'get' . $name;
+        $method = 'get' . ucfirst($name);
         $key = trim(preg_replace("/([A-Z])/e", "'_' . strtolower('\\1')", $name), '_');
         if (array_key_exists($name, $this->_data[$this->_pos])) {
             return $this->_data[$this->_pos][$name];
         } else if (array_key_exists($key, $this->_data[$this->_pos])) {
             return $this->_data[$this->_pos][$key];
         } else if (method_exists($this, $method)) {
-            $this->_data[$this->_pos][$key] = $this->{$method}();
-            return $this->_data[$this->_pos][$key];
-        } else {
-            return parent::__get($name);
+            $this->_data[$this->_pos][$name] = $this->{$method}();
+            return $this->_data[$this->_pos][$name];
         }
+
+        return $this->fallback($name);
     }
 
     /**
