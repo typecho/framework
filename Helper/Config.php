@@ -58,5 +58,18 @@ class Config
 
         return $this->_config[$name];
     }
+
+    /**
+     * __set  
+     * 
+     * @param mixed $name 
+     * @param mixed $value 
+     * @access public
+     * @return void
+     */
+    public function __set($name, $value)
+    {
+        $this->_config[$name] = $value;
+    }
 }
 
