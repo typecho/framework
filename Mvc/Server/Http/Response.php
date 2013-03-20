@@ -133,7 +133,7 @@ class Response implements ResponseInterface
 
         // set cookie
         foreach ($this->_cookies as $cookie) {
-            list ($key, $value, $timeout, $domain) = $cookie;
+            list ($key, $value, $timeout, $path, $domain) = $cookie;
 
             if ($timeout > 0) {
                 $timeout += time();
@@ -141,7 +141,7 @@ class Response implements ResponseInterface
                 $timeout = 1;
             }
 
-            setCookie($key, $value, $timeout, '/', $domain);
+            setCookie($key, $value, $timeout, $path, $domain);
         }
 
         if (NULL !== $this->_view) {
@@ -156,17 +156,18 @@ class Response implements ResponseInterface
      * @param string $key 指定的参数
      * @param mixed $value 设置的值
      * @param integer $timeout 过期时间,默认为0,表示随会话时间结束
+     * @param string $path 路径信息
      * @param string $domain 域名信息
      * @return void
      */
-    public function setCookie($key, $value, $timeout = 0, $domain = NULL)
+    public function setCookie($key, $value, $timeout = 0, $path = NULL, $domain = NULL)
     {
         if (is_array($value)) {
             foreach ($value as $name => $val) {
-                $this->_cookies[] = array("{$key}[{$name}]", $value, $timeout, $domain);
+                $this->_cookies[] = array("{$key}[{$name}]", $value, $timeout, $path, $domain);
             }
         } else {
-            $this->_cookies[] = array($key, $value, $timeout, $domain);
+            $this->_cookies[] = array($key, $value, $timeout, $path, $domain);
         }
 
         return $this;
@@ -177,10 +178,11 @@ class Response implements ResponseInterface
      *
      * @access public
      * @param string $key 指定的参数
+     * @param string $path 路径信息
      * @param string $domain 域名信息
      * @return void
      */
-    public function deleteCookie($key, $domain = NULL)
+    public function deleteCookie($key, $path = NULL, $domain = NULL)
     {
         if (!isset($_COOKIE[$key])) {
             return;
@@ -188,10 +190,10 @@ class Response implements ResponseInterface
 
         if (is_array($_COOKIE[$key])) {
             foreach ($_COOKIE[$key] as $name => $val) {
-                $this->_cookies[] = array("{$key}[{$name}]", '', -1, $domain);
+                $this->_cookies[] = array("{$key}[{$name}]", '', -1, $path, $domain);
             }
         } else {
-            $this->_cookies[] = array($key, '', -1, $domain);
+            $this->_cookies[] = array($key, '', -1, $path, $domain);
         }
 
         return $this;
