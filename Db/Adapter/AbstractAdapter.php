@@ -217,14 +217,16 @@ abstract class AbstractAdapter implements AdapterInterface
 
         if ($query->getQuery('mset')) {
             $msets = $query->getQuery('mset');
-            foreach ($msets as $key => $val) {
-                $update[] = $this->quoteColumn($key) . ' = ' . $this->quoteValue($val);
+            foreach ($msets as $mset) {
+                foreach ($mset as $key => $val) {
+                    $update[] = $this->quoteColumn($key) . ' = ' . $this->quoteValue($val);
+                }
             }
         }
         
         if ($query->getQuery('xset')) {
             $xsets = $query->getQuery('xset');
-            foreach ($msets as $val) {
+            foreach ($xsets as $val) {
                 list ($op, $column, $step) = $val;
                 $column = $this->quoteColumn($column);
                 $update[] = $column . ' = ' . $column . " {$op} {$step}";
