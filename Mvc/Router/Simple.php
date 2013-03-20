@@ -2,19 +2,18 @@
 
 namespace TE\Mvc\Router;
 
-use TE\Mvc\Base;
 use TE\Mvc\Server\RequestInterface as Request;
 use TE\Mvc\Server\ResponseInterface as Response;
 
 /**
- * Simple
+ * Simple  
  * 
- * @uses RouterInterface
+ * @uses AbstractRouter
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class Simple extends Base implements RouterInterface
+class Simple extends AbstractRouter
 {
     /**
      * _routes  
@@ -34,24 +33,6 @@ class Simple extends Base implements RouterInterface
     public function __construct(array $routes = array())
     {
         $this->_routes = $routes;
-    }
-
-    /**
-     * createResult  
-     * 
-     * @param mixed $found 
-     * @access private
-     * @return void
-     */
-    private function createResult($found)
-    {
-        if (is_array($found)) {
-            return new RouterResult($found['action'],
-                isset($found['params']) ? $found['params'] : array(),
-                isset($found['interceptors']) ? $found['interceptors'] : array());
-        } else {
-            return new RouterResult($found);
-        }
     }
 
     /**
@@ -102,23 +83,6 @@ class Simple extends Base implements RouterInterface
         }
 
         return $this->createResult($found);
-    }
-
-    /**
-     * getExceptionResult 
-     * 
-     * @param \Exception $e 
-     * @access public
-     * @return void
-     */
-    public function getExceptionResult(\Exception $e)
-    {
-        $result = $this->createResult(array(
-            'action'    =>  isset($routes['exception']) 
-                ? $routes['exception'] : 'TE\Mvc\Action\ExceptionHandler',
-            'params'    =>  array('exception' =>  $e)
-        ));
-        return $result;
     }
 }
 
