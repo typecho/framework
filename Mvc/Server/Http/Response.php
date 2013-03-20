@@ -86,7 +86,7 @@ class Response implements ResponseInterface
      * @var string
      * @access private
      */
-    private $_charset = 'UTE-8';
+    private $_charset = 'UTF-8';
 
     /**
      * _contentType  
