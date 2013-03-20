@@ -57,7 +57,7 @@ abstract class AbstractQuery
         if (is_array($value)) {
             $result = array();
 
-            foreach ($result as $key => $val) {
+            foreach ($value as $key => $val) {
                 $result[$this->applyPrefix($key)] = $this->applyPrefix($val);
             }
 
