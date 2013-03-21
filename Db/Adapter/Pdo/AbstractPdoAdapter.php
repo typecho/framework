@@ -37,7 +37,7 @@ abstract class AbstractPdoAdapter extends AbstractAdapter
      */
     public function __construct($dsn, $user = NULL, $password = NULL, array $options = array())
     {
-        PDO::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        \PDO::setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         try {
             $this->_pdo = new \PDO($dsn, $user, $password, array_merge(array(
