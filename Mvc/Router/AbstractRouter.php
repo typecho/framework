@@ -27,6 +27,14 @@ abstract class AbstractRouter extends Base implements RouterInterface
     private $_exceptionHandler = array('TE\Mvc\Action\ExceptionHandler', array(), array());
 
     /**
+     * _routeNotFound  
+     * 
+     * @var string
+     * @access private
+     */
+    private $_routeNotFound = array('TE\Mvc\Action\RouteNotFound', array(), NULL);
+
+    /**
      * createResult  
      * 
      * @param mixed $found 
@@ -69,6 +77,20 @@ abstract class AbstractRouter extends Base implements RouterInterface
     }
 
     /**
+     * setRouteNotFound  
+     * 
+     * @param mixed $routeNotFoundClass 
+     * @param array $params 
+     * @param mixed $interceptors 
+     * @access public
+     * @return void
+     */
+    public function setRouteNotFound($routeNotFoundClass, array $params = array(), $interceptors = NULL)
+    {
+        $this->_routeNotFound = array($routeNotFoundClass, $params, $interceptors);
+    }
+
+    /**
      * getExceptionResult 
      * 
      * @param \Exception $e 
@@ -80,13 +102,28 @@ abstract class AbstractRouter extends Base implements RouterInterface
         list ($exceptionHandlerClass, $params, $interceptors) = $this->_exceptionHandler;
         $params['exception'] = $e;
 
-        $result = $this->createResult(array(
+        return $this->createResult(array(
             'action'        =>  $exceptionHandlerClass,
             'params'        =>  $params,
             'interceptors'  =>  $interceptors
         ));
+    }
 
-        return $result;
+    /**
+     * getRouteNotFoundResult  
+     * 
+     * @access public
+     * @return void
+     */
+    public function getRouteNotFoundResult()
+    {
+        list ($routeNotFoundClass, $params, $interceptors) = $this->_routeNotFound;
+
+        return $this->createResult(array(
+            'action'        =>  $routeNotFoundClass,
+            'params'        =>  $params,
+            'interceptors'  =>  $interceptors
+        ));
     }
 }
 

@@ -47,10 +47,9 @@ class Simple extends AbstractRouter
     {
         $routes = $this->_routes;
         $pathInfo = '/' . trim($request->getPathInfo(), '/');
-        $found = NULL;
 
         if (isset($routes[$pathInfo])) {
-            $found = $routes[$pathInfo];
+            return $this->createResult($routes[$pathInfo]);
         } else {
             foreach ($routes as $route => $action) {
                 if (false === strpos($route, ':')) {
@@ -71,18 +70,12 @@ class Simple extends AbstractRouter
                         $request->setParams($params);
                     }
 
-                    $found = $action;
-                    break;
+                    return $this->createResult($action);
                 }
             }
         }
-        
-        if (empty($found)) {
-            return $this->createResult(isset($routes['routeNotFound']) 
-                ? $routes['routeNotFound'] : 'TE\Mvc\Action\RouteNotFound');
-        }
 
-        return $this->createResult($found);
+        return $this->getRouteNotFoundResult();
     }
 }
 
