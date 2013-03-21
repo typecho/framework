@@ -102,9 +102,9 @@ class Select extends AbstractQuery
      * @access public
      * @return void
      */
-    public function leftJoin($table, $targetColumn, $sourceColumn)
+    public function leftJoin($table, $targetColumn, $sourceColumn = NULL)
     {
-        $this->join('LEFT', $table, $targetColumn, $sourceColumn);
+        $this->join('LEFT', $table, $targetColumn, $sourceColumn ?: $targetColumn);
     }
 
     /**
@@ -116,9 +116,9 @@ class Select extends AbstractQuery
      * @access public
      * @return void
      */
-    public function rightJoin($table, $targetColumn, $sourceColumn)
+    public function rightJoin($table, $targetColumn, $sourceColumn = NULL)
     {
-        $this->join('RIGHT', $table, $targetColumn, $sourceColumn);
+        $this->join('RIGHT', $table, $targetColumn, $sourceColumn ?: $targetColumn);
     }
 
     /**
@@ -130,9 +130,9 @@ class Select extends AbstractQuery
      * @access public
      * @return void
      */
-    public function innerJoin($table, $targetColumn, $sourceColumn)
+    public function innerJoin($table, $targetColumn, $sourceColumn = NULL)
     {
-        $this->join('INNER', $table, $targetColumn, $sourceColumn);
+        $this->join('INNER', $table, $targetColumn, $sourceColumn ?: $targetColumn);
     }
 
     /**
@@ -144,9 +144,9 @@ class Select extends AbstractQuery
      * @access public
      * @return void
      */
-    public function outerJoin($table, $targetColumn, $sourceColumn)
+    public function outerJoin($table, $targetColumn, $sourceColumn = NULL)
     {
-        $this->join('OUTER', $table, $targetColumn, $sourceColumn);
+        $this->join('OUTER', $table, $targetColumn, $sourceColumn ?: $targetColumn);
     }
 
     /**
