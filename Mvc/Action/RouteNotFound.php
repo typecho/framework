@@ -21,6 +21,14 @@ class RouteNotFound extends AbstractAction
     private $_content;
 
     /**
+     * _template  
+     * 
+     * @var mixed
+     * @access private
+     */
+    private $_template;
+
+    /**
      * execute  
      * 
      * @access public
@@ -28,7 +36,7 @@ class RouteNotFound extends AbstractAction
      */
     public function execute()
     {
-        return array('notFound', $this->_content);
+        return array('notFound', $this->_content, $this->_template);
     }
 
     /**
@@ -41,6 +49,18 @@ class RouteNotFound extends AbstractAction
     public function setContent($content)
     {
         $this->_content = $content;
+    }
+
+    /**
+     * setTemplate  
+     * 
+     * @param mixed $template 
+     * @access public
+     * @return void
+     */
+    public function setTemplate($template)
+    {
+        $this->_template = $template;
     }
 }
 

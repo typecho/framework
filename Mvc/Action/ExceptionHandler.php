@@ -29,6 +29,14 @@ class ExceptionHandler extends AbstractAction
     private $_exception;
 
     /**
+     * _template  
+     * 
+     * @var mixed
+     * @access private
+     */
+    private $_template;
+
+    /**
      * execute  
      * 
      * @access public
@@ -62,7 +70,7 @@ class ExceptionHandler extends AbstractAction
             overflow: auto} cite { font-style: normal; font-weight: bold; font-size: .9em }</style></head>'
             . '<body style="background: #eeeeff; font-family: verdana, arial, helvetica, sans-serif">' . $h . $trace . '</body></html>';
 
-        return array('content', $body);
+        return array('error', $body, $this->_template);
     }
 
     /**
@@ -87,6 +95,18 @@ class ExceptionHandler extends AbstractAction
     public function setException(\Exception $e)
     {
         $this->_exception = $e;
+    }
+
+    /**
+     * setTemplate  
+     * 
+     * @param mixed $template 
+     * @access public
+     * @return void
+     */
+    public function setTemplate($template)
+    {
+        $this->_template = $template;
     }
 }
 
