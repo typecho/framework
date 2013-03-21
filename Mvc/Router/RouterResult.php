@@ -52,7 +52,7 @@ class RouterResult
             $this->_params = $params;
         }
 
-        if (!empty($interceptors)) {
+        if (NULL !== $interceptors) {
             $this->_interceptors = is_array($interceptors) ? $interceptors : array($interceptors);
         }
     }

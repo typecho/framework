@@ -24,7 +24,7 @@ abstract class AbstractRouter extends Base implements RouterInterface
      * @var string
      * @access private
      */
-    private $_exceptionHandler = 'TE\Mvc\Action\ExceptionHandler';
+    private $_exceptionHandler = array('TE\Mvc\Action\ExceptionHandler', NULL);
 
     /**
      * createResult  
@@ -38,7 +38,7 @@ abstract class AbstractRouter extends Base implements RouterInterface
         if (is_array($found)) {
             return new RouterResult($found['action'],
                 isset($found['params']) ? $found['params'] : array(),
-                isset($found['interceptors']) ? $found['interceptors'] : array());
+                isset($found['interceptors']) ? $found['interceptors'] : NULL);
         } else {
             return new RouterResult($found);
         }
@@ -55,15 +55,16 @@ abstract class AbstractRouter extends Base implements RouterInterface
     abstract public function route(Request $request, Response $response);
 
     /**
-     * setExceptionHandler  
+     * setExceptionHandler 
      * 
      * @param mixed $exceptionHandler 
+     * @param mixed $interceptors 
      * @access public
      * @return void
      */
-    public function setExceptionHandler($exceptionHandler)
+    public function setExceptionHandler($exceptionHandler, $interceptors = NULL)
     {
-        $this->_exceptionHandler = $exceptionHandler;
+        $this->_exceptionHandler = array($exceptionHandlerClass, $interceptors);
     }
 
     /**
@@ -75,11 +76,14 @@ abstract class AbstractRouter extends Base implements RouterInterface
      */
     public function getExceptionResult(\Exception $e)
     {
+        list ($exceptionHandlerClass, $interceptors) = $this->_exceptionHandler;
+
         $result = $this->createResult(array(
-            'action'    =>  isset($routes['exception']) 
-                ? $routes['exception'] : $this->_exceptionHandler,
-            'params'    =>  array('exception' =>  $e)
+            'action'        =>  $exceptionHandlerClass,
+            'params'        =>  array('exception' =>  $e),
+            'interceptors'  =>  $interceptors
         ));
+
         return $result;
     }
 }
