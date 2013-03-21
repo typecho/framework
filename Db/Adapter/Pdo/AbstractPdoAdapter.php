@@ -42,7 +42,7 @@ abstract class AbstractPdoAdapter extends AbstractAdapter
         try {
             $this->_pdo = new \PDO($dsn, $user, $password, array_merge(array(
                 \PDO::ATTR_TIMEOUT => 10
-            ), $options);
+            ), $options));
         } catch (\PDOException $e) {
             throw new AdapterException($e->getMessage(), $e->getCode());
         }
