@@ -57,12 +57,12 @@ abstract class AbstractRouter extends Base implements RouterInterface
     /**
      * setExceptionHandler 
      * 
-     * @param mixed $exceptionHandler 
+     * @param mixed $exceptionHandlerClass
      * @param mixed $interceptors 
      * @access public
      * @return void
      */
-    public function setExceptionHandler($exceptionHandler, $interceptors = NULL)
+    public function setExceptionHandler($exceptionHandlerClass, $interceptors = NULL)
     {
         $this->_exceptionHandler = array($exceptionHandlerClass, $interceptors);
     }
