@@ -24,7 +24,7 @@ abstract class AbstractRouter extends Base implements RouterInterface
      * @var string
      * @access private
      */
-    private $_exceptionHandler = array('TE\Mvc\Action\ExceptionHandler', NULL);
+    private $_exceptionHandler = array('TE\Mvc\Action\ExceptionHandler', array(), NULL);
 
     /**
      * createResult  
@@ -57,14 +57,15 @@ abstract class AbstractRouter extends Base implements RouterInterface
     /**
      * setExceptionHandler 
      * 
-     * @param mixed $exceptionHandlerClass
+     * @param mixed $exceptionHandlerClass 
+     * @param array $params 
      * @param mixed $interceptors 
      * @access public
      * @return void
      */
-    public function setExceptionHandler($exceptionHandlerClass, $interceptors = NULL)
+    public function setExceptionHandler($exceptionHandlerClass, array $params = array(), $interceptors = NULL)
     {
-        $this->_exceptionHandler = array($exceptionHandlerClass, $interceptors);
+        $this->_exceptionHandler = array($exceptionHandlerClass, $params, $interceptors);
     }
 
     /**
@@ -76,11 +77,12 @@ abstract class AbstractRouter extends Base implements RouterInterface
      */
     public function getExceptionResult(\Exception $e)
     {
-        list ($exceptionHandlerClass, $interceptors) = $this->_exceptionHandler;
+        list ($exceptionHandlerClass, $params, $interceptors) = $this->_exceptionHandler;
+        $params['exception'] = $e;
 
         $result = $this->createResult(array(
             'action'        =>  $exceptionHandlerClass,
-            'params'        =>  array('exception' =>  $e),
+            'params'        =>  $params,
             'interceptors'  =>  $interceptors
         ));
 
