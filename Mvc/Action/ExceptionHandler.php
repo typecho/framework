@@ -70,7 +70,7 @@ class ExceptionHandler extends AbstractAction
             overflow: auto} cite { font-style: normal; font-weight: bold; font-size: .9em }</style></head>'
             . '<body style="background: #eeeeff; font-family: verdana, arial, helvetica, sans-serif">' . $h . $trace . '</body></html>';
 
-        return array('error', $body, $this->_template);
+        return array('error', $this->_content ?: $body, $this->_template);
     }
 
     /**
