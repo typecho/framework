@@ -14,7 +14,7 @@ use TE\Mvc\Action\ActionEvent as Event;
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class NotFound extends TemplateView
+class NotFound extends Template
 {
     /**
      * __construct 
