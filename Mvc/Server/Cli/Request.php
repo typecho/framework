@@ -116,14 +116,13 @@ class Request extends AbstractRequest
         }
         
         global $argv;
-        $pathInfo = '/';
+        $pathInfo = '';
 
         if (count($argv) > 0) {
             $pathInfo = $argv[0];
         }
         
-        // fix issue 456
-        return ($this->_pathInfo = '/' . ltrim(urldecode($pathInfo), '/'));
+        return $pathInfo;
     }
 }
 
