@@ -31,7 +31,7 @@ class Autoloader
                 }
             }
 
-            $file = $path . '/' . str_replace('\\', '/', $class) . '.php';
+            $file = $path . '/' . str_replace(array('_', '\\'), '/', $class) . '.php';
             @include($file);
         });
     }
