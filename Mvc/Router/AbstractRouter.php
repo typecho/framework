@@ -53,16 +53,6 @@ abstract class AbstractRouter extends Base implements RouterInterface
     }
 
     /**
-     * route  
-     * 
-     * @param Request $request 
-     * @param Response $response 
-     * @access public
-     * @return void
-     */
-    abstract public function route(Request $request, Response $response);
-
-    /**
      * setExceptionHandler 
      * 
      * @param mixed $exceptionHandlerClass 
