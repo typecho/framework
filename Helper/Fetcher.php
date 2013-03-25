@@ -138,7 +138,7 @@ class Fetcher
      * @access private
      * @return void
      */
-    private function request($url, array $data = NULL)
+    private function request($url, $data = NULL)
     {
         $ch = curl_init();
 
@@ -157,7 +157,7 @@ class Fetcher
 
         if (!empty($data)) {
             curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($data) ? http_build_query($data) : $data);
         }
 
         if (!empty($this->_headers)) {
