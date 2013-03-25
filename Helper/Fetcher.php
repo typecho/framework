@@ -380,6 +380,7 @@ class Fetcher
 
         $url = $this->buildUrl($params);
         $this->request($url);
+        return $this;
     }
 
     /**
@@ -392,6 +393,7 @@ class Fetcher
     public function post($data)
     {
         $this->request($this->_url, $data);
+        return $this;
     }
 }
 
