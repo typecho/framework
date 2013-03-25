@@ -391,11 +391,6 @@ class Fetcher
      */
     public function post($data)
     {
-        if (is_string($data)) {
-            parse_str($data, $out);
-            $data = $out;
-        }
-
         $this->request($this->_url, $data);
     }
 }
