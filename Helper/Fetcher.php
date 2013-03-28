@@ -376,7 +376,7 @@ class Fetcher
      * @access public
      * @return void
      */
-    public function get($data = NULL)
+    public function get($data = '')
     {
         if (is_string($data)) {
             parse_str($data, $out);
@@ -402,7 +402,7 @@ class Fetcher
      * @access public
      * @return void
      */
-    public function post($data = NULL)
+    public function post($data = array())
     {
         $this->request($this->_url, $data);
         return $this;
