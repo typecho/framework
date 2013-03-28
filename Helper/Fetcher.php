@@ -238,6 +238,7 @@ class Fetcher
         $this->_responseBody = $content;
         $this->_responseContentType = $type;
         $this->_responseContentLength = $size;
+        $this->_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL)
         curl_close($ch);
     }
 
@@ -355,6 +356,17 @@ class Fetcher
     public function getResponseBody()
     {
         return $this->_responseBody;
+    }
+
+    /**
+     * getUrl  
+     * 
+     * @access public
+     * @return void
+     */
+    public function getUrl()
+    {
+        return $this->_url;
     }
 
     /**
