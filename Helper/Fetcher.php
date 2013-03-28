@@ -234,11 +234,11 @@ class Fetcher
             throw new \Exception('Curl error', 5004);
         }
 
+        $this->_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
         $this->_responseStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $this->_responseBody = $content;
         $this->_responseContentType = $type;
         $this->_responseContentLength = $size;
-        $this->_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL)
         curl_close($ch);
     }
 
