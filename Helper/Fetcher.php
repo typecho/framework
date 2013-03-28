@@ -148,7 +148,7 @@ class Fetcher
         curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, $this->_timeout);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
+        curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
         curl_setopt($ch, CURLOPT_USERAGENT, $this->_agent);
 
         // disable ssl check
@@ -230,8 +230,9 @@ class Fetcher
         $result = @curl_exec($ch);
 
         if (false === $result) {
+            $error = curl_error($ch);
             curl_close($ch);
-            throw new \Exception('Curl error', 5004);
+            throw new \Exception('Curl error: ' . $error, 5004);
         }
 
         $this->_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
