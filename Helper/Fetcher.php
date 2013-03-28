@@ -227,7 +227,7 @@ class Fetcher
             return $length;
         });
 
-        @$result = curl_exec($ch);
+        $result = @curl_exec($ch);
 
         if (false === $result) {
             curl_close($ch);
