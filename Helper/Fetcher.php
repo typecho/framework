@@ -227,7 +227,7 @@ class Fetcher
             return $length;
         });
 
-        $result = curl_exec($ch);
+        @$result = curl_exec($ch);
 
         if (false === $result) {
             curl_close($ch);
@@ -376,7 +376,7 @@ class Fetcher
      * @access public
      * @return void
      */
-    public function get($data)
+    public function get($data = NULL)
     {
         if (is_string($data)) {
             parse_str($data, $out);
@@ -402,7 +402,7 @@ class Fetcher
      * @access public
      * @return void
      */
-    public function post($data)
+    public function post($data = NULL)
     {
         $this->request($this->_url, $data);
         return $this;
