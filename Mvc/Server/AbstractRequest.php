@@ -139,7 +139,7 @@ abstract class AbstractRequest implements RequestInterface
             return $result;
         } else {
             $result = $this->get($key, array());
-            return is_array($result) ? $result : array($result);
+            return is_array($result) ? $result : (NULL === $result ? array() : array($result));
         }
     }
 
