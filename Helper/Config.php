@@ -49,10 +49,14 @@ class Config
     public function __get($name)
     {
         if (!isset($this->_config[$name])) {
-            if (is_dir($this->_dir . '/' . $name)) {
-                $this->_config[$name] = new Config($this->_dir . '/' . $name);
+            $prefix = $this->_dir . '/' . $name;
+
+            if (is_dir($prefix)) {
+                $this->_config[$name] = new Config($prefix);
+            } else if (file_exists($prefix . '.php')) {
+                $this->_config[$name] = require($prefix . '.php');
             } else {
-                $this->_config[$name] = require($this->_dir . '/' . $name . '.php');
+                $this->_config[$name] = NULL;
             }
         }
 
