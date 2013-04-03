@@ -108,7 +108,7 @@ class Request extends AbstractRequest
      * 
      * @static
      * @access public
-     * @return void
+     * @return string
      */
     public function getAgent()
     {
@@ -148,7 +148,7 @@ class Request extends AbstractRequest
      * 获取客户端ip 
      * 
      * @access public
-     * @return void
+     * @return string
      */
     public function getIp()
     {
@@ -301,7 +301,7 @@ class Request extends AbstractRequest
      * 
      * @static
      * @access public
-     * @return void
+     * @return string
      */
     public function getRequestRoot()
     {
@@ -366,7 +366,7 @@ class Request extends AbstractRequest
      * 
      * @static
      * @access public
-     * @return void
+     * @return array
      */
     public function getAcceptLangs()
     {
@@ -383,10 +383,10 @@ class Request extends AbstractRequest
     }
 
     /**
-     * 获取客户端
+     * 获取来源页
      *
      * @access public
-     * @return void
+     * @return string
      */
     public function getReferer()
     {

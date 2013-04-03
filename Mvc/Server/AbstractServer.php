@@ -50,11 +50,8 @@ abstract class AbstractServer implements ServerInterface
     private $_manager;
 
     /**
-     * __construct 
-     * 
-     * @param Router $router 
-     * @access public
-     * @return void
+     * @param Router             $router
+     * @param InterceptorManager $manager
      */
     public function __construct(Router $router, InterceptorManager $manager)
     {
@@ -71,7 +68,7 @@ abstract class AbstractServer implements ServerInterface
      * 
      * @abstract
      * @access protected
-     * @return void
+     * @return RequestInterface
      */
     abstract protected function createRequest();
 
@@ -80,15 +77,12 @@ abstract class AbstractServer implements ServerInterface
      * 
      * @abstract
      * @access protected
-     * @return void
+     * @return ResponseInterface
      */
     abstract protected function createResponse();
 
     /**
-     * serve  
-     * 
-     * @access public
-     * @return protected
+     * 执行回调
      */
     protected function serve()
     {
@@ -109,11 +103,9 @@ abstract class AbstractServer implements ServerInterface
 
 
     /**
-     * executeAction  
-     * 
-     * @param RouterResult $result 
-     * @access public
-     * @return protected
+     * 执行一个Action
+     *
+     * @param RouterResult $result
      */
     protected function executeAction(RouterResult $result)
     {

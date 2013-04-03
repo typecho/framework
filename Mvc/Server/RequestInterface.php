@@ -15,7 +15,7 @@ interface RequestInterface
      * getPathInfo  
      * 
      * @access public
-     * @return void
+     * @return string
      */
     public function getPathInfo();
 
@@ -23,7 +23,7 @@ interface RequestInterface
      * getArgs  
      * 
      * @access public
-     * @return void
+     * @return array
      */
     public function getArgs();
 

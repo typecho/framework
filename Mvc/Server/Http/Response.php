@@ -107,7 +107,7 @@ class Response implements ResponseInterface
     /**
      * _view
      * 
-     * @var AbstractView
+     * @var View
      * @access private
      */
     private $_view;
@@ -116,7 +116,6 @@ class Response implements ResponseInterface
      * respond  
      * 
      * @access public
-     * @return void
      */
     public function respond()
     {
@@ -158,7 +157,7 @@ class Response implements ResponseInterface
      * @param integer $timeout 过期时间,默认为0,表示随会话时间结束
      * @param string $path 路径信息
      * @param string $domain 域名信息
-     * @return void
+     * @return Response
      */
     public function setCookie($key, $value, $timeout = 0, $path = '/', $domain = NULL)
     {
@@ -180,7 +179,7 @@ class Response implements ResponseInterface
      * @param string $key 指定的参数
      * @param string $path 路径信息
      * @param string $domain 域名信息
-     * @return void
+     * @return Response
      */
     public function deleteCookie($key, $path = '/', $domain = NULL)
     {
@@ -232,7 +231,7 @@ class Response implements ResponseInterface
      * 
      * @param mixed $contentType 
      * @access public
-     * @return void
+     * @return Response
      */
     public function setContentType($contentType)
     {
@@ -245,7 +244,7 @@ class Response implements ResponseInterface
      * 
      * @param mixed $charset 
      * @access public
-     * @return void
+     * @return Response
      */
     public function setCharset($charset)
     {
@@ -258,7 +257,7 @@ class Response implements ResponseInterface
      * 
      * @param mixed $statusCode 
      * @access public
-     * @return void
+     * @return Response
      */
     public function setStatusCode($statusCode)
     {
@@ -272,7 +271,7 @@ class Response implements ResponseInterface
      * @param mixed $name 
      * @param mixed $value 
      * @access public
-     * @return void
+     * @return Response
      */
     public function setHeader($name, $value)
     {
@@ -286,7 +285,7 @@ class Response implements ResponseInterface
      * 
      * @param mixed $view
      * @access public
-     * @return void
+     * @return Response
      */
     public function setView(View $view)
     {

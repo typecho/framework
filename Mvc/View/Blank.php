@@ -32,10 +32,7 @@ class Blank extends AbstractView
      * @return void
      */
     public function prepareResponse(Response $response)
-    {
-        $response->setStatusCode(200)
-            ->setContentType('text/html');
-    }
+    {}
 
     /**
      * render  

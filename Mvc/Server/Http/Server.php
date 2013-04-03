@@ -18,7 +18,7 @@ class Server extends AbstractServer
      * createRequest  
      * 
      * @access protected
-     * @return void
+     * @return Request
      */
     protected function createRequest()
     {
@@ -29,7 +29,7 @@ class Server extends AbstractServer
      * createResponse  
      * 
      * @access protected
-     * @return void
+     * @return Response
      */
     protected function createResponse()
     {

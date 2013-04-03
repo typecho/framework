@@ -14,6 +14,10 @@ use TE\Mvc\Action\Interceptor\InterceptorManager;
  */
 interface ServerInterface
 {
+    /**
+     * @param Router             $router
+     * @param InterceptorManager $manager
+     */
     public function __construct(Router $router, InterceptorManager $manager);
 }
 

@@ -2,7 +2,7 @@
 
 namespace TE\Mvc\View;
 
-use TE\Mvc\Server\ResponseInterface as Response;
+use TE\Mvc\Server\Http\Response;
 
 /**
  * 404错误页

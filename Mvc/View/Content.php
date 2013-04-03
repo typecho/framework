@@ -2,7 +2,7 @@
 
 namespace TE\Mvc\View;
 
-use TE\Mvc\Server\ResponseInterface as Response;
+use TE\Mvc\Server\Http\Response;
 use TE\Mvc\Action\ActionEvent as Event;
 
 /**
@@ -51,8 +51,7 @@ class Content extends AbstractView
      */
     public function prepareResponse(Response $response)
     {
-        $response->setStatusCode(200)
-            ->setContentType($this->_contentType);
+        $response->setContentType($this->_contentType);
     }
 
     /**

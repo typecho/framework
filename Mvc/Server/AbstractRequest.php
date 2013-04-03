@@ -49,7 +49,7 @@ abstract class AbstractRequest implements RequestInterface
      * @param mixed $default 
      * @param mixed $realKey
      * @access public
-     * @return void
+     * @return mixed
      */
     public function get($key, $default = NULL, &$realKey = NULL)
     {
@@ -103,7 +103,7 @@ abstract class AbstractRequest implements RequestInterface
      * 
      * @param mixed $key 
      * @access public
-     * @return void
+     * @return mixed
      */
     public function getJson($key)
     {
@@ -148,7 +148,7 @@ abstract class AbstractRequest implements RequestInterface
      * 
      * @param mixed $query 前端传递的参数 
      * @access public
-     * @return void
+     * @return boolean
      */
     public function is($query)
     {

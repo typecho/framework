@@ -43,7 +43,7 @@ class Request extends AbstractRequest
      * 
      * @static
      * @access public
-     * @return void
+     * @return boolean
      */
     public function isConsole()
     {
@@ -59,7 +59,7 @@ class Request extends AbstractRequest
      * 
      * @static
      * @access public
-     * @return void
+     * @return array
      */
     public function getArgs()
     {
@@ -106,7 +106,7 @@ class Request extends AbstractRequest
      * getPathInfo  
      * 
      * @access public
-     * @return void
+     * @return string
      */
     public function getPathInfo()
     {

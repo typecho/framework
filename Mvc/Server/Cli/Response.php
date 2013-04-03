@@ -27,7 +27,6 @@ class Response implements ResponseInterface
      * respond  
      * 
      * @access public
-     * @return void
      */
     public function respond()
     {
@@ -41,7 +40,7 @@ class Response implements ResponseInterface
      * 
      * @param View $view 
      * @access public
-     * @return void
+     * @return Response
      */
     public function setView(View $view)
     {
