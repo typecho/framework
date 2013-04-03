@@ -116,7 +116,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function parseSelect(SelectQuery $query)
     {
-        $table = $query->getQuery('table');
+        $table = $this->quoteColumn($query->getQuery('table'));
 
         $columns = '*';
         if ($query->getQuery('columns')) {
@@ -191,7 +191,7 @@ abstract class AbstractAdapter implements AdapterInterface
     public function parseDelete(DeleteQuery $query)
     {
         return $this->applyTemplate('DELETE FROM %table% %where%', array(
-            'table' =>  $query->getQuery('table'),
+            'table' =>  $this->quoteColumn($query->getQuery('table')),
             'where' =>  $this->parseWhere($query)
         ));
     }
@@ -239,7 +239,7 @@ abstract class AbstractAdapter implements AdapterInterface
         }
 
         return $this->applyTemplate('UPDATE %table% %set% %where%', array(
-            'table' =>  $query->getQuery('table'),
+            'table' =>  $this->quoteColumn($query->getQuery('table')),
             'set'   =>  $set,
             'where' =>  $this->parseWhere($query)
         ));
@@ -270,7 +270,7 @@ abstract class AbstractAdapter implements AdapterInterface
         }
 
         return $this->applyTemplate('INSERT INTO %table% %values%', array(
-            'table' =>  $query->getQuery('table'),
+            'table' =>  $this->quoteColumn($query->getQuery('table')),
             'values'=>  $values
         ));
     }
