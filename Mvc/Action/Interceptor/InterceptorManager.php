@@ -46,11 +46,7 @@ class InterceptorManager
     private $_pos = 0;
 
     /**
-     * __construct  
-     * 
-     * @param array $interceptors 
-     * @access public
-     * @return void
+     * @param array $interceptors
      */
     public function __construct(array $interceptors = array())
     {
@@ -58,12 +54,11 @@ class InterceptorManager
     }
 
     /**
-     * prepareInterceptor  
-     * 
-     * @param InterceptorInterface $interceptor 
-     * @param array $params 
-     * @access private
-     * @return void
+     * prepareInterceptor
+     *
+     * @param InterceptorInterface $interceptor
+     * @param array                $params
+     * @return InterceptorInterface
      */
     private function prepareInterceptor(InterceptorInterface $interceptor, array $params)
     {
@@ -83,7 +78,7 @@ class InterceptorManager
      * @param mixed $name 
      * @param array $params 
      * @access private
-     * @return void
+     * @return array
      */
     private function getParams($name, array $params)
     {
@@ -98,11 +93,11 @@ class InterceptorManager
     }
 
     /**
-     * getStack  
-     * 
-     * @param mixed $name 
-     * @access private
-     * @return void
+     * getStack
+     *
+     * @param       $name
+     * @param array $params
+     * @return array
      */
     private function getStack($name, array $params)
     {
@@ -153,7 +148,7 @@ class InterceptorManager
      * fetch  
      * 
      * @access public
-     * @return void
+     * @return InterceptorInterface
      */
     public function fetch()
     {

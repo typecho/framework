@@ -2,6 +2,8 @@
 
 namespace TE\Mvc\Router;
 
+use TE\Mvc\Action\AbstractAction;
+
 /**
  * RouterResult  
  * 
@@ -14,7 +16,7 @@ class RouterResult
     /**
      * _action  
      * 
-     * @var mixed
+     * @var AbstractAction
      * @access private
      */
     private $_action;
@@ -36,13 +38,9 @@ class RouterResult
     private $_interceptors = array('default');
 
     /**
-     * __construct  
-     * 
-     * @param mixed $action 
-     * @param array $params 
-     * @param array $interceptors 
-     * @access public
-     * @return void
+     * @param       $action
+     * @param array $params
+     * @param array $interceptors
      */
     public function __construct($action, array $params = NULL, $interceptors = NULL)
     {
@@ -61,7 +59,7 @@ class RouterResult
      * getAction  
      * 
      * @access public
-     * @return void
+     * @return AbstractAction
      */
     public function getAction()
     {
@@ -72,7 +70,7 @@ class RouterResult
      * getParams  
      * 
      * @access public
-     * @return void
+     * @return array
      */
     public function getParams()
     {
@@ -83,7 +81,7 @@ class RouterResult
      * getInterceptors  
      * 
      * @access public
-     * @return void
+     * @return array
      */
     public function getInterceptors()
     {

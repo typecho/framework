@@ -24,11 +24,7 @@ class Simple extends AbstractRouter
     private $_routes = array();
 
     /**
-     * __construct  
-     * 
-     * @param mixed $routes 
-     * @access public
-     * @return void
+     * @param array $routes
      */
     public function __construct(array $routes = array())
     {
@@ -41,7 +37,7 @@ class Simple extends AbstractRouter
      * @param Request $request 
      * @param Response $response 
      * @access public
-     * @return void
+     * @return RouterResult
      */
     public function route(Request $request, Response $response)
     {

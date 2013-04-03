@@ -16,7 +16,7 @@ class ActionEvent
     /**
      * _action  
      * 
-     * @var mixed
+     * @var AbstractAction
      * @access private
      */
     private $_action;
@@ -24,7 +24,7 @@ class ActionEvent
     /**
      * _result  
      * 
-     * @var mixed
+     * @var ActionResult
      * @access private
      */
     private $_result;
@@ -40,17 +40,14 @@ class ActionEvent
     /**
      * _manager  
      * 
-     * @var mixed
+     * @var InterceptorManager
      * @access private
      */
     private $_manager;
 
     /**
-     * __construct  
-     * 
-     * @param AbstractAction $action 
-     * @access public
-     * @return void
+     * @param AbstractAction     $action
+     * @param InterceptorManager $manager
      */
     public function __construct(AbstractAction $action, InterceptorManager $manager)
     {
@@ -64,7 +61,7 @@ class ActionEvent
      * getAction  
      * 
      * @access public
-     * @return void
+     * @return AbstractAction
      */
     public function getAction()
     {
@@ -108,7 +105,7 @@ class ActionEvent
      * getResult  
      * 
      * @access public
-     * @return void
+     * @return ActionResult
      */
     public function getResult()
     {
@@ -121,7 +118,7 @@ class ActionEvent
      * @param mixed $name 
      * @param mixed $value 
      * @access public
-     * @return void
+     * @return ActionEvent
      */
     public function setData($name, $value)
     {
@@ -134,7 +131,7 @@ class ActionEvent
      * 
      * @param mixed $name 
      * @access public
-     * @return void
+     * @return mixed
      */
     public function getData($name = NULL)
     {

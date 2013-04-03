@@ -2,7 +2,6 @@
 
 namespace TE\Mvc\Action;
 
-use TE\System;
 use TE\Mvc\Server\RequestInterface as Request;
 use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Base;
@@ -38,20 +37,15 @@ abstract class AbstractAction extends Base
     /**
      * _event  
      * 
-     * @var mixed
+     * @var ActionEvent
      * @access private
      */
     private $_event;
 
     /**
-     * __construct 
-     * 
-     * @param Request $request 
-     * @param Response $response 
-     * @param InterceptorStack $interceptorStack 
-     * @final
-     * @access public
-     * @return void
+     * @param Request            $request
+     * @param Response           $response
+     * @param InterceptorManager $interceptorManager
      */
     public final function __construct(Request $request, Response $response, InterceptorManager $interceptorManager)
     {
@@ -63,11 +57,7 @@ abstract class AbstractAction extends Base
     }
 
     /**
-     * handle 
-     * 
-     * @param InterceptorStack $interceptorStack 
-     * @access public
-     * @return void
+     * handle
      */
     public function handle()
     {

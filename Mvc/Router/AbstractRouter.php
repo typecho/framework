@@ -3,8 +3,6 @@
 namespace TE\Mvc\Router;
 
 use TE\Mvc\Base;
-use TE\Mvc\Server\RequestInterface as Request;
-use TE\Mvc\Server\ResponseInterface as Response;
 
 /**
  * AbstractRouter 
@@ -21,7 +19,7 @@ abstract class AbstractRouter extends Base implements RouterInterface
     /**
      * _exceptionHandler  
      * 
-     * @var string
+     * @var array
      * @access private
      */
     private $_exceptionHandler = array('TE\Mvc\Action\ExceptionHandler', array(), array());
@@ -29,7 +27,7 @@ abstract class AbstractRouter extends Base implements RouterInterface
     /**
      * _routeNotFound  
      * 
-     * @var string
+     * @var array
      * @access private
      */
     private $_routeNotFound = array('TE\Mvc\Action\RouteNotFound', array(), NULL);
@@ -39,7 +37,7 @@ abstract class AbstractRouter extends Base implements RouterInterface
      * 
      * @param mixed $found 
      * @access private
-     * @return void
+     * @return RouterResult
      */
     protected function createResult($found)
     {
@@ -85,7 +83,7 @@ abstract class AbstractRouter extends Base implements RouterInterface
      * 
      * @param \Exception $e 
      * @access public
-     * @return void
+     * @return RouterResult
      */
     public function getExceptionResult(\Exception $e)
     {
@@ -103,7 +101,7 @@ abstract class AbstractRouter extends Base implements RouterInterface
      * getRouteNotFoundResult  
      * 
      * @access public
-     * @return void
+     * @return RouterResult
      */
     public function getRouteNotFoundResult()
     {

@@ -40,7 +40,7 @@ class ExceptionHandler extends AbstractAction
      * execute  
      * 
      * @access public
-     * @return void
+     * @return mixed
      */
     public function execute()
     {

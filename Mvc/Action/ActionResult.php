@@ -36,10 +36,8 @@ class ActionResult
     private $_viewClass;
 
     /**
-     * __construct  
-     * 
-     * @access public
-     * @return void
+     * @param       $viewName
+     * @param array $params
      */
     public function __construct($viewName, array $params = array())
     {
@@ -52,7 +50,7 @@ class ActionResult
      * getViewName  
      * 
      * @access public
-     * @return void
+     * @return string
      */
     public function getViewName()
     {
@@ -79,7 +77,7 @@ class ActionResult
      * getParams  
      * 
      * @access public
-     * @return void
+     * @return array
      */
     public function getParams()
     {
@@ -102,7 +100,7 @@ class ActionResult
      * getViewClass  
      * 
      * @access public
-     * @return void
+     * @return string
      */
     public function getViewClass()
     {

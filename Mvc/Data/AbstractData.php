@@ -48,11 +48,7 @@ abstract class AbstractData extends Base implements \Iterator, \Countable
     private $_multi = false;
 
     /**
-     * __construct  
-     * 
-     * @param mixed $data
-     * @access public
-     * @return void
+     * @param $data
      */
     public function __construct($data)
     {
@@ -78,7 +74,7 @@ abstract class AbstractData extends Base implements \Iterator, \Countable
      * 
      * @param array $row 
      * @access protected
-     * @return void
+     * @return array
      */
     protected function prepare(array $row)
     {
@@ -90,7 +86,7 @@ abstract class AbstractData extends Base implements \Iterator, \Countable
      * 
      * @param mixed $name 
      * @access protected
-     * @return void
+     * @return mixed
      */
     protected function fallback($name)
     {
@@ -101,7 +97,7 @@ abstract class AbstractData extends Base implements \Iterator, \Countable
      * isMulti  
      * 
      * @access public
-     * @return void
+     * @return boolean
      */
     public function isMulti()
     {
@@ -124,7 +120,7 @@ abstract class AbstractData extends Base implements \Iterator, \Countable
      * 
      * @param mixed $name 
      * @access public
-     * @return void
+     * @return mixed
      */
     public function __get($name)
     {
@@ -175,7 +171,7 @@ abstract class AbstractData extends Base implements \Iterator, \Countable
      * current  
      * 
      * @access public
-     * @return void
+     * @return AbstractData
      */
     public function current()
     {
@@ -198,7 +194,7 @@ abstract class AbstractData extends Base implements \Iterator, \Countable
      * key  
      * 
      * @access public
-     * @return void
+     * @return integer
      */
     public function key()
     {
@@ -220,7 +216,7 @@ abstract class AbstractData extends Base implements \Iterator, \Countable
      * valid  
      * 
      * @access public
-     * @return void
+     * @return boolean
      */
     public function valid()
     {
@@ -244,7 +240,7 @@ abstract class AbstractData extends Base implements \Iterator, \Countable
      * @param string $foo 
      * @param string $bar 
      * @access public
-     * @return void
+     * @return boolean
      */
     public function last($foo = '', $bar = '')
     {
@@ -261,7 +257,6 @@ abstract class AbstractData extends Base implements \Iterator, \Countable
      * 根据余数输出
      *
      * @access public
-     * @param string $param 需要输出的值
      * @return void
      */
     public function alt()
@@ -300,7 +295,7 @@ abstract class AbstractData extends Base implements \Iterator, \Countable
      * 
      * @param mixed $fields 
      * @access public
-     * @return void
+     * @return array
      */
     public function toArray($fields = NULL)
     {
