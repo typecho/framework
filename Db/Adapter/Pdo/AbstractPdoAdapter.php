@@ -38,10 +38,10 @@ abstract class AbstractPdoAdapter extends AbstractAdapter
     public function __construct($dsn, $user = NULL, $password = NULL, array $options = array())
     {
         try {
-            $this->_pdo = @new \PDO($dsn, $user, $password, array_merge(array(
+            $this->_pdo = @new \PDO($dsn, $user, $password, array(
                 \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
                 \PDO::ATTR_TIMEOUT => 10
-            ), $options));
+            ) + $options);
         } catch (\PDOException $e) {
             throw new AdapterException($e->getMessage(), $e->getCode());
         }
