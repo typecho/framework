@@ -17,9 +17,9 @@ class MaxStrLen extends AbstractFilledValidator
      * 
      * @param mixed $str 
      * @param mixed $max 
-     * @param mixed $me 
+     * @param boolean $me
      * @access public
-     * @return void
+     * @return boolean
      */
     public function validateCallback($str, $max, $me = false)
     {

@@ -32,13 +32,9 @@ class Jsonp extends AbstractView
     private $_callback;
 
     /**
-     * __construct 
-     * 
-     * @param Event $event
-     * @param mixed $data 
-     * @param string $callback 
-     * @access public
-     * @return void
+     * @param Event  $event
+     * @param        $data      jsonp的数据
+     * @param string $callback  jsonp的回调函数名
      */
     public function __construct(Event $event, $data, $callback = 'callback')
     {

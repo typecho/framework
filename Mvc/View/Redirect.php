@@ -6,7 +6,7 @@ use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Action\ActionEvent as Event;
 
 /**
- * Redirect  
+ * 跳转
  * 
  * @uses AbstractView
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
@@ -32,13 +32,9 @@ class Redirect extends AbstractView
     private $_isPermanently = false;
 
     /**
-     * __construct  
-     * 
      * @param Event $event
-     * @param string $url 
-     * @param boolean $isPermanently 
-     * @access public
-     * @return void
+     * @param       $url            跳转的url
+     * @param bool  $isPermanently  是否为永久跳转
      */
     public function __construct(Event $event, $url, $isPermanently = false)
     {

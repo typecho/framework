@@ -28,7 +28,7 @@ abstract class AbstractFilledValidator implements FilledValidatorInterface
      * @param mixed $key 
      * @param array $args 
      * @access public
-     * @return void
+     * @return boolean
      */
     public function validate(array $data, $key, array $args)
     {
@@ -47,7 +47,7 @@ abstract class AbstractFilledValidator implements FilledValidatorInterface
      * 
      * @param mixed $key 
      * @access public
-     * @return void
+     * @return mixed
      */
     public function getData($key = NULL)
     {

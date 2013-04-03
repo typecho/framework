@@ -18,7 +18,7 @@ class InArray extends AbstractFilledValidator
      * @param mixed $input 
      * @param array $array 
      * @access public
-     * @return void
+     * @return boolean
      */
     public function validateCallback($input, array $array)
     {

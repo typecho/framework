@@ -24,13 +24,8 @@ class Json extends AbstractView
     private $_data;
 
     /**
-     * __construct  
-     * 
-     * @param Event $event 
-     * @param string $url 
-     * @param boolean $isPermanently 
-     * @access public
-     * @return void
+     * @param Event $event
+     * @param       $data   json数据
      */
     public function __construct(Event $event, $data)
     {

@@ -2,12 +2,11 @@
 
 namespace TE\Mvc\View;
 
-use TE\System;
 use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Action\ActionEvent as Event;
 
 /**
- * Content  
+ * 渲染一个字符串
  * 
  * @uses AbstractView
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
@@ -33,12 +32,9 @@ class Content extends AbstractView
     private $_contentType;
 
     /**
-     * __construct 
-     * 
-     * @param Event $event 
-     * @param mixed $template 
-     * @access public
-     * @return void
+     * @param Event  $event
+     * @param        $content       渲染的字符串
+     * @param string $contentType   页面类型
      */
     public function __construct(Event $event, $content, $contentType = 'text/html')
     {

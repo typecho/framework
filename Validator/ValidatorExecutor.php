@@ -14,7 +14,7 @@ class ValidatorExecutor
     /**
      * _data  
      * 
-     * @var mixed
+     * @var array
      * @access private
      */
     private $_data;
@@ -22,7 +22,7 @@ class ValidatorExecutor
     /**
      * _rules  
      * 
-     * @var mixed
+     * @var array
      * @access private
      */
     private $_rules;
@@ -58,12 +58,11 @@ class ValidatorExecutor
     private $_validatorObjects = array(); 
 
     /**
-     * __construct  
-     * 
-     * @param array $data 
-     * @param array $rules 
+     * __construct
+     *
+     * @param array $data
+     * @param array $rules
      * @access public
-     * @return void
      */
     public function __construct(array $data, array $rules)
     {
@@ -76,7 +75,7 @@ class ValidatorExecutor
      * 
      * @param mixed $name 
      * @access private
-     * @return void
+     * @return ValidatorInterface
      */
     private function getValidator($name)
     {
@@ -95,7 +94,7 @@ class ValidatorExecutor
      * @param mixed $key 
      * @param array $args 
      * @access private
-     * @return void
+     * @return boolean
      */
     private function runValidator(ValidatorInterface $validator, $key, array $args)
     {
@@ -106,7 +105,7 @@ class ValidatorExecutor
      * validate  
      * 
      * @access public
-     * @return void
+     * @return array
      */
     public function validate()
     {

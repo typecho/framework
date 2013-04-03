@@ -6,7 +6,7 @@ use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Action\ActionEvent as Event;
 
 /**
- * Blank
+ * 空白页
  * 
  * @uses AbstractView
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
@@ -20,7 +20,6 @@ class Blank extends AbstractView
      * 
      * @param Event $event 
      * @access public
-     * @return void
      */
     public function __construct(Event $event)
     {}

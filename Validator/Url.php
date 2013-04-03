@@ -15,9 +15,9 @@ class Url extends AbstractFilledValidator
     /**
      * validateCallback  
      * 
-     * @param mixed $email 
+     * @param string $url
      * @access public
-     * @return void
+     * @return boolean
      */
     public function validateCallback($url)
     {

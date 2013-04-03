@@ -17,7 +17,7 @@ class Digit extends AbstractFilledValidator
      * 
      * @param mixed $number 
      * @access public
-     * @return void
+     * @return boolean
      */
     public function validateCallback($number)
     {

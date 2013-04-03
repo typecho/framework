@@ -16,9 +16,9 @@ class Regex extends AbstractFilledValidator
      * validateCallback  
      * 
      * @param mixed $input 
-     * @param mixed $regex 
+     * @param string $regex
      * @access public
-     * @return void
+     * @return boolean
      */
     public function validateCallback($input, $regex)
     {

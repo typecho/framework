@@ -2,12 +2,11 @@
 
 namespace TE\Mvc\View;
 
-use TE\System;
 use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Action\ActionEvent as Event;
 
 /**
- * Template  
+ * 模板
  * 
  * @uses AbstractView
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
@@ -41,13 +40,9 @@ class Template extends AbstractView
     protected $vars = array();
 
     /**
-     * __construct 
-     * 
-     * @param Event $event 
-     * @param mixed $template 
-     * @param mixed $prefix 
-     * @access public
-     * @return void
+     * @param Event  $event
+     * @param        $template  模板文件
+     * @param string $prefix    模板文件前缀
      */
     public function __construct(Event $event, $template, $prefix = '')
     {
@@ -67,10 +62,7 @@ class Template extends AbstractView
     {}
 
     /**
-     * render 
-     * 
-     * @access public
-     * @return void
+     * @throws \Exception
      */
     public function render()
     {

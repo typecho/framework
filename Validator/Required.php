@@ -19,7 +19,7 @@ class Required implements ValidatorInterface
      * @param mixed $key 
      * @param array $args 
      * @access public
-     * @return void
+     * @return boolean
      */
     public function validate(array $data, $key, array $args)
     {

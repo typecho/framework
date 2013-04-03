@@ -40,7 +40,6 @@ abstract class Base
      * __construct  
      * 
      * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -85,12 +84,11 @@ abstract class Base
     }
 
     /**
-     * 根据给出类获取可以注入的属性列表 
-     * 
-     * @param mixed $class 可以是对象也可以是类名
-     * @param array $shared 
-     * @access private
-     * @return void
+     * 根据给出类获取可以注入的属性列表
+     *
+     * @param       $class      可以是对象也可以是类名
+     * @param array $shared
+     * @throws \Exception
      */
     private function injectProperties($class, array $shared)
     {
@@ -124,7 +122,7 @@ abstract class Base
      * 
      * @param mixed $class 
      * @access private
-     * @return void
+     * @return array
      */
     private function getAvailableProperties($class)
     {

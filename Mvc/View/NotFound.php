@@ -5,7 +5,7 @@ namespace TE\Mvc\View;
 use TE\Mvc\Server\ResponseInterface as Response;
 
 /**
- * NotFound  
+ * 404错误页
  * 
  * @uses Error
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)

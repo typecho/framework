@@ -40,14 +40,9 @@ class Error extends AbstractView
     private $_data;
 
     /**
-     * __construct 
-     * 
-     * @param Event $event 
-     * @param string $content 
-     * @param string $template 
-     * @param string $prefix 
-     * @access public
-     * @return void
+     * @param Event  $event
+     * @param string $content   错误信息
+     * @param null   $template  错误模板
      */
     public function __construct(Event $event, $content = 'Error found', $template = NULL)
     {

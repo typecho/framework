@@ -18,7 +18,7 @@ class Confirm extends AbstractFilledValidator
      * @param mixed $input 
      * @param mixed $confirm 
      * @access public
-     * @return void
+     * @return boolean
      */
     public function validateCallback($input, $confirm)
     {

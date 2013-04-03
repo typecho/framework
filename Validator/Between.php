@@ -18,10 +18,10 @@ class Between extends AbstractFilledValidator
      * @param mixed $number 
      * @param mixed $greater 
      * @param mixed $less 
-     * @param mixed $ge 
-     * @param mixed $le 
+     * @param boolean $ge
+     * @param boolean $le
      * @access public
-     * @return void
+     * @return boolean
      */
     public function validateCallback($number, $greater, $less, $ge = false, $le = false)
     {

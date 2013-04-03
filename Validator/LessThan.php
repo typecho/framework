@@ -17,9 +17,9 @@ class LessThan extends AbstractFilledValidator
      * 
      * @param mixed $number 
      * @param mixed $less 
-     * @param mixed $le 
+     * @param boolean $le
      * @access public
-     * @return void
+     * @return boolean
      */
     public function validateCallback($number, $less, $le = false)
     {

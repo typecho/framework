@@ -17,7 +17,7 @@ class Email extends AbstractFilledValidator
      * 
      * @param mixed $email 
      * @access public
-     * @return void
+     * @return boolean
      */
     public function validateCallback($email)
     {

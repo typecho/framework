@@ -16,9 +16,9 @@ class Birthday extends AbstractFilledValidator
      * validateCallback 
      * 
      * @param mixed $date 
-     * @param mixed $format 
+     * @param string $format
      * @access public
-     * @return void
+     * @return boolean
      */
     public function validateCallback($date, $format = '%Y-%m-%d')
     {

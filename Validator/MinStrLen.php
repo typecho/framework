@@ -17,9 +17,9 @@ class MinStrLen extends AbstractFilledValidator
      * 
      * @param mixed $str 
      * @param mixed $min 
-     * @param mixed $me 
+     * @param boolean $me
      * @access public
-     * @return void
+     * @return boolean
      */
     public function validateCallback($str, $min, $me = false)
     {

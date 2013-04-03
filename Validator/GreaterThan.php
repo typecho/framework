@@ -17,9 +17,9 @@ class GreaterThan extends AbstractFilledValidator
      * 
      * @param mixed $number
      * @param mixed $greater 
-     * @param mixed $ge 
+     * @param boolean $ge
      * @access public
-     * @return void
+     * @return boolean
      */
     public function validateCallback($number, $greater, $ge = false)
     {
