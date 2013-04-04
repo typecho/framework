@@ -46,12 +46,8 @@ class QueryExecutor
     private $_prefix;
 
     /**
-     * __construct 
-     * 
-     * @param Adapter $adapter 
-     * @param mixed $prefix 
-     * @access public
-     * @return void
+     * @param Adapter $adapter
+     * @param         $prefix
      */
     public function __construct(Adapter $adapter, $prefix)
     {
@@ -65,32 +61,82 @@ class QueryExecutor
      * @param mixed $name 
      * @param mixed $args 
      * @access public
-     * @return void
+     * @return QueryExecutor
      */
     public function __call($name, $args)
     {
-        switch($name) {
-            case 'select':
-            case 'update':
-            case 'insert':
-            case 'delete':
-            case 'query':
-                if (empty($this->_query)) {
-                    $this->_name = $name;
-                    $reflect = new \ReflectionClass('TE\Db\Query\\' . ucfirst($name));
-                    array_unshift($args, $this->_prefix);
-                    $this->_query = $reflect->newInstanceArgs($args);
-                }
-                break;
-            default:
-                if (!empty($this->_query)) {
-                    if (method_exists($this->_query, $name)) {
-                        call_user_func_array(array($this->_query, $name), $args);
-                    }
-                }
-                break;
+        if (!empty($this->_query)) {
+            if (method_exists($this->_query, $name)) {
+                call_user_func_array(array($this->_query, $name), $args);
+            }
         }
 
+        return $this;
+    }
+
+    /**
+     * select
+     *
+     * @param       $table
+     * @param array $columns
+     * @return QueryExecutor
+     */
+    public function select($table, array $columns = array())
+    {
+        $this->_name = 'select';
+        $this->_query = new Select($this->_prefix, $table, $columns);
+        return $this;
+    }
+
+    /**
+     * update
+     *
+     * @param $table
+     * @return QueryExecutor
+     */
+    public function update($table)
+    {
+        $this->_name = 'update';
+        $this->_query = new Update($this->_prefix, $table);
+        return $this;
+    }
+
+    /**
+     * insert
+     *
+     * @param $table
+     * @return QueryExecutor
+     */
+    public function insert($table)
+    {
+        $this->_name = 'insert';
+        $this->_query = new Insert($this->_prefix, $table);
+        return $this;
+    }
+
+    /**
+     * delete
+     *
+     * @param $table
+     * @return QueryExecutor
+     */
+    public function delete($table)
+    {
+        $this->_name = 'delete';
+        $this->_query = new Delete($this->_prefix, $table);
+        return $this;
+    }
+
+    /**
+     * query
+     *
+     * @param $query
+     * @return QueryExecutor
+     */
+    public function query($query)
+    {
+        $this->_name = 'query';
+        $this->_query = new Query($this->_prefix, $query);
         return $this;
     }
 
@@ -98,7 +144,7 @@ class QueryExecutor
      * __toString  
      * 
      * @access public
-     * @return void
+     * @return string
      */
     public function __toString()
     {
@@ -114,7 +160,7 @@ class QueryExecutor
             case 'query':
                 return $this->_adapter->parseQuery($this->_query);
             default:
-                return;
+                return '';
         }
     }
 
@@ -123,7 +169,7 @@ class QueryExecutor
      * 
      * @param mixed $column 
      * @access public
-     * @return void
+     * @return mixed
      */
     public function fetchOne($column = NULL)
     {
@@ -132,13 +178,15 @@ class QueryExecutor
             $result = $this->_adapter->fetchOne($handle);
             return empty($column) ? $result : $result[$column];
         }
+
+        return NULL;
     }
 
     /**
      * fetchAll  
      * 
      * @access public
-     * @return void
+     * @return array
      */
     public function fetchAll()
     {
@@ -146,13 +194,15 @@ class QueryExecutor
             $handle = $this->_adapter->query((string) $this);
             return $this->_adapter->fetchAll($handle);
         }
+
+        return array();
     }
 
     /**
      * exec
      * 
      * @access public
-     * @return void
+     * @return mixed
      */
     public function exec()
     {
@@ -168,9 +218,9 @@ class QueryExecutor
                 } else if ('insert' == $this->_name) {
                     return $this->_adapter->lastInsertId($handle);
                 }
-                return;
+                return NULL;
             default:
-                return;
+                return NULL;
         }
     }
 }

@@ -21,11 +21,8 @@ class SQLite extends AbstractAdapter
     private $_dbHandle;
 
     /**
-     * __construct  
-     * 
-     * @param mixed $file 
-     * @access public
-     * @return void
+     * @param $file
+     * @throws AdapterException
      */
     public function __construct($file)
     {
@@ -75,7 +72,8 @@ class SQLite extends AbstractAdapter
      * 
      * @param mixed $query 
      * @access public
-     * @return void
+     * @return mixed
+     * @throws AdapterException
      */
     public function query($query)
     {
@@ -93,7 +91,7 @@ class SQLite extends AbstractAdapter
      * 
      * @param mixed $handle 
      * @access public
-     * @return void
+     * @return array
      */
     public function fetchOne($handle)
     {
@@ -105,7 +103,7 @@ class SQLite extends AbstractAdapter
      * 
      * @param mixed $handle 
      * @access public
-     * @return void
+     * @return array
      */
     public function fetchAll($handle)
     {
@@ -145,7 +143,7 @@ class SQLite extends AbstractAdapter
      * 
      * @param mixed $handle 
      * @access public
-     * @return void
+     * @return integer
      */
     public function affectedRows($handle)
     {
@@ -157,7 +155,7 @@ class SQLite extends AbstractAdapter
      * 
      * @param mixed $handle 
      * @access public
-     * @return void
+     * @return integer
      */
     public function lastInsertId($handle)
     {

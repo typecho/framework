@@ -20,11 +20,9 @@ class Logger
     private $_dir;
 
     /**
-     * __construct  
-     * 
-     * @param mixed $dir 
-     * @access public
-     * @return void
+     * 以某个目录作为根节点
+     *
+     * @param $dir 目录路径
      */
     public function __construct($dir)
     {

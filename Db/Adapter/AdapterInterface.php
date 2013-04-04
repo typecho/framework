@@ -22,7 +22,7 @@ interface AdapterInterface
      * 
      * @param mixed $handle 
      * @access public
-     * @return void
+     * @return array
      */
     public function fetchOne($handle);
 
@@ -31,7 +31,7 @@ interface AdapterInterface
      * 
      * @param mixed $handle 
      * @access public
-     * @return void
+     * @return array
      */
     public function fetchAll($handle);
 
@@ -40,7 +40,7 @@ interface AdapterInterface
      * 
      * @param mixed $query 
      * @access public
-     * @return void
+     * @return mixed
      */
     public function query($query);
 
@@ -49,7 +49,7 @@ interface AdapterInterface
      * 
      * @param mixed $handle 
      * @access public
-     * @return void
+     * @return integer
      */
     public function lastInsertId($handle);
 
@@ -58,7 +58,7 @@ interface AdapterInterface
      * 
      * @param mixed $handle 
      * @access public
-     * @return void
+     * @return integer
      */
     public function affectedRows($handle);
 
@@ -67,7 +67,7 @@ interface AdapterInterface
      * 
      * @param SelectQuery $query 
      * @access public
-     * @return void
+     * @return string
      */
     public function parseSelect(SelectQuery $query);
 
@@ -76,7 +76,7 @@ interface AdapterInterface
      * 
      * @param DeleteQuery $query 
      * @access public
-     * @return void
+     * @return string
      */
     public function parseDelete(DeleteQuery $query);
 
@@ -85,7 +85,7 @@ interface AdapterInterface
      * 
      * @param UpdateQuery $query 
      * @access public
-     * @return void
+     * @return string
      */
     public function parseUpdate(UpdateQuery $query);
 
@@ -94,7 +94,7 @@ interface AdapterInterface
      * 
      * @param InsertQuery $query 
      * @access public
-     * @return void
+     * @return string
      */
     public function parseInsert(InsertQuery $query);
 
@@ -103,7 +103,7 @@ interface AdapterInterface
      * 
      * @param SqlQuery $query 
      * @access public
-     * @return void
+     * @return string
      */
     public function parseQuery(SqlQuery $query);
 }

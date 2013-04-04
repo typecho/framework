@@ -50,12 +50,10 @@ class Update extends AbstractQuery
     }
 
     /**
-     * incrBy  
-     * 
-     * @param mixed $column 
-     * @param mixed $step 
-     * @access public
-     * @return void
+     * incrBy
+     *
+     * @param $column
+     * @param $step
      */
     public function incrBy($column, $step)
     {

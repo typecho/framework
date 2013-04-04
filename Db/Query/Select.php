@@ -150,25 +150,19 @@ class Select extends AbstractQuery
     }
 
     /**
-     * order  
-     * 
-     * @param mixed $columns 
-     * @param string $sort 
-     * @access public
-     * @return void
+     * orderAsc
+     *
+     * @param $column
      */
     public function orderAsc($column)
     {
         $this->order($column, 'ASC');
     }
-    
+
     /**
-     * order  
-     * 
-     * @param mixed $columns 
-     * @param string $sort 
-     * @access public
-     * @return void
+     * orderDesc
+     *
+     * @param $column
      */
     public function orderDesc($column)
     {

@@ -21,16 +21,13 @@ class Mysql extends AbstractAdapter
     private $_dbLink;
 
     /**
-     * __construct 
-     * 
-     * @param mixed $db 
-     * @param mixed $user 
-     * @param mixed $password 
-     * @param string $host 
-     * @param int $port 
-     * @param string $charset 
-     * @access public
-     * @return void
+     * @param        $db
+     * @param        $user
+     * @param null   $password
+     * @param string $host
+     * @param int    $port
+     * @param string $charset
+     * @throws AdapterException
      */
     public function __construct($db, $user, $password = NULL, $host = 'localhost', $port = 3306, $charset = 'utf8')
     {
@@ -52,7 +49,7 @@ class Mysql extends AbstractAdapter
      * 
      * @param mixed $handle 
      * @access public
-     * @return void
+     * @return array
      */
     public function fetchOne($handle)
     {
@@ -64,7 +61,7 @@ class Mysql extends AbstractAdapter
      * 
      * @param mixed $handle 
      * @access public
-     * @return void
+     * @return array
      */
     public function fetchAll($handle)
     {
@@ -81,7 +78,8 @@ class Mysql extends AbstractAdapter
      * 
      * @param mixed $query 
      * @access public
-     * @return void
+     * @return mixed
+     * @throws AdapterException
      */
     public function query($query)
     {
@@ -98,7 +96,7 @@ class Mysql extends AbstractAdapter
      * 
      * @param mixed $handle 
      * @access public
-     * @return void
+     * @return integer
      */
     public function lastInsertId($handle)
     {
@@ -110,7 +108,7 @@ class Mysql extends AbstractAdapter
      * 
      * @param mixed $handle 
      * @access public
-     * @return void
+     * @return integer
      */
     public function affectedRows($handle)
     {

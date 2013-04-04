@@ -4,6 +4,7 @@ namespace TE\Db;
 
 use TE\Db\Query\QueryExecutor;
 use TE\Db\Adapter\AdapterException;
+use TE\Db\Adapter\AdapterInterface;
 
 /**
  * Connector  
@@ -31,7 +32,7 @@ class Connector
     /**
      * _executor  
      * 
-     * @var QueryExecutor
+     * @var AdapterInterface
      * @access private
      */
     private $_adapter;
@@ -39,19 +40,16 @@ class Connector
     /**
      * _prefix  
      * 
-     * @var mixed
+     * @var string
      * @access private
      */
     private $_prefix;
 
     /**
-     * __construct 
-     * 
-     * @param mixed $adapterName 
-     * @param array $params 
-     * @param string $prefix 
-     * @access public
-     * @return void
+     * @param        $adapterName   适配器名称
+     * @param array  $params        初始化参数
+     * @param string $prefix        表名前缀
+     * @throws AdapterException
      */
     public function __construct($adapterName, array $params, $prefix = '')
     {
@@ -70,7 +68,7 @@ class Connector
      * @param mixed $table 
      * @param array $columns 
      * @access public
-     * @return void
+     * @return QueryExecutor
      */
     public function select($table, array $columns = array())
     {
@@ -83,7 +81,7 @@ class Connector
      * 
      * @param mixed $table 
      * @access public
-     * @return void
+     * @return QueryExecutor
      */
     public function update($table)
     {
@@ -96,7 +94,7 @@ class Connector
      * 
      * @param mixed $table 
      * @access public
-     * @return void
+     * @return QueryExecutor
      */
     public function delete($table)
     {
@@ -109,7 +107,7 @@ class Connector
      * 
      * @param mixed $table 
      * @access public
-     * @return void
+     * @return QueryExecutor
      */
     public function insert($table)
     {
@@ -122,7 +120,7 @@ class Connector
      * 
      * @param mixed $query
      * @access public
-     * @return void
+     * @return QueryExecutor
      */
     public function query($query)
     {

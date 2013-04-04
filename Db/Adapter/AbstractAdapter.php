@@ -26,7 +26,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param mixed $column 
      * @abstract
      * @access public
-     * @return void
+     * @return string
      */
     abstract public function quoteColumn($column);
 
@@ -36,7 +36,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param mixed $value 
      * @abstract
      * @access public
-     * @return void
+     * @return string
      */
     abstract public function quoteValue($value);
 
@@ -45,7 +45,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * 
      * @param mixed $column 
      * @access protected
-     * @return void
+     * @return string
      */
     protected function parseColumn($column)
     {
@@ -68,7 +68,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * 
      * @param Query $query 
      * @access protected
-     * @return void
+     * @return string
      */
     protected function parseWhere(Query $query)
     {
@@ -97,7 +97,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param mixed $template 
      * @param array $value 
      * @access protected
-     * @return void
+     * @return string
      */
     protected function applyTemplate($template, array $value)
     {
@@ -112,7 +112,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * 
      * @param SelectQuery $query 
      * @access public
-     * @return void
+     * @return string
      */
     public function parseSelect(SelectQuery $query)
     {
@@ -186,7 +186,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * 
      * @param DeleteQuery $query 
      * @access public
-     * @return void
+     * @return string
      */
     public function parseDelete(DeleteQuery $query)
     {
@@ -201,7 +201,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * 
      * @param UpdateQuery $query 
      * @access public
-     * @return void
+     * @return string
      */
     public function parseUpdate(UpdateQuery $query)
     {
@@ -250,7 +250,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * 
      * @param InsertQuery $query 
      * @access public
-     * @return void
+     * @return string
      */
     public function parseInsert(InsertQuery $query)
     {
@@ -280,7 +280,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * 
      * @param SqlQuery $query 
      * @access public
-     * @return void
+     * @return string
      */
     public function parseQuery(SqlQuery $query)
     {

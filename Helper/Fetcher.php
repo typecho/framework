@@ -20,14 +20,6 @@ class Fetcher
     private $_url;
 
     /**
-     * _data  
-     * 
-     * @var mixed
-     * @access private
-     */
-    private $_data;
-
-    /**
      * _timeout  
      * 
      * @var mixed
@@ -100,12 +92,7 @@ class Fetcher
     private $_responseContentType;
 
     /**
-     * __construct  
-     * 
-     * @param mixed $url 
-     * @param array $data 
-     * @access public
-     * @return void
+     * @param $url
      */
     public function __construct($url)
     {
@@ -117,7 +104,7 @@ class Fetcher
      * 
      * @param array $params 
      * @access private
-     * @return void
+     * @return string
      */
     private function buildUrl(array $params)
     {
@@ -131,12 +118,11 @@ class Fetcher
     }
 
     /**
-     * request  
-     * 
-     * @param mixed $url 
-     * @param array $data 
-     * @access private
-     * @return void
+     * request
+     *
+     * @param      $url
+     * @param null $data
+     * @throws \Exception
      */
     private function request($url, $data = NULL)
     {
@@ -248,7 +234,7 @@ class Fetcher
      * 
      * @param mixed $timeout 
      * @access public
-     * @return void
+     * @return Fetcher
      */
     public function setTimeout($timeout)
     {
@@ -261,7 +247,7 @@ class Fetcher
      * 
      * @param mixed $maxSize 
      * @access public
-     * @return void
+     * @return Fetcher
      */
     public function setMaxSize($maxSize)
     {
@@ -274,7 +260,7 @@ class Fetcher
      * 
      * @param mixed $contentType 
      * @access public
-     * @return void
+     * @return Fetcher
      */
     public function setContentType($contentType)
     {
@@ -292,7 +278,7 @@ class Fetcher
      * 
      * @param mixed $agent 
      * @access public
-     * @return void
+     * @return Fetcher
      */
     public function setAgent($agent)
     {
@@ -306,7 +292,7 @@ class Fetcher
      * @param mixed $name 
      * @param mixed $value 
      * @access public
-     * @return void
+     * @return Fetcher
      */
     public function setHeader($name, $value)
     {
@@ -319,7 +305,7 @@ class Fetcher
      * getResponseStatusCode  
      * 
      * @access public
-     * @return void
+     * @return integer
      */
     public function getResponseStatusCode()
     {
@@ -330,7 +316,7 @@ class Fetcher
      * getResponseContentType  
      * 
      * @access public
-     * @return void
+     * @return string
      */
     public function getResponseContentType()
     {
@@ -341,7 +327,7 @@ class Fetcher
      * getResponseContentLength  
      * 
      * @access public
-     * @return void
+     * @return integer
      */
     public function getResponseContentLength()
     {
@@ -352,7 +338,7 @@ class Fetcher
      * getResponseBody  
      * 
      * @access public
-     * @return void
+     * @return string
      */
     public function getResponseBody()
     {
@@ -363,7 +349,7 @@ class Fetcher
      * getUrl  
      * 
      * @access public
-     * @return void
+     * @return string
      */
     public function getUrl()
     {
@@ -375,7 +361,7 @@ class Fetcher
      * 
      * @param mixed $data 
      * @access public
-     * @return void
+     * @return Fetcher
      */
     public function get($data = '')
     {
@@ -401,7 +387,7 @@ class Fetcher
      * 
      * @param mixed $data 
      * @access public
-     * @return void
+     * @return Fetcher
      */
     public function post($data = array())
     {

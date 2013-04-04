@@ -21,19 +21,18 @@ abstract class AbstractPdoAdapter extends AbstractAdapter
      * 数据库对象
      *
      * @access protected
-     * @var PDO
+     * @var \PDO
      */
     protected $_pdo;
 
     /**
-     * __construct 
-     * 
-     * @param mixed $dsn 
-     * @param mixed $user 
-     * @param mixed $password 
-     * @param array $options 
-     * @access public
-     * @return void
+     * __construct
+     *
+     * @param       $dsn
+     * @param null  $user
+     * @param null  $password
+     * @param array $options
+     * @throws AdapterException
      */
     public function __construct($dsn, $user = NULL, $password = NULL, array $options = array())
     {
@@ -52,7 +51,8 @@ abstract class AbstractPdoAdapter extends AbstractAdapter
      * 
      * @param mixed $query 
      * @access public
-     * @return void
+     * @return mixed
+     * @throws AdapterException
      */
     public function query($query)
     {
@@ -68,7 +68,7 @@ abstract class AbstractPdoAdapter extends AbstractAdapter
      * 
      * @param mixed $handle 
      * @access public
-     * @return void
+     * @return array
      */
     public function fetchOne($handle)
     {
@@ -80,7 +80,7 @@ abstract class AbstractPdoAdapter extends AbstractAdapter
      * 
      * @param mixed $handle 
      * @access public
-     * @return void
+     * @return array
      */
     public function fetchAll($handle)
     {
@@ -103,7 +103,7 @@ abstract class AbstractPdoAdapter extends AbstractAdapter
      * 
      * @param mixed $handle 
      * @access public
-     * @return void
+     * @return integer
      */
     public function affectedRows($handle)
     {
@@ -115,7 +115,7 @@ abstract class AbstractPdoAdapter extends AbstractAdapter
      * 
      * @param mixed $handle 
      * @access public
-     * @return void
+     * @return integer
      */
     public function lastInsertId($handle)
     {

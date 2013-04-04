@@ -23,17 +23,13 @@ abstract class AbstractQuery
     /**
      * _prefix  
      * 
-     * @var mixed
+     * @var string
      * @access private
      */
     private $_prefix;
 
     /**
-     * __construct  
-     * 
-     * @param mixed $prefix 
-     * @access public
-     * @return void
+     * @param $prefix
      */
     public function __construct($prefix)
     {
@@ -50,7 +46,7 @@ abstract class AbstractQuery
      * 
      * @param mixed $value 
      * @access protected
-     * @return void
+     * @return string
      */
     protected function applyPrefix($value)
     {
@@ -103,8 +99,8 @@ abstract class AbstractQuery
      * getQuery  
      * 
      * @param mixed $name 
-     * @access protected
-     * @return public
+     * @access public
+     * @return mixed
      */
     public function getQuery($name)
     {
@@ -113,28 +109,30 @@ abstract class AbstractQuery
 
     /**
      * where  
-     * 
-     * @param mixed $condition 
+     *
      * @access public
      * @return void
      */
-    public function where($condition)
+    public function where()
     {
         $args = func_get_args();
-        $this->pushQuery('where', array('AND', $args));
+        if (!empty($args)) {
+            $this->pushQuery('where', array('AND', $args));
+        }
     }
 
     /**
      * orWhere  
-     * 
-     * @param mixed $condition 
+     *
      * @access public
      * @return void
      */
-    public function orWhere($condition)
+    public function orWhere()
     {
         $args = func_get_args();
-        $this->pushQuery('where', array('OR', $args));
+        if (!empty($args)) {
+            $this->pushQuery('where', array('OR', $args));
+        }
     }
 }
 

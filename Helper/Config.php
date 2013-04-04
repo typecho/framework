@@ -28,11 +28,7 @@ class Config
     private $_config;
 
     /**
-     * __construct  
-     * 
-     * @param mixed $dir 
-     * @access public
-     * @return void
+     * @param $dir
      */
     public function __construct($dir)
     {
@@ -44,7 +40,7 @@ class Config
      * 
      * @param string $name 
      * @access public
-     * @return void
+     * @return mixed
      */
     public function __get($name)
     {
