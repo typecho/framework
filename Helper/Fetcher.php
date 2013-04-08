@@ -84,6 +84,14 @@ class Fetcher
     private $_responseBody = '';
 
     /**
+     * _responseHeaders  
+     * 
+     * @var array
+     * @access private
+     */
+    private $_responseHeaders = array();
+
+    /**
      * _responseContentType  
      * 
      * @var mixed
@@ -152,12 +160,13 @@ class Fetcher
 
         $redirect = false;
         $type = '';
+        $headers = array();
         $options = array(
             'max_size'  =>  $this->_maxSize,
             'mime_type' =>  $this->_contentType
         );
 
-        curl_setopt($ch, CURLOPT_HEADERFUNCTION, function ($ch, $str) use ($options, &$redirect, &$type) {
+        curl_setopt($ch, CURLOPT_HEADERFUNCTION, function ($ch, $str) use ($options, &$headers, &$redirect, &$type) {
             $line = trim($str);
 
             if (preg_match("/^HTTP\/1\.[0-9]\s+([0-9]{3})\s+.*/i", $line, $matches)) {
@@ -173,6 +182,7 @@ class Fetcher
             } else if (!empty($line) && !$redirect) {
                 list ($key, $value) = array_map('trim', explode(':', $line));
                 $key = strtolower($key);
+                $headers[$key] = $value;
 
                 switch ($key) {
                     case 'content-length':
@@ -226,6 +236,7 @@ class Fetcher
         $this->_responseBody = $content;
         $this->_responseContentType = $type;
         $this->_responseContentLength = $size;
+        $this->_responseHeaders = $headers;
         curl_close($ch);
     }
 
@@ -343,6 +354,22 @@ class Fetcher
     public function getResponseBody()
     {
         return $this->_responseBody;
+    }
+
+    /**
+     * getResponseHeader  
+     * 
+     * @param mixed $key 
+     * @access public
+     * @return string
+     */
+    public function getResponseHeader($key = NULL)
+    {
+        if (empty($key)) {
+            return $this->_responseHeaders;
+        } else {
+            return isset($this->_responseHeaders[$key]) ? $this->_responseHeaders[$key] : NULL;
+        }
     }
 
     /**
