@@ -21,6 +21,7 @@ class ViewClass implements InterceptorInterface
      * @access private
      */
     private $_viewClasses = array(
+        'back'              =>  'TE\Mvc\View\Back',
         'blank'             =>  'TE\Mvc\View\Blank',
         'content'           =>  'TE\Mvc\View\Content',
         'error'             =>  'TE\Mvc\View\Error',
