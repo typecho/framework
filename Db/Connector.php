@@ -2,9 +2,13 @@
 
 namespace TE\Db;
 
-use TE\Db\Query\QueryExecutor;
+use TE\Db\Query\Delete;
+use TE\Db\Query\Insert;
 use TE\Db\Adapter\AdapterException;
 use TE\Db\Adapter\AdapterInterface;
+use TE\Db\Query\Select;
+use TE\Db\Query\Update;
+use TE\Db\Query\Query;
 
 /**
  * Connector  
@@ -68,12 +72,11 @@ class Connector
      * @param mixed $table 
      * @param array $columns 
      * @access public
-     * @return QueryExecutor
+     * @return Select
      */
     public function select($table, array $columns = array())
     {
-        $executor = new QueryExecutor($this->_adapter, $this->_prefix);
-        return $executor->select($table, $columns);
+        return new Select($this->_adapter, $this->_prefix, $table, $columns);
     }
 
     /**
@@ -81,12 +84,11 @@ class Connector
      * 
      * @param mixed $table 
      * @access public
-     * @return QueryExecutor
+     * @return Update
      */
     public function update($table)
     {
-        $executor = new QueryExecutor($this->_adapter, $this->_prefix);
-        return $executor->update($table);
+        return new Update($this->_adapter, $this->_prefix, $table);
     }
 
     /**
@@ -94,12 +96,11 @@ class Connector
      * 
      * @param mixed $table 
      * @access public
-     * @return QueryExecutor
+     * @return Delete
      */
     public function delete($table)
     {
-        $executor = new QueryExecutor($this->_adapter, $this->_prefix);
-        return $executor->delete($table);
+        return new Delete($this->_adapter, $this->_prefix, $table);
     }
 
     /**
@@ -107,12 +108,11 @@ class Connector
      * 
      * @param mixed $table 
      * @access public
-     * @return QueryExecutor
+     * @return Insert
      */
     public function insert($table)
     {
-        $executor = new QueryExecutor($this->_adapter, $this->_prefix);
-        return $executor->insert($table);
+        return new Insert($this->_adapter, $this->_prefix, $table);
     }
 
     /**
@@ -120,12 +120,11 @@ class Connector
      * 
      * @param mixed $query
      * @access public
-     * @return QueryExecutor
+     * @return Query
      */
     public function query($query)
     {
-        $executor = new QueryExecutor($this->_adapter, $this->_prefix);
-        return $executor->query($query);
+        return new Query($this->_adapter, $this->_prefix, $query);
     }
 }
 

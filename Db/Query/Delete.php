@@ -23,5 +23,16 @@ class Delete extends AbstractQuery
     {
         $this->setQuery('table', $this->applyPrefix($table));
     }
+
+    /**
+     * exec
+     *
+     * @return int
+     */
+    public function exec()
+    {
+        $handle = $this->getAdapter()->query((string) $this);
+        return $this->getAdapter()->affectedRows($handle);
+    }
 }
 

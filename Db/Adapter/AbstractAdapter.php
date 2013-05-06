@@ -64,6 +64,18 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
+     * parseValue
+     *
+     * @param $value
+     * @return string
+     */
+    protected function parseValue($value)
+    {
+        return is_array($value) ? '(' . implode(',', array_map(array($this, 'quoteValue'), $value)) . ')'
+            : $this->quoteValue($value);
+    }
+
+    /**
      * parseWhere  
      * 
      * @param Query $query 
@@ -79,10 +91,9 @@ abstract class AbstractAdapter implements AdapterInterface
             $str = 'WHERE 1 = 1';
 
             foreach ($where as $condition) {
-                $op = $condition[0];
-                $args = $condition[1];
+                list($op, $args) = $condition;
                 $expression = array_shift($args);
-                $args = array_map(array($this, 'quoteValue'), $args);
+                $args = array_map(array($this, 'parseValue'), $args);
                 array_unshift($args, str_replace('?', '%s', $expression));
                 $str .= " {$op} " . call_user_func_array('sprintf', $args);
             }
@@ -215,15 +226,6 @@ abstract class AbstractAdapter implements AdapterInterface
             }
         }
 
-        if ($query->getQuery('mset')) {
-            $msets = $query->getQuery('mset');
-            foreach ($msets as $mset) {
-                foreach ($mset as $key => $val) {
-                    $update[] = $this->quoteColumn($key) . ' = ' . $this->quoteValue($val);
-                }
-            }
-        }
-        
         if ($query->getQuery('xset')) {
             $xsets = $query->getQuery('xset');
             foreach ($xsets as $val) {

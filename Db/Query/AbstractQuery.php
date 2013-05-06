@@ -2,12 +2,14 @@
 
 namespace TE\Db\Query;
 
+use TE\Db\Adapter\AdapterInterface;
+
 /**
- * AbstractQuery 
- * 
+ * AbstractQuery
+ *
  * @abstract
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
- * @author Joyqi <magike.net@gmail.com> 
+ * @author Joyqi <magike.net@gmail.com>
  * @license GNU General protected License 2.0
  */
 abstract class AbstractQuery
@@ -29,14 +31,34 @@ abstract class AbstractQuery
     private $_prefix;
 
     /**
-     * @param $prefix
+     * 适配器
+     *
+     * @var AdapterInterface
      */
-    public function __construct($prefix)
+    private $_adapter;
+
+    /**
+     * 名称
+     *
+     * @var string
+     */
+    private $_name = '';
+
+    /**
+     * @param AdapterInterface $adapter
+     * @param string           $prefix
+     */
+    public function __construct(AdapterInterface $adapter, $prefix)
     {
+        $this->_adapter = $adapter;
         $this->_prefix = $prefix;
+
+        $className = explode("\\", get_class($this));
+        $this->_name = strtolower(array_pop($className));
+
         if (method_exists($this, 'init')) {
             $args = func_get_args();
-            array_shift($args);
+            $args = array_slice($args, 2);
             call_user_func_array(array($this, 'init'), $args);
         }
     }
@@ -111,7 +133,7 @@ abstract class AbstractQuery
      * where  
      *
      * @access public
-     * @return void
+     * @return $this
      */
     public function where()
     {
@@ -119,13 +141,15 @@ abstract class AbstractQuery
         if (!empty($args)) {
             $this->pushQuery('where', array('AND', $args));
         }
+
+        return $this;
     }
 
     /**
      * orWhere  
      *
      * @access public
-     * @return void
+     * @return $this
      */
     public function orWhere()
     {
@@ -133,6 +157,30 @@ abstract class AbstractQuery
         if (!empty($args)) {
             $this->pushQuery('where', array('OR', $args));
         }
+
+        return $this;
+    }
+
+    /**
+     * getAdapter
+     *
+     * @return AdapterInterface
+     */
+    public function getAdapter()
+    {
+        return $this->_adapter;
+    }
+
+    /**
+     * __toString
+     *
+     * @access public
+     * @return string
+     */
+    public function __toString()
+    {
+        $method = 'parse' . ucfirst($this->_name);
+        return $this->_adapter->{$method}($this);
     }
 }
 

@@ -30,11 +30,21 @@ class Update extends AbstractQuery
      * @param string $column
      * @param mixed $value 
      * @access public
-     * @return void
+     * @return Update
      */
     public function set($column, $value)
     {
-        $this->pushQuery('set', array($this->applyPrefix($column), $value));
+        if (is_array($value)) {
+            list ($op, $step) = $value;
+            if ('+' == $op) {
+                $this->incrBy($column, $step);
+            } else {
+                $this->decrBy($column, $step);
+            }
+        } else {
+            $this->pushQuery('set', array($this->applyPrefix($column), $value));
+        }
+        return $this;
     }
 
     /**
@@ -42,11 +52,15 @@ class Update extends AbstractQuery
      * 
      * @param array $rows 
      * @access public
-     * @return void
+     * @return Update
      */
-    public function setMulti(array $rows)
+    public function setMultiple(array $rows)
     {
-        $this->pushQuery('mset', $this->applyPrefix($rows));
+        foreach ($rows as $column => $value) {
+            $this->set($column, $value);
+        }
+
+        return $this;
     }
 
     /**
@@ -54,10 +68,12 @@ class Update extends AbstractQuery
      *
      * @param $column
      * @param $step
+     * @return Update
      */
     public function incrBy($column, $step)
     {
         $this->pushQuery('xset', array('+', $this->applyPrefix($column), intval($step)));
+        return $this;
     }
 
     /**
@@ -65,36 +81,45 @@ class Update extends AbstractQuery
      * 
      * @param mixed $column 
      * @param mixed $step 
-     * @access public
-     * @return void
+     * @return Update
      */
     public function decrBy($column, $step)
     {
         $this->pushQuery('xset', array('-', $this->applyPrefix($column), intval($step)));
+        return $this;
     }
 
     /**
-     * incr  
-     * 
-     * @param mixed $column 
-     * @access public
-     * @return void
+     * incr
+     *
+     * @param $column
+     * @return Update
      */
     public function incr($column)
     {
-        $this->incrBy($column, 1);
+        return $this->incrBy($column, 1);
     }
 
     /**
-     * decr  
-     * 
-     * @param mixed $column 
-     * @access public
-     * @return void
+     * decr
+     *
+     * @param $column
+     * @return Update
      */
     public function decr($column)
     {
-        $this->decrBy($column, 1);
+        return $this->decrBy($column, 1);
+    }
+
+    /**
+     * exec
+     *
+     * @return int
+     */
+    public function exec()
+    {
+        $handle = $this->getAdapter()->query((string) $this);
+        return $this->getAdapter()->affectedRows($handle);
     }
 }
 

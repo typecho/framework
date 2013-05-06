@@ -16,14 +16,17 @@ class Select extends AbstractQuery
      * init  
      * 
      * @param mixed $table 
-     * @param array $columns
+     * @param mixed $columns
      * @access public
      * @return void
      */
-    public function init($table, array $columns = array())
+    public function init($table, $columns = NULL)
     {
         $this->setQuery('table', $this->applyPrefix($table));
-        $this->setQuery('columns', $this->applyPrefix($columns));
+        if (!empty($columns)) {
+            $columns = is_array($columns) ? $columns : array($columns);
+            $this->setQuery('columns', $this->applyPrefix($columns));
+        }
     }
 
     /**
@@ -32,11 +35,12 @@ class Select extends AbstractQuery
      * @param mixed $column 
      * @param mixed $sort 
      * @access private
-     * @return void
+     * @return Select
      */
     private function order($column, $sort)
     {
         $this->pushQuery('order', array($this->applyPrefix($column), $sort));
+        return $this;
     }
 
     /**
@@ -47,11 +51,12 @@ class Select extends AbstractQuery
      * @param mixed $targetColumn 
      * @param mixed $sourceColumn 
      * @access private
-     * @return void
+     * @return Select
      */
     private function join($op, $table, $targetColumn, $sourceColumn)
     {
         $this->setQuery('join', array($op, $this->applyPrefix($table), $targetColumn, $sourceColumn));
+        return $this;
     }
 
     /**
@@ -59,11 +64,12 @@ class Select extends AbstractQuery
      * 
      * @param mixed $limit 
      * @access public
-     * @return void
+     * @return Select
      */
     public function limit($limit)
     {
         $this->setQuery('limit', abs(intval($limit)));
+        return $this;
     }
 
     /**
@@ -71,11 +77,12 @@ class Select extends AbstractQuery
      * 
      * @param mixed $offset 
      * @access public
-     * @return void
+     * @return Select
      */
     public function offset($offset)
     {
         $this->setQuery('offset', abs(intval($offset)));
+        return $this;
     }
 
     /**
@@ -84,13 +91,13 @@ class Select extends AbstractQuery
      * @param mixed $page 
      * @param mixed $pageSize 
      * @access public
-     * @return void
+     * @return Select
      */
     public function page($page, $pageSize)
     {
         $page = max(1, $page);
         $this->limit($pageSize);
-        $this->offset(($page - 1) * $pageSize);
+        return $this->offset(($page - 1) * $pageSize);
     }
 
     /**
@@ -100,11 +107,11 @@ class Select extends AbstractQuery
      * @param mixed $targetColumn 
      * @param mixed $sourceColumn 
      * @access public
-     * @return void
+     * @return Select
      */
     public function leftJoin($table, $targetColumn, $sourceColumn = NULL)
     {
-        $this->join('LEFT', $table, $targetColumn, $sourceColumn ?: $targetColumn);
+        return $this->join('LEFT', $table, $targetColumn, $sourceColumn ?: $targetColumn);
     }
 
     /**
@@ -114,11 +121,11 @@ class Select extends AbstractQuery
      * @param mixed $targetColumn 
      * @param mixed $sourceColumn 
      * @access public
-     * @return void
+     * @return Select
      */
     public function rightJoin($table, $targetColumn, $sourceColumn = NULL)
     {
-        $this->join('RIGHT', $table, $targetColumn, $sourceColumn ?: $targetColumn);
+        return $this->join('RIGHT', $table, $targetColumn, $sourceColumn ?: $targetColumn);
     }
 
     /**
@@ -128,11 +135,11 @@ class Select extends AbstractQuery
      * @param mixed $targetColumn 
      * @param mixed $sourceColumn 
      * @access public
-     * @return void
+     * @return Select
      */
     public function innerJoin($table, $targetColumn, $sourceColumn = NULL)
     {
-        $this->join('INNER', $table, $targetColumn, $sourceColumn ?: $targetColumn);
+        return $this->join('INNER', $table, $targetColumn, $sourceColumn ?: $targetColumn);
     }
 
     /**
@@ -142,43 +149,71 @@ class Select extends AbstractQuery
      * @param mixed $targetColumn 
      * @param mixed $sourceColumn 
      * @access public
-     * @return void
+     * @return Select
      */
     public function outerJoin($table, $targetColumn, $sourceColumn = NULL)
     {
-        $this->join('OUTER', $table, $targetColumn, $sourceColumn ?: $targetColumn);
+        return $this->join('OUTER', $table, $targetColumn, $sourceColumn ?: $targetColumn);
     }
 
     /**
      * orderAsc
      *
      * @param $column
+     * @return Select
      */
     public function orderAsc($column)
     {
-        $this->order($column, 'ASC');
+        return $this->order($column, 'ASC');
     }
 
     /**
      * orderDesc
      *
      * @param $column
+     * @return Select
      */
     public function orderDesc($column)
     {
-        $this->order($column, 'DESC');
+        return $this->order($column, 'DESC');
     }
 
     /**
-     * group  
-     * 
-     * @param mixed $column 
-     * @access public
-     * @return void
+     * group
+     *
+     * @param $column
+     * @return Select
      */
     public function group($column)
     {
         $this->setQuery('group', $this->applyPrefix($column));
+        return $this;
+    }
+
+    /**
+     * fetchOne
+     *
+     * @param mixed $column
+     * @access public
+     * @return mixed
+     */
+    public function fetchOne($column = NULL)
+    {
+        $handle = $this->getAdapter()->query((string) $this);
+        $result = $this->getAdapter()->fetchOne($handle);
+        return empty($column) ? $result : $result[$column];
+    }
+
+    /**
+     * fetchAll
+     *
+     * @access public
+     * @return array
+     */
+    public function fetchAll()
+    {
+        $handle = $this->getAdapter()->query((string) $this);
+        return $this->getAdapter()->fetchAll($handle);
     }
 }
 

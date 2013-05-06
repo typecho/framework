@@ -29,19 +29,33 @@ class Query extends AbstractQuery
      * 
      * @param mixed $condition 
      * @access public
-     * @return void
+     * @return Query
      */
     public function where($condition)
-    {}
+    {
+        return $this;
+    }
     
     /**
      * orWhere  
      * 
      * @param mixed $condition 
      * @access public
-     * @return void
+     * @return Query
      */
     public function orWhere($condition)
-    {}
+    {
+        return $this;
+    }
+
+    /**
+     * exec
+     *
+     * @return int
+     */
+    public function exec()
+    {
+        $this->getAdapter()->query((string) $this);
+    }
 }
 

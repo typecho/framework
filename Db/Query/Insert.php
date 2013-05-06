@@ -29,31 +29,47 @@ class Insert extends AbstractQuery
      * 
      * @param mixed $condition 
      * @access public
-     * @return void
+     * @return Insert
      */
     public function where($condition)
-    {}
+    {
+        return $this;
+    }
     
     /**
      * orWhere  
      * 
      * @param mixed $condition 
      * @access public
-     * @return void
+     * @return Insert
      */
     public function orWhere($condition)
-    {}
+    {
+        return $this;
+    }
 
     /**
      * values  
      * 
      * @param array $values 
      * @access public
-     * @return void
+     * @return Insert
      */
     public function values(array $values)
     {
         $this->setQuery('values', $this->applyPrefix($values));
+        return $this;
+    }
+
+    /**
+     * exec
+     *
+     * @return int
+     */
+    public function exec()
+    {
+        $handle = $this->getAdapter()->query((string) $this);
+        return $this->getAdapter()->lastInsertId($handle);
     }
 }
 
