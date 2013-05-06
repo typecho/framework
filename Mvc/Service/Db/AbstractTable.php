@@ -1,6 +1,6 @@
 <?php
 
-namespace TE\Mvc\Service;
+namespace TE\Mvc\Service\Db;
 
 use TE\Mvc\Base;
 
