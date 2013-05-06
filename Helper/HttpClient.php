@@ -3,13 +3,13 @@
 namespace TE\Helper;
 
 /**
- * Fetcher  
+ * HttpClient
  * 
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class Fetcher
+class HttpClient
 {
     /**
      * _url  
@@ -245,7 +245,7 @@ class Fetcher
      * 
      * @param mixed $timeout 
      * @access public
-     * @return Fetcher
+     * @return HttpClient
      */
     public function setTimeout($timeout)
     {
@@ -258,7 +258,7 @@ class Fetcher
      * 
      * @param mixed $maxSize 
      * @access public
-     * @return Fetcher
+     * @return HttpClient
      */
     public function setMaxSize($maxSize)
     {
@@ -271,7 +271,7 @@ class Fetcher
      * 
      * @param mixed $contentType 
      * @access public
-     * @return Fetcher
+     * @return HttpClient
      */
     public function setContentType($contentType)
     {
@@ -289,7 +289,7 @@ class Fetcher
      * 
      * @param mixed $agent 
      * @access public
-     * @return Fetcher
+     * @return HttpClient
      */
     public function setAgent($agent)
     {
@@ -303,7 +303,7 @@ class Fetcher
      * @param mixed $name 
      * @param mixed $value 
      * @access public
-     * @return Fetcher
+     * @return HttpClient
      */
     public function setHeader($name, $value)
     {
@@ -388,7 +388,7 @@ class Fetcher
      * 
      * @param mixed $data 
      * @access public
-     * @return Fetcher
+     * @return HttpClient
      */
     public function get($data = '')
     {
@@ -414,7 +414,7 @@ class Fetcher
      * 
      * @param mixed $data 
      * @access public
-     * @return Fetcher
+     * @return HttpClient
      */
     public function post($data = array())
     {
