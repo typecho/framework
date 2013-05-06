@@ -7,7 +7,7 @@ use TE\Mvc\Base;
 /**
  * Class AbstractTable
  *
- * @package TE\Mvc\Service
+ * @package TE\Mvc\Service\Db
  */
 abstract class AbstractTable extends Base
 {

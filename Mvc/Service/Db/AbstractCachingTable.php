@@ -5,7 +5,7 @@ namespace TE\Mvc\Service\Db;
 /**
  * Class AbstractCachingTable
  *
- * @package TE\Mvc\Service
+ * @package TE\Mvc\Service\Db
  */
 abstract class AbstractCachingTable extends AbstractTable
 {
