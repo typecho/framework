@@ -15,7 +15,7 @@ abstract class AbstractTable extends Base
     /**
      * db  
      * 
-     * @var mixed
+     * @var Connector
      */
     protected $serviceDb;
 
