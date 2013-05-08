@@ -95,7 +95,7 @@ abstract class AbstractAdapter implements AdapterInterface
                 $expression = array_shift($args);
                 $args = array_map(array($this, 'parseValue'), $args);
                 array_unshift($args, str_replace('?', '%s', $expression));
-                $str .= " {$op} " . call_user_func_array('sprintf', $args);
+                $str .= " {$op} (" . call_user_func_array('sprintf', $args) . ')';
             }
         }
 
