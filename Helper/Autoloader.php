@@ -32,7 +32,9 @@ class Autoloader
             }
 
             $file = $path . '/' . str_replace(array('_', '\\'), '/', $class) . '.php';
-            @include($file);
+            if (file_exists($file)) {
+                include_once $file;
+            }
         });
     }
 }
