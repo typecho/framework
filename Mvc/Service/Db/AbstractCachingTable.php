@@ -2,6 +2,8 @@
 
 namespace TE\Mvc\Service\Db;
 
+use TE\Cache\CacheInterface;
+
 /**
  * Class AbstractCachingTable
  *
@@ -10,35 +12,17 @@ namespace TE\Mvc\Service\Db;
 abstract class AbstractCachingTable extends AbstractTable
 {
     /**
-     * 设置缓存
-     * 
-     * @param string $key 
-     * @param array $data 
+     * @var CacheInterface
      */
-    abstract protected function setCache($key, array $data);
+    protected $serviceDbCache;
 
     /**
-     * 获取缓存
-     * 
-     * @param string $key 
-     * @return mixed
+     * @param \TE\Cache\CacheInterface $serviceDbCache
      */
-    abstract protected function getCache($key);
-
-    /**
-     * 获取多个缓存
-     * 
-     * @param array $keys
-     * @return array
-     */
-    abstract protected function getCacheMultiple(array $keys);
-
-    /**
-     * 删除缓存
-     * 
-     * @param string $key 
-     */
-    abstract protected function deleteCache($key);
+    public function setServiceDbCache(CacheInterface $serviceDbCache)
+    {
+        $this->serviceDbCache = $serviceDbCache;
+    }
 
     /**
      * set
@@ -51,7 +35,7 @@ abstract class AbstractCachingTable extends AbstractTable
     {
         $affectedRows = parent::set($key, $data);
         if ($affectedRows > 0) {
-            $this->setCache($key, $data);
+            $this->serviceDbCache->set($key, $data);
         }
 
         return $affectedRows;
@@ -67,10 +51,10 @@ abstract class AbstractCachingTable extends AbstractTable
     {
         $insertId = parent::add($data);
         if ($insertId) {
-            $data = $this->getDb()->select($this->getTable())
+            $data = $this->serviceDb->select($this->getTable())
                 ->where($this->getPrimaryKey() . ' = ?', $insertId)
                 ->fetchOne();
-            $this->setCache($insertId, $data);
+            $this->serviceDbCache->set($insertId, $data);
         }
 
         return $insertId;
@@ -86,7 +70,7 @@ abstract class AbstractCachingTable extends AbstractTable
     {
         $affectedRows = parent::remove($key);
         if ($affectedRows > 0) {
-            $this->deleteCache($key);
+            $this->serviceDbCache->remove($key);
         }
 
         return $affectedRows;
@@ -101,16 +85,16 @@ abstract class AbstractCachingTable extends AbstractTable
      */
     public function get($key, $columns = NULL)
     {
-        $cached = $this->getCache($key);
+        $cached = $this->serviceDbCache->get($key);
         if (false === $cached) {
             $cached = parent::get($key);
-            $this->setCache($key, $cached);
+            $this->serviceDbCache->set($key, $cached);
         }
 
         if (is_string($columns)) {
             return $cached[$columns];
         } else if (is_array($columns)) {
-            return array_filter($cached, function ($item) use (&$cached, $columns) {
+            return array_filter($cached, function () use (&$cached, $columns) {
                 $key = key($cached);
                 next($cached);
                 return in_array($key, $columns);
@@ -129,7 +113,7 @@ abstract class AbstractCachingTable extends AbstractTable
      */
     public function getMultiple($keys, $columns = NULL)
     {
-        $cached = $this->getMultiple($keys);
+        $cached = $this->serviceDbCache->getMultiple($keys);
         $missed = array();
 
         foreach ($cached as $key => $val) {
@@ -154,7 +138,7 @@ abstract class AbstractCachingTable extends AbstractTable
             }, $cached);
         } else if (is_array($columns)) {
             return array_map(function ($item) use ($columns) {
-                return array_filter($item, function ($row) use (&$item, $columns) {
+                return array_filter($item, function () use (&$item, $columns) {
                     $key = key($item);
                     next($item);
                     return in_array($key, $columns);

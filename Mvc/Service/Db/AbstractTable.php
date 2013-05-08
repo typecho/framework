@@ -17,7 +17,7 @@ abstract class AbstractTable extends Base
      * 
      * @var mixed
      */
-    private $db;
+    protected $serviceDb;
 
     /**
      * _table  
@@ -34,35 +34,25 @@ abstract class AbstractTable extends Base
     private $_primaryKey;
 
     /**
-     * setDb  
+     * setServiceDb
      * 
-     * @param Connector $db 
+     * @param Connector $serviceDb
      * @access public
      * @return void
      */
-    public function setDb(Connector $db)
+    public function setServiceDb(Connector $serviceDb)
     {
-        $this->db = $db;
+        $this->serviceDb = $serviceDb;
     }
 
     /**
-     * 获取Db对象
+     * setTable
      *
-     * @return \TE\Db\Connector
-     */
-    public function getDb()
-    {
-        return $this->db;
-    }
-
-    /**
-     * setTable  
-     * 
-     * @param string $table 
+     * @param $table
      */
     public function setTable($table)
     {
-        return $this->_table = $table;
+        $this->_table = $table;
     }
 
     /**
@@ -105,7 +95,7 @@ abstract class AbstractTable extends Base
     {
         // 插入数据
         $key = $this->getPrimaryKey();
-        $insertId = $this->getDb()->insert($this->getTable())->values($data)->exec();
+        $insertId = $this->serviceDb->insert($this->getTable())->values($data)->exec();
         return isset($data[$key]) ? $data[$key] : $insertId;
     }
 
@@ -118,7 +108,7 @@ abstract class AbstractTable extends Base
      */
     public function set($key, array $data)
     {
-        return $this->getDb()->update($this->getTable())->setMultiple($data)
+        return $this->serviceDb->update($this->getTable())->setMultiple($data)
             ->where($this->getPrimaryKey() . ' = ?', $key)
             ->exec();
     }
@@ -131,7 +121,7 @@ abstract class AbstractTable extends Base
      */
     public function remove($key)
     {
-        return $this->getDb()->delete($this->getTable())
+        return $this->serviceDb->delete($this->getTable())
             ->where($this->getPrimaryKey() . ' = ?', $key)
             ->exec();
     }
@@ -145,7 +135,7 @@ abstract class AbstractTable extends Base
      */
     public function get($key, $columns = NULL)
     {
-        $result = $this->getDb()->select($this->getTable(), $columns)
+        $result = $this->serviceDb->select($this->getTable(), $columns)
             ->where($this->getPrimaryKey() . ' = ?', $key)
             ->fetchOne();
 
@@ -161,7 +151,7 @@ abstract class AbstractTable extends Base
      */
     public function getMultiple(array $keys, $columns = NULL)
     {
-        $result = $this->getDb()->select($this->getTable(), $columns)
+        $result = $this->serviceDb->select($this->getTable(), $columns)
             ->where($this->getPrimaryKey() . ' IN ?', $keys)
             ->fetchAll();
 
@@ -180,7 +170,7 @@ abstract class AbstractTable extends Base
      */
     public function findBy($key, $value, $columns = NULL)
     {
-        $result = $this->getDb()->select($this->getTable(), $columns)
+        $result = $this->serviceDb->select($this->getTable(), $columns)
             ->where("{$key} = ?", $value)
             ->limit(1)
             ->fetchOne();
