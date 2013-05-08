@@ -81,15 +81,13 @@ class Redis implements CacheInterface
     }
 
     /**
-     * __call
+     * 获取redis对象
      *
-     * @param       $method
-     * @param array $args
-     * @return mixed
+     * @return mixed|\Redis
      */
-    public function __call($method, array $args)
+    public function getCache()
     {
-        return call_user_func_array(array($this->_redis, $method), $args);
+        return $this->_redis;
     }
 }
 

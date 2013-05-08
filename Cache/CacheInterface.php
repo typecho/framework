@@ -41,5 +41,12 @@ interface CacheInterface
      * @param string $key 
      */
     public function remove($key);
+
+    /**
+     * 获取原始对象
+     *
+     * @return mixed
+     */
+    public function getCache();
 }
 
