@@ -193,7 +193,7 @@ class Select extends AbstractQuery
     /**
      * fetchOne
      *
-     * @param mixed $column
+     * @param string $column
      * @access public
      * @return mixed
      */
@@ -207,13 +207,16 @@ class Select extends AbstractQuery
     /**
      * fetchAll
      *
-     * @access public
+     * @param string $column
      * @return array
      */
-    public function fetchAll()
+    public function fetchAll($column = NULL)
     {
         $handle = $this->getAdapter()->query((string) $this);
-        return $this->getAdapter()->fetchAll($handle);
+        $result = $this->getAdapter()->fetchAll($handle);
+        return empty($column) ? $result : array_map(function ($row) use ($column) {
+            return $row[$column];
+        }, $result);
     }
 }
 
