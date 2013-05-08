@@ -10,37 +10,33 @@ namespace TE\Mvc\Service\Db;
 abstract class AbstractCachingTable extends AbstractTable
 {
     /**
-     * setCache 
+     * 设置缓存
      * 
-     * @param mixed $key 
+     * @param string $key 
      * @param array $data 
-     * @access protected
      */
     abstract protected function setCache($key, array $data);
 
     /**
-     * getCache  
+     * 获取缓存
      * 
-     * @param mixed $key 
-     * @access protected
+     * @param string $key 
      * @return mixed
      */
     abstract protected function getCache($key);
 
     /**
-     * getCacheMultiple
+     * 获取多个缓存
      * 
      * @param array $keys
-     * @access protected
      * @return array
      */
     abstract protected function getCacheMultiple(array $keys);
 
     /**
-     * deleteCache  
+     * 删除缓存
      * 
-     * @param mixed $key 
-     * @access protected
+     * @param string $key 
      */
     abstract protected function deleteCache($key);
 
