@@ -201,7 +201,12 @@ class Select extends AbstractQuery
     {
         $handle = $this->getAdapter()->query((string) $this);
         $result = $this->getAdapter()->fetchOne($handle);
-        return empty($column) ? $result : $result[$column];
+
+        if (empty($result)) {
+            return NULL;
+        } else {
+            return empty($column) ? $result : $result[$column];
+        }
     }
 
     /**
@@ -214,9 +219,14 @@ class Select extends AbstractQuery
     {
         $handle = $this->getAdapter()->query((string) $this);
         $result = $this->getAdapter()->fetchAll($handle);
-        return empty($column) ? $result : array_map(function ($row) use ($column) {
-            return $row[$column];
-        }, $result);
+
+        if (empty($result)) {
+            return array();
+        } else {
+            return empty($column) ? $result : array_map(function ($row) use ($column) {
+                return $row[$column];
+            }, $result);
+        }
     }
 }
 
