@@ -2,7 +2,7 @@
 
 namespace TE\Mvc\Action\Interceptor;
 
-use TE\Mvc\Action\ActionEvent as Event;
+use TE\Mvc\Action\ActionEvent;
 
 /**
  * InterceptorInterface  
@@ -14,12 +14,10 @@ use TE\Mvc\Action\ActionEvent as Event;
 interface InterceptorInterface
 {
     /**
-     * intercept  
-     * 
-     * @param Event $event 
-     * @access public
-     * @return void
+     * intercept
+     *
+     * @param ActionEvent $event
      */
-    public function intercept(Event $event);
+    public function intercept(ActionEvent $event);
 }
 
