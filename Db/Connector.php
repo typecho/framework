@@ -69,12 +69,12 @@ class Connector
     /**
      * select  
      * 
-     * @param mixed $table 
-     * @param array $columns 
+     * @param string $table
+     * @param mixed $columns
      * @access public
      * @return Select
      */
-    public function select($table, array $columns = array())
+    public function select($table, $columns = NULL)
     {
         return new Select($this->_adapter, $this->_prefix, $table, $columns);
     }
@@ -82,7 +82,7 @@ class Connector
     /**
      * update  
      * 
-     * @param mixed $table 
+     * @param string $table
      * @access public
      * @return Update
      */
@@ -94,7 +94,7 @@ class Connector
     /**
      * delete  
      * 
-     * @param mixed $table 
+     * @param string $table
      * @access public
      * @return Delete
      */
@@ -106,7 +106,7 @@ class Connector
     /**
      * insert  
      * 
-     * @param mixed $table 
+     * @param string $table
      * @access public
      * @return Insert
      */
@@ -118,7 +118,7 @@ class Connector
     /**
      * query
      * 
-     * @param mixed $query
+     * @param string $query
      * @access public
      * @return Query
      */
