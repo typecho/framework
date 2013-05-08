@@ -10,7 +10,7 @@ namespace TE\Cache;
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class Redis implements CacheInterface
+class Redis implements CacheInterface, KVCacheInterface, HashCacheInterface
 {
     /**
      * redis对象
@@ -38,7 +38,7 @@ class Redis implements CacheInterface
      * @param string $key
      * @param array  $data
      */
-    public function set($key, array $data)
+    public function setHash($key, array $data)
     {
         $this->_redis->hMSet($key, $data);
     }
@@ -49,9 +49,57 @@ class Redis implements CacheInterface
      * @param string $key
      * @return mixed
      */
-    public function get($key)
+    public function getHash($key)
     {
         return $this->_redis->hGetAll($key);
+    }
+
+    /**
+     * 获取多个缓存
+     *
+     * @param array $keys
+     * @return array
+     */
+    public function getMultipleHash(array $keys)
+    {
+        $pipeline = $this->_redis->pipeline();
+        foreach ($keys as $key) {
+            $pipeline->hGetAll($key);
+        }
+
+        return $pipeline->exec();
+    }
+
+    /**
+     * 删除缓存
+     *
+     * @param string $key
+     */
+    public function removeHash($key)
+    {
+        return $this->_redis->delete($key);
+    }
+
+    /**
+     * 设置缓存
+     *
+     * @param string $key
+     * @param string $data
+     */
+    public function set($key, $data)
+    {
+        return $this->_redis->set($key, $data);
+    }
+
+    /**
+     * 获取缓存
+     *
+     * @param string $key
+     * @return string
+     */
+    public function get($key)
+    {
+        return $this->_redis->get($key);
     }
 
     /**
@@ -64,7 +112,7 @@ class Redis implements CacheInterface
     {
         $pipeline = $this->_redis->pipeline();
         foreach ($keys as $key) {
-            $pipeline->hGetAll($key);
+            $pipeline->get($key);
         }
 
         return $pipeline->exec();
