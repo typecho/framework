@@ -13,7 +13,7 @@ use TE\Mvc\Base;
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-abstract class AbstractData extends Base implements \Iterator, \Countable, \ArrayAccess, \Traversable
+abstract class AbstractData extends Base implements \Iterator, \Countable, \ArrayAccess
 {
     /**
      * 原始数据
