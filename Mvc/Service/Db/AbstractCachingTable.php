@@ -37,7 +37,7 @@ abstract class AbstractCachingTable extends AbstractTable
     {
         $affectedRows = parent::set($key, $data);
         if ($affectedRows > 0) {
-            $this->serviceDbCache->setHash($key, $data);
+            $this->serviceDbCache->setHash($this->getTable() . ':' . $key, $data);
         }
 
         return $affectedRows;
@@ -56,7 +56,7 @@ abstract class AbstractCachingTable extends AbstractTable
             $data = $this->serviceDb->select($this->getTable())
                 ->where($this->getPrimaryKey() . ' = ?', $insertId)
                 ->fetchOne();
-            $this->serviceDbCache->setHash($insertId, $data);
+            $this->serviceDbCache->setHash($this->getTable() . ':' . $insertId, $data);
         }
 
         return $insertId;
@@ -72,7 +72,7 @@ abstract class AbstractCachingTable extends AbstractTable
     {
         $affectedRows = parent::remove($key);
         if ($affectedRows > 0) {
-            $this->serviceDbCache->removeHash($key);
+            $this->serviceDbCache->removeHash($this->getTable() . ':' . $key);
         }
 
         return $affectedRows;
@@ -92,7 +92,7 @@ abstract class AbstractCachingTable extends AbstractTable
             $cached = parent::get($key);
             if (!empty($cached)) {
                 $cached = $cached->getOriginalData();
-                $this->serviceDbCache->setHash($key, $cached);
+                $this->serviceDbCache->setHash($this->getTable() . ':' . $key, $cached);
             }
         }
 
@@ -129,6 +129,7 @@ abstract class AbstractCachingTable extends AbstractTable
 
             foreach ($missed as $key => $val) {
                 $cached[$key] = $data[$index];
+                $this->serviceDbCache->setHash($this->getTable() . ':' . $val, $data[$index]);
                 $index ++;
             }
         }
