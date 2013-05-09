@@ -96,14 +96,10 @@ abstract class AbstractCachingTable extends AbstractTable
         if (is_string($columns)) {
             return $cached[$columns];
         } else if (is_array($columns)) {
-            return array_filter($cached, function () use (&$cached, $columns) {
-                $key = key($cached);
-                next($cached);
-                return in_array($key, $columns);
-            });
+            $cached = array_intersect_key($cached, array_flip($columns));
         }
 
-        return $cached;
+        return $this->fetchData($cached);
     }
 
     /**
@@ -139,16 +135,13 @@ abstract class AbstractCachingTable extends AbstractTable
                 return $item[$columns];
             }, $cached);
         } else if (is_array($columns)) {
-            return array_map(function ($item) use ($columns) {
-                return array_filter($item, function () use (&$item, $columns) {
-                    $key = key($item);
-                    next($item);
-                    return in_array($key, $columns);
-                });
+            $columns = array_flip($columns);
+            $cached = array_map(function ($item) use ($columns) {
+                return array_intersect_key($item,$columns);
             }, $cached);
         }
 
-        return $cached;
+        return $this->fetchData($cached);
     }
 }
 

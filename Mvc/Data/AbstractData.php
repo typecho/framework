@@ -13,8 +13,15 @@ use TE\Mvc\Base;
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-abstract class AbstractData extends Base implements \Iterator, \Countable
+abstract class AbstractData extends Base implements \Iterator, \Countable, \ArrayAccess, \Traversable
 {
+    /**
+     * 原始数据
+     *
+     * @var array
+     */
+    private $_originalData = array();
+
     /**
      * _data  
      * 
@@ -57,6 +64,7 @@ abstract class AbstractData extends Base implements \Iterator, \Countable
         }
         
         $this->_multi = is_array(current($data)) && is_int(key($data));
+        $this->_originalData = $data;
 
         if ($this->_multi) {
             $this->_data = $data;
@@ -233,6 +241,77 @@ abstract class AbstractData extends Base implements \Iterator, \Countable
     {
         return $this->_length;
     }
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Whether a offset exists
+     *
+     * @link http://php.net/manual/en/arrayaccess.offsetexists.php
+     * @param mixed $offset <p>
+     *                      An offset to check for.
+     * </p>
+     * @return boolean true on success or false on failure.
+     * </p>
+     * <p>
+     *       The return value will be casted to boolean if non-boolean was returned.
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->_originalData[$offset]);
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Offset to retrieve
+     *
+     * @link http://php.net/manual/en/arrayaccess.offsetget.php
+     * @param mixed $offset <p>
+     *                      The offset to retrieve.
+     * </p>
+     * @return mixed Can return all value types.
+     */
+    public function offsetGet($offset)
+    {
+        return isset($this->_originalData[$offset]) ? $this->_originalData[$offset] : NULL;
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Offset to set
+     *
+     * @link http://php.net/manual/en/arrayaccess.offsetset.php
+     * @param mixed $offset <p>
+     *                      The offset to assign the value to.
+     * </p>
+     * @param mixed $value  <p>
+     *                      The value to set.
+     * </p>
+     * @return void
+     */
+    public function offsetSet($offset, $value)
+    {
+        if (null === $offset) {
+            $this->_originalData[] = $value;
+        } else {
+            $this->_originalData[$offset] = $value;
+        }
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Offset to unset
+     *
+     * @link http://php.net/manual/en/arrayaccess.offsetunset.php
+     * @param mixed $offset <p>
+     *                      The offset to unset.
+     * </p>
+     * @return void
+     */
+    public function offsetUnset($offset)
+    {
+        unset($this->_originalData[$offset]);
+    }
+
 
     /**
      * last 

@@ -34,6 +34,11 @@ abstract class AbstractTable extends Base
     private $_primaryKey;
 
     /**
+     * @var string
+     */
+    private $_dataClassName;
+
+    /**
      * setServiceDb
      * 
      * @param Connector $serviceDb
@@ -46,7 +51,39 @@ abstract class AbstractTable extends Base
     }
 
     /**
-     * setTable
+     * 绑定取出器
+     *
+     * @param $dataClassName
+     * @throws \Exception
+     */
+    public function bindFetchData($dataClassName)
+    {
+        if (!is_subclass_of($dataClassName, 'TE\Mvc\Data\AbstractData')) {
+            throw new \Exception($dataClassName . ' is not a data class');
+        }
+
+        $this->_dataClassName = $dataClassName;
+    }
+
+    /**
+     * fetchData
+     *
+     * @param mixed $data
+     * @return mixed
+     */
+    public function fetchData($data)
+    {
+        if (empty($this->_dataClassName)
+            || (is_object($data) && is_subclass_of($data, 'TE\Mvc\Data\AbstractData'))
+            || !is_array($data) || (is_int(key($data)) && !is_array(current($data)))) {
+            return $data;
+        }
+
+        return new $this->_dataClassName($data);
+    }
+
+    /**
+     * 设置表明
      *
      * @param $table
      */
@@ -66,7 +103,7 @@ abstract class AbstractTable extends Base
     }
 
     /**
-     * setPrimaryKey  
+     * 设置主键
      * 
      * @param string $primaryKey 
      */
@@ -139,7 +176,7 @@ abstract class AbstractTable extends Base
             ->where($this->getPrimaryKey() . ' = ?', $key)
             ->fetchOne();
 
-        return is_string($columns) ? $result[$columns] : $result;
+        return is_string($columns) ? $result[$columns] : $this->fetchData($result);
     }
 
     /**
@@ -157,7 +194,7 @@ abstract class AbstractTable extends Base
 
         return is_string($columns) ? array_map(function ($row) use ($columns) {
             return $row[$columns];
-        }, $result) : $result;
+        }, $result) : $this->fetchData($result);
     }
 
     /**
@@ -175,7 +212,7 @@ abstract class AbstractTable extends Base
             ->limit(1)
             ->fetchOne();
 
-        return is_string($columns) ? $result[$columns] : $result;
+        return is_string($columns) ? $result[$columns] : $this->fetchData($result);
     }
 }
 
