@@ -30,11 +30,12 @@ abstract class AbstractCachingTable extends AbstractTable
      * set
      *
      * @param string $key
-     * @param array $data
+     * @param mixed $data
      * @return int
      */
-    public function set($key, array $data)
+    public function set($key, $data)
     {
+        $data = $this->castData($data);
         $affectedRows = parent::set($key, $data);
         if ($affectedRows > 0) {
             $this->serviceDbCache->setHash($this->getTable() . ':' . $key, $data);
@@ -46,11 +47,12 @@ abstract class AbstractCachingTable extends AbstractTable
     /**
      * add
      *
-     * @param array $data
+     * @param mixed $data
      * @return mixed
      */
-    public function add(array $data)
+    public function add($data)
     {
+        $data = $this->castData($data);
         $insertId = parent::add($data);
         if ($insertId) {
             $data = $this->serviceDb->select($this->getTable())
@@ -91,7 +93,7 @@ abstract class AbstractCachingTable extends AbstractTable
         if (empty($cached)) {
             $cached = parent::get($key);
             if (!empty($cached)) {
-                $cached = $cached->getOriginalData();
+                $cached = $this->castData($cached);
                 $this->serviceDbCache->setHash($this->getTable() . ':' . $key, $cached);
             }
         }

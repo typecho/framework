@@ -83,6 +83,22 @@ abstract class AbstractTable extends Base
     }
 
     /**
+     * castData
+     *
+     * @param $data
+     * @return array
+     */
+    public function castData($data)
+    {
+        if (empty($this->_dataClassName)
+            || !is_subclass_of($data, 'TE\Mvc\Data\AbstractData')) {
+            return $data;
+        }
+
+        return $data->getOriginalData();
+    }
+
+    /**
      * 设置表明
      *
      * @param $table
@@ -125,12 +141,13 @@ abstract class AbstractTable extends Base
     /**
      * add
      *
-     * @param array $data
+     * @param mixed $data
      * @return mixed
      */
-    public function add(array $data)
+    public function add($data)
     {
         // 插入数据
+        $data = $this->castData($data);
         $key = $this->getPrimaryKey();
         $insertId = $this->serviceDb->insert($this->getTable())->values($data)->exec();
         return isset($data[$key]) ? $data[$key] : $insertId;
@@ -140,12 +157,13 @@ abstract class AbstractTable extends Base
      * set
      *
      * @param       $key
-     * @param array $data
+     * @param mixed $data
      * @return int
      */
-    public function set($key, array $data)
+    public function set($key, $data)
     {
-        return $this->serviceDb->update($this->getTable())->setMultiple($data)
+        return $this->serviceDb->update($this->getTable())
+            ->setMultiple($this->castData($data))
             ->where($this->getPrimaryKey() . ' = ?', $key)
             ->exec();
     }
