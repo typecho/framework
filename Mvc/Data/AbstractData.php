@@ -77,6 +77,26 @@ abstract class AbstractData extends Base implements \Iterator, \Countable, \Arra
         parent::__construct();
         $this->_data = array_map(array($this, 'prepare'), $this->_data);
     }
+
+    /**
+     * getData
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->_data;
+    }
+
+    /**
+     * getOriginalData
+     *
+     * @return array
+     */
+    public function getOriginalData()
+    {
+        return $this->_originalData;
+    }
     
     /**
      * prepare  

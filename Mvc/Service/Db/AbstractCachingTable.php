@@ -88,9 +88,12 @@ abstract class AbstractCachingTable extends AbstractTable
     public function get($key, $columns = NULL)
     {
         $cached = $this->serviceDbCache->getHash($key);
-        if (false === $cached) {
+        if (empty($cached)) {
             $cached = parent::get($key);
-            $this->serviceDbCache->setHash($key, $cached);
+            if (!empty($cached)) {
+                $cached = $cached->getOriginalData();
+                $this->serviceDbCache->setHash($key, $cached);
+            }
         }
 
         if (is_string($columns)) {
@@ -115,7 +118,7 @@ abstract class AbstractCachingTable extends AbstractTable
         $missed = array();
 
         foreach ($cached as $key => $val) {
-            if (false === $val) {
+            if (empty($val)) {
                 $missed[$key] = $keys[$key];
             }
         }
