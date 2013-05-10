@@ -72,8 +72,12 @@ class Template extends AbstractView
         $_data = $this->vars;
         $_prefix = $this->_prefix;
 
-        $template = function ($_file) use ($_data, $_prefix) {
+        $template = function ($_file, array $_merge = NULL) use ($_data, $_prefix) {
             global $template;
+
+            if (!empty($_merge)) {
+                array_merge($_data, $_merge);
+            }
 
             extract($_data);
             $_files = is_array($_file) ? $_file : array($_file);
