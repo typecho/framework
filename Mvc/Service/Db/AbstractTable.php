@@ -194,6 +194,10 @@ abstract class AbstractTable extends Base
             ->where($this->getPrimaryKey() . ' = ?', $key)
             ->fetchOne();
 
+        if (empty($result)) {
+            return NULL;
+        }
+
         return is_string($columns) ? $result[$columns] : $this->fetchData($result);
     }
 
