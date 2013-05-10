@@ -38,7 +38,7 @@ abstract class AbstractCachingTable extends AbstractTable
         $data = $this->castData($data);
         $affectedRows = parent::set($key, $data);
         if ($affectedRows > 0) {
-            $this->serviceDbCache->setHash($this->getTable() . ':' . $key, $data);
+            $this->serviceDbCache->removeHash($this->getTable() . ':' . $key);
         }
 
         return $affectedRows;
