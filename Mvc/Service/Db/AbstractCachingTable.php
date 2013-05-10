@@ -101,6 +101,10 @@ abstract class AbstractCachingTable extends AbstractTable
             }
         }
 
+        if (empty($cached)) {
+            return NULL;
+        }
+
         if (is_string($columns)) {
             return $cached[$columns];
         } else if (is_array($columns)) {

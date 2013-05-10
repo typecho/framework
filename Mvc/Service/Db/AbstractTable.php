@@ -190,15 +190,9 @@ abstract class AbstractTable extends Base
      */
     public function get($key, $columns = NULL)
     {
-        $result = $this->serviceDb->select($this->getTable(), $columns)
+        return $this->fetchData($this->serviceDb->select($this->getTable(), $columns)
             ->where($this->getPrimaryKey() . ' = ?', $key)
-            ->fetchOne();
-
-        if (empty($result)) {
-            return NULL;
-        }
-
-        return is_string($columns) ? $result[$columns] : $this->fetchData($result);
+            ->fetchOne(is_string($columns) ? $columns : NULL));
     }
 
     /**
@@ -206,17 +200,13 @@ abstract class AbstractTable extends Base
      *
      * @param array $keys
      * @param mixed $columns
-     * @return array
+     * @return mixed
      */
     public function getMultiple(array $keys, $columns = NULL)
     {
-        $result = $this->serviceDb->select($this->getTable(), $columns)
+        return $this->fetchData($this->serviceDb->select($this->getTable(), $columns)
             ->where($this->getPrimaryKey() . ' IN ?', $keys)
-            ->fetchAll();
-
-        return is_string($columns) ? array_map(function ($row) use ($columns) {
-            return $row[$columns];
-        }, $result) : $this->fetchData($result);
+            ->fetchAll(is_string($columns) ? $columns : NULL));
     }
 
     /**
@@ -229,12 +219,10 @@ abstract class AbstractTable extends Base
      */
     public function findBy($key, $value, $columns = NULL)
     {
-        $result = $this->serviceDb->select($this->getTable(), $columns)
+        return $this->fetchData($this->serviceDb->select($this->getTable(), $columns)
             ->where("{$key} = ?", $value)
             ->limit(1)
-            ->fetchOne();
-
-        return is_string($columns) ? $result[$columns] : $this->fetchData($result);
+            ->fetchOne(is_string($columns) ? $columns : NULL));
     }
 }
 
