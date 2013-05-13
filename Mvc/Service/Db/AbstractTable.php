@@ -44,8 +44,7 @@ abstract class AbstractTable extends Base
     {
         foreach ($key as $index => $where) {
             if (is_int($index) && is_array($where)) {
-                list ($column, $op, $value) = $where;
-                $query->where("{$column} {$op} ?", $value);
+                call_user_func_array(array($query, 'where'), $where);
             } else {
                 $query->where("{$index} = ?", $where);
             }
