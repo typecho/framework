@@ -93,26 +93,24 @@ abstract class Base
     private function injectProperties($class, array $shared)
     {
         $props = $this->getAvailableProperties($class);
-        $result = array();
 
         // 检查属性是否可以注入
-        foreach ($props as $prop) {
-            $setter = 'set' . ucfirst($prop);
-
-            if (isset($shared[$prop]) && method_exists($this, $setter)) {
+        foreach ($props as $name => $prop) {
+            if (isset($shared[$name])) {
                 // 首先检测交叉依赖
-                if (in_array($prop, self::$_holdingObjectsStack)) {
-                    throw new \Exception('Cross dependencies found in ' . $prop);
+                if (in_array($name, self::$_holdingObjectsStack)) {
+                    throw new \Exception('Cross dependencies found in ' . $name);
                 }
 
                 // 写入对象池
-                if (!isset(self::$_injectedObjectsPool[$prop])) {
-                    array_push(self::$_holdingObjectsStack, $prop);
-                    self::$_injectedObjectsPool[$prop] = $this->createInstance($shared[$prop]);
+                if (!isset(self::$_injectedObjectsPool[$name])) {
+                    array_push(self::$_holdingObjectsStack, $name);
+                    self::$_injectedObjectsPool[$name] = $this->createInstance($shared[$name]);
                     array_pop(self::$_holdingObjectsStack);
                 }
-                
-                $this->{$setter}(self::$_injectedObjectsPool[$prop]);
+
+                $prop->setAccessible(true);
+                $prop->setValue(self::$_injectedObjectsPool[$name]);
             }
         }
     }
@@ -135,7 +133,7 @@ abstract class Base
         foreach ($props as $prop) {
             $name = $prop->getName();
             if ($prop->isDefault() && 0 !== strpos($name, '_')) {
-                $result[] = $name;
+                $result[$name] = $prop;
             }
         }
 
