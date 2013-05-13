@@ -117,7 +117,7 @@ abstract class Base
                 }
 
                 $prop->setAccessible(true);
-                $prop->setValue(self::$_injectedObjectsPool[$name]);
+                $prop->setValue($this, self::$_injectedObjectsPool[$name]);
             }
         }
     }
@@ -137,7 +137,6 @@ abstract class Base
         foreach ($props as $prop) {
             $name = $prop->getName();
             if ($prop->isDefault() && 0 !== strpos($name, '_')
-                && NULL === $prop->getValue()
                 && !isset($this->_injectedProperties[$name])) {
                 $result[$name] = $prop;
                 $this->_injectedProperties[$name] = true;
