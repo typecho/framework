@@ -256,5 +256,51 @@ abstract class AbstractTable extends Base
 
         return $select->limit(1)->fetchOne(is_string($columns) ? $columns : NULL);
     }
+
+    /**
+     * listBy
+     *
+     * @param array $conditions
+     * @param int   $page
+     * @param int   $pageSize
+     * @param mixed $order
+     * @param mixed $columns
+     * @return array
+     */
+    public function listBy(array $conditions, $page, $pageSize, $order = NULL, $columns = NULL)
+    {
+        $select = $this->serviceDb->select($this->getTable(), $columns)
+            ->page($page, $pageSize);
+        $this->parseWhere($select, $conditions);
+
+        if (!empty($order)) {
+            if (is_array($order)) {
+                list ($column, $sort) = $order;
+                if ('ASC' == $sort) {
+                    $select->orderAsc($column);
+                } else {
+                    $select->orderDesc($column);
+                }
+            } else {
+                $select->orderAsc($order);
+            }
+        }
+
+        return $select->fetchAll(is_string($columns) ? $columns : NULL);
+    }
+
+    /**
+     * countBy
+     *
+     * @param array $conditions
+     * @return int
+     */
+    public function countBy(array $conditions)
+    {
+        $select = $this->serviceDb->select($this->getTable(), array('COUNT(*)' => '_count_num'));
+        $this->parseWhere($select, $conditions);
+
+        return $select->fetchOne('_count_num');
+    }
 }
 
