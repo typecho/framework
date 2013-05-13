@@ -37,6 +37,13 @@ abstract class Base
     private static $_injectiveObjects = array();
 
     /**
+     * 已经注入的属性
+     *
+     * @var array
+     */
+    private $_injectedProperties = array();
+
+    /**
      * __construct  
      * 
      * @access public
@@ -74,23 +81,23 @@ abstract class Base
      */
     private function initChainedClass()
     {
-        $class = $this;
+        $class = new \ReflectionClass($this);
         $shared = self::$_injectiveObjects;
         
         do {
             $this->injectProperties($class, $shared);
-            $class = get_parent_class($class);
-        } while ('TE\Mvc\Base' != ltrim($class, '\\') && !empty($class));
+            $class = $class->getParentClass();
+        } while (!empty($class) && 'TE\Mvc\Base' != $class->getName());
     }
 
     /**
      * 根据给出类获取可以注入的属性列表
      *
-     * @param       $class      可以是对象也可以是类名
-     * @param array $shared
+     * @param \ReflectionClass  $class      可以是对象也可以是类名
+     * @param array             $shared
      * @throws \Exception
      */
-    private function injectProperties($class, array $shared)
+    private function injectProperties(\ReflectionClass $class, array $shared)
     {
         $props = $this->getAvailableProperties($class);
 
@@ -104,9 +111,9 @@ abstract class Base
 
                 // 写入对象池
                 if (!isset(self::$_injectedObjectsPool[$name])) {
-                    array_push(self::$_holdingObjectsStack, $name);
+                    self::$_holdingObjectsStack[] = $name;
                     self::$_injectedObjectsPool[$name] = $this->createInstance($shared[$name]);
-                    array_pop(self::$_holdingObjectsStack);
+                    self::$_holdingObjectsStack = array_slice(self::$_holdingObjectsStack, 0, -1);
                 }
 
                 $prop->setAccessible(true);
@@ -118,22 +125,22 @@ abstract class Base
     /**
      * getAvailableProperties  
      * 
-     * @param mixed $class 
+     * @param \ReflectionClass $class
      * @access private
      * @return array
      */
-    private function getAvailableProperties($class)
+    private function getAvailableProperties(\ReflectionClass $class)
     {
-        $reflect = new \ReflectionClass($class);
-        $props = $reflect->getProperties(is_object($class) ? \ReflectionProperty::IS_PUBLIC 
-            | \ReflectionProperty::IS_PROTECTED | \ReflectionProperty::IS_PRIVATE
-            : \ReflectionProperty::IS_PRIVATE);
+        $props = $class->getProperties();
         $result = array();
 
         foreach ($props as $prop) {
             $name = $prop->getName();
-            if ($prop->isDefault() && 0 !== strpos($name, '_')) {
+            if ($prop->isDefault() && 0 !== strpos($name, '_')
+                && NULL === $prop->getValue()
+                && !isset($this->_injectedProperties[$name])) {
                 $result[$name] = $prop;
+                $this->_injectedProperties[$name] = true;
             }
         }
 
