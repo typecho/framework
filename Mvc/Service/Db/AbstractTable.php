@@ -268,9 +268,12 @@ abstract class AbstractTable extends Base
      */
     public function listBy(array $conditions, $page, $pageSize, $order = NULL, $columns = NULL)
     {
-        $select = $this->serviceDb->select($this->getTable(), $columns)
-            ->page($page, $pageSize);
+        $select = $this->serviceDb->select($this->getTable(), $columns);
         $this->parseWhere($select, $conditions);
+
+        if ($pageSize > 0) {
+            $select->page($page, $pageSize);
+        }
 
         if (!empty($order)) {
             if (is_array($order)) {
