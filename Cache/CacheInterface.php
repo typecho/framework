@@ -17,5 +17,36 @@ interface CacheInterface
      * @return mixed
      */
     public function getCache();
+
+    /**
+     * 设置缓存
+     *
+     * @param string $key
+     * @param string $data
+     */
+    public function set($key, $data);
+
+    /**
+     * 获取缓存
+     *
+     * @param string $key
+     * @return string
+     */
+    public function get($key);
+
+    /**
+     * 获取多个缓存
+     *
+     * @param array $keys
+     * @return array
+     */
+    public function getMultiple(array $keys);
+
+    /**
+     * 删除缓存
+     *
+     * @param string $key
+     */
+    public function remove($key);
 }
 

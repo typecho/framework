@@ -2,6 +2,7 @@
 
 namespace TE\Mvc\Service\Db;
 
+use TE\Db\Query\AbstractQuery;
 use TE\Mvc\Base;
 use TE\Db\Connector;
 
@@ -34,9 +35,68 @@ abstract class AbstractTable extends Base
     private $_primaryKey;
 
     /**
-     * @var string
+     * parseWhere
+     *
+     * @param AbstractQuery $query
+     * @param array $key
      */
-    private $_dataClassName;
+    private function parseWhere(AbstractQuery $query, array $key)
+    {
+        foreach ($key as $index => $where) {
+            if (is_int($index) && is_array($where)) {
+                list ($column, $op, $value) = $where;
+                $query->where("{$column} {$op} ?", $value);
+            } else {
+                $query->where("{$index} = ?", $where);
+            }
+        }
+    }
+
+    /**
+     * parseKey
+     *
+     * @param AbstractQuery $query
+     * @param               $key
+     * @throws \Exception
+     */
+    private function parseKey(AbstractQuery $query, $key)
+    {
+        $pk = $this->getPrimaryKey();
+        if (is_array($pk)) {
+            if (!is_array($key) || count($pk) != count($key)) {
+                throw new \Exception('Primary key not matched');
+            }
+
+            foreach ($pk as $index => $column) {
+                $query->where("{$column} = ?", $key[$index]);
+            }
+        } else {
+            $query->where("{$pk} = ?", $key);
+        }
+    }
+
+    /**
+     * parseKeys
+     *
+     * @param AbstractQuery $query
+     * @param array         $keys
+     */
+    private function parseKeys(AbstractQuery $query, array $keys)
+    {
+        $pk = $this->getPrimaryKey();
+        if (is_array($pk)) {
+            $condition = implode(' AND ', array_map(function ($key) {
+                return "{$key} = ?";
+            }, $pk));
+
+            foreach ($keys as $key) {
+                array_unshift($key, $condition);
+                call_user_func_array(array($query, 'orWhere'), $key);
+            }
+        } else {
+            $query->where("{$pk} IN ?", $keys);
+        }
+    }
 
     /**
      * setServiceDb
@@ -48,54 +108,6 @@ abstract class AbstractTable extends Base
     public function setServiceDb(Connector $serviceDb)
     {
         $this->serviceDb = $serviceDb;
-    }
-
-    /**
-     * 绑定取出器
-     *
-     * @param $dataClassName
-     * @throws \Exception
-     */
-    public function bindFetchData($dataClassName)
-    {
-        if (!is_subclass_of($dataClassName, 'TE\Mvc\Data\AbstractData')) {
-            throw new \Exception($dataClassName . ' is not a data class');
-        }
-
-        $this->_dataClassName = $dataClassName;
-    }
-
-    /**
-     * fetchData
-     *
-     * @param mixed $data
-     * @return mixed
-     */
-    public function fetchData($data)
-    {
-        if (empty($this->_dataClassName)
-            || (is_object($data) && is_subclass_of($data, 'TE\Mvc\Data\AbstractData'))
-            || !is_array($data) || (is_int(key($data)) && !is_array(current($data)))) {
-            return $data;
-        }
-
-        return new $this->_dataClassName($data);
-    }
-
-    /**
-     * castData
-     *
-     * @param $data
-     * @return array
-     */
-    public function castData($data)
-    {
-        if (empty($this->_dataClassName)
-            || !is_subclass_of($data, 'TE\Mvc\Data\AbstractData')) {
-            return $data;
-        }
-
-        return $data->getOriginalData();
     }
 
     /**
@@ -141,31 +153,40 @@ abstract class AbstractTable extends Base
     /**
      * add
      *
-     * @param mixed $data
+     * @param array $data
      * @return mixed
      */
-    public function add($data)
+    public function add(array $data)
     {
         // 插入数据
-        $data = $this->castData($data);
         $key = $this->getPrimaryKey();
         $insertId = $this->serviceDb->insert($this->getTable())->values($data)->exec();
-        return isset($data[$key]) ? $data[$key] : $insertId;
+
+        if (is_array($key)) {
+            $result = array();
+            foreach ($key as $column) {
+                $result[] = isset($data[$column]) ? $data[$column] : NULL;
+            }
+
+            return $result;
+        } else {
+            return isset($data[$key]) ? $data[$key] : $insertId;
+        }
     }
 
     /**
      * set
      *
      * @param       $key
-     * @param mixed $data
+     * @param array $data
      * @return int
      */
-    public function set($key, $data)
+    public function set($key, array $data)
     {
-        return $this->serviceDb->update($this->getTable())
-            ->setMultiple($this->castData($data))
-            ->where($this->getPrimaryKey() . ' = ?', $key)
-            ->exec();
+        $update = $this->serviceDb->update($this->getTable());
+        $this->parseKey($update, $key);
+
+        return $update->setMultiple($data)->exec();
     }
 
     /**
@@ -176,9 +197,10 @@ abstract class AbstractTable extends Base
      */
     public function remove($key)
     {
-        return $this->serviceDb->delete($this->getTable())
-            ->where($this->getPrimaryKey() . ' = ?', $key)
-            ->exec();
+        $delete = $this->serviceDb->delete($this->getTable());
+        $this->parseKey($delete, $key);
+
+        return $delete->exec();
     }
 
     /**
@@ -190,9 +212,10 @@ abstract class AbstractTable extends Base
      */
     public function get($key, $columns = NULL)
     {
-        return $this->fetchData($this->serviceDb->select($this->getTable(), $columns)
-            ->where($this->getPrimaryKey() . ' = ?', $key)
-            ->fetchOne(is_string($columns) ? $columns : NULL));
+        $select = $this->serviceDb->select($this->getTable(), $columns);
+        $this->parseKey($select, $key);
+
+        return $select->fetchOne(is_string($columns) ? $columns : NULL);
     }
 
     /**
@@ -204,9 +227,10 @@ abstract class AbstractTable extends Base
      */
     public function getMultiple(array $keys, $columns = NULL)
     {
-        return $this->fetchData($this->serviceDb->select($this->getTable(), $columns)
-            ->where($this->getPrimaryKey() . ' IN ?', $keys)
-            ->fetchAll(is_string($columns) ? $columns : NULL));
+        $select = $this->serviceDb->select($this->getTable(), $columns);
+        $this->parseKeys($select, $keys);
+
+        return $select->fetchAll(is_string($columns) ? $columns : NULL);
     }
 
     /**
@@ -217,12 +241,20 @@ abstract class AbstractTable extends Base
      * @param mixed $columns
      * @return mixed
      */
-    public function findBy($key, $value, $columns = NULL)
+    public function findBy($key, $value = NULL, $columns = NULL)
     {
-        return $this->fetchData($this->serviceDb->select($this->getTable(), $columns)
-            ->where("{$key} = ?", $value)
-            ->limit(1)
-            ->fetchOne(is_string($columns) ? $columns : NULL));
+        if (is_array($key)) {
+            $columns = $value;
+            $select = $this->serviceDb->select($this->getTable(), $columns);
+            $this->parseWhere($select, $key);
+        } else {
+            $select = $this->serviceDb->select($this->getTable(), $columns);
+            $this->parseWhere($select, array(
+                $key    =>  $value
+            ));
+        }
+
+        return $select->limit(1)->fetchOne(is_string($columns) ? $columns : NULL);
     }
 }
 

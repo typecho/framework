@@ -10,7 +10,7 @@ namespace TE\Cache;
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class Redis implements CacheInterface, KVCacheInterface, HashCacheInterface
+class Redis implements HashCacheInterface
 {
     /**
      * redis对象

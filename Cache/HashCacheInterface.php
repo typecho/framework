@@ -9,7 +9,7 @@ namespace TE\Cache;
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-interface HashCacheInterface
+interface HashCacheInterface extends CacheInterface
 {
     /**
      * 设置缓存
