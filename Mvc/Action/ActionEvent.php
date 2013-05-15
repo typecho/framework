@@ -80,7 +80,9 @@ class ActionEvent
 
         if (empty($interceptor)) {
             foreach ($this->_data as $key => $val) {
-                $this->_action->{$key} = $val;
+                if (NULL === $this->_action->{$key}) {
+                    $this->_action->{$key} = $val;
+                }
             }
 
             $result = $this->_action->execute();
