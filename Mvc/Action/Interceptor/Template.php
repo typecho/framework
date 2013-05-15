@@ -38,6 +38,8 @@ class Template implements InterceptorInterface
 
         if ('template' == $name) {
             $params[1] = $this->_path;
+        } else if (('notFound' == $name || 'error' == $name) && !empty($params[1])) {
+            $params[2] = $this->_path;
         }
 
         $result->setParams($params);

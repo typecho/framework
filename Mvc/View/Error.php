@@ -13,7 +13,7 @@ use TE\Mvc\Action\ActionEvent as Event;
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class Error extends AbstractView
+class Error extends Template
 {
     /**
      * _content 
@@ -24,31 +24,19 @@ class Error extends AbstractView
     private $_content;
 
     /**
-     * _template  
-     * 
-     * @var mixed
-     * @access private
-     */
-    private $_template;
-
-    /**
-     * _data  
-     * 
-     * @var mixed
-     * @access private
-     */
-    private $_data;
-
-    /**
      * @param Event  $event
      * @param string $content   错误信息
      * @param null   $template  错误模板
+     * @param string $prefix    模板前缀
      */
-    public function __construct(Event $event, $content = 'Error found', $template = NULL)
+    public function __construct(Event $event, $content = 'Error found', $template = NULL, $prefix = '')
     {
-        $this->_data = $event->getData();
-        $this->_data['content'] = $content;
-        $this->_template = $template;
+        if (!empty($template)) {
+            $event->setData('content', $content);
+            parent::__construct($event, $template, $prefix);
+        } else {
+            $this->_content = $content;
+        }
     }
 
     /**
@@ -71,11 +59,10 @@ class Error extends AbstractView
      */
     public function render()
     {
-        if ($this->_template && file_exists($this->_template)) {
-            extract($this->_data);
-            require $this->_template;
+        if (!empty($this->_content)) {
+            echo $this->_content;
         } else {
-            echo $this->_data['content'];
+            parent::render();
         }
     }
 }
