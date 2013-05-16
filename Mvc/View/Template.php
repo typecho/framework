@@ -76,7 +76,7 @@ class Template extends AbstractView
             global $template;
 
             if (!empty($_merge)) {
-                array_merge($_data, $_merge);
+                $_data = array_merge($_data, $_merge);
             }
 
             extract($_data);
