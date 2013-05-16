@@ -423,8 +423,7 @@ abstract class AbstractData extends Base implements \Iterator, \Countable, \Arra
                         } else {
                             if (strpos($field, ':')) {
                                 $args = explode(':', $field);
-                                $field = array_shift($args);
-                                $method = 'get' . $field;
+                                $method = 'get' . ucfirst(array_shift($args));
 
                                 $row[$field] = call_user_func_array(array($val, $method), $args);
                             } else {
