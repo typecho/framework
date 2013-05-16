@@ -400,10 +400,13 @@ abstract class AbstractData extends Base implements \Iterator, \Countable, \Arra
     public function toArray($fields = NULL)
     {
         $result = array();
+        $lastPost = $this->_pos;
         
         if (empty($fields)) {
             $result = $this->_data;
         } else {
+            $this->_pos = 0;
+
             foreach ($this as $val) {
                 if (is_string($fields)) {
                     if (strpos($fields, ':')) {
@@ -436,7 +439,7 @@ abstract class AbstractData extends Base implements \Iterator, \Countable, \Arra
                 }
             }
             
-            $this->_pos = 0;
+            $this->_pos = $lastPost;
         }
 
         return $this->_multi ? $result : array_pop($result);
