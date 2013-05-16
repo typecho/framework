@@ -83,7 +83,7 @@ class Template extends AbstractView
             $_files = is_array($_file) ? $_file : array($_file);
 
             foreach ($_files as $_file) {
-                $_file = $_prefix . $_file;
+                $_file = $_prefix . '/' . $_file;
                 if (file_exists($_file)) {
                     require $_file;
                     return;
