@@ -23,6 +23,16 @@ class Template implements InterceptorInterface
     private $_path = './template/';
 
     /**
+     * @var string
+     */
+    private $_notFound;
+
+    /**
+     * @var string
+     */
+    private $_error;
+
+    /**
      * intercept  
      * 
      * @param Event $event 
@@ -38,8 +48,16 @@ class Template implements InterceptorInterface
 
         if ('template' == $name) {
             $params[1] = $this->_path;
-        } else if (('notFound' == $name || 'error' == $name) && !empty($params[1])) {
+        } else if ('notFound' == $name) {
             $params[2] = $this->_path;
+            if (empty($params[1]) && !empty($this->_notFound)) {
+                $params[1] = $this->_notFound;
+            }
+        } else if ('error' == $name) {
+            $params[2] = $this->_path;
+            if (empty($params[1]) && !empty($this->_error)) {
+                $params[1] = $this->_error;
+            }
         }
 
         $result->setParams($params);
@@ -55,6 +73,26 @@ class Template implements InterceptorInterface
     public function setPath($path)
     {
         $this->_path = $path;
+    }
+
+    /**
+     * setNotFound
+     *
+     * @param $notFound
+     */
+    public function setNotFound($notFound)
+    {
+        $this->_notFound = $notFound;
+    }
+
+    /**
+     * setError
+     *
+     * @param $error
+     */
+    public function setError($error)
+    {
+        $this->_error = $error;
     }
 }
 
