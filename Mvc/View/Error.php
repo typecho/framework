@@ -2,8 +2,8 @@
 
 namespace TE\Mvc\View;
 
-use TE\Mvc\Server\Http\Response;
 use TE\Mvc\Action\ActionEvent as Event;
+use TE\Mvc\Server\ResponseInterface as Response;
 
 /**
  * Error 
@@ -42,7 +42,7 @@ class Error extends Template
     /**
      * prepareResponse  
      * 
-     * @param Response $response 
+     * @param Response $response
      * @access public
      * @return void
      */

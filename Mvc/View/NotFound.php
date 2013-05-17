@@ -2,7 +2,7 @@
 
 namespace TE\Mvc\View;
 
-use TE\Mvc\Server\Http\Response;
+use TE\Mvc\Server\ResponseInterface as Response;
 
 /**
  * 404错误页
@@ -17,7 +17,7 @@ class NotFound extends Error
     /**
      * prepareResponse  
      * 
-     * @param Response $response 
+     * @param Response $response
      * @access public
      * @return void
      */
