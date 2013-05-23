@@ -46,7 +46,8 @@ abstract class AbstractTable extends Base
             if (is_int($index) && is_array($where)) {
                 call_user_func_array(array($query, 'where'), $where);
             } else {
-                $query->where("{$index} = ?", $where);
+                call_user_func_array(array($query, 'where'), $key);
+                break;
             }
         }
     }
