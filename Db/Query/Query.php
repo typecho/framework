@@ -27,11 +27,10 @@ class Query extends AbstractQuery
     /**
      * where  
      * 
-     * @param mixed $condition 
      * @access public
      * @return Query
      */
-    public function where($condition)
+    public function where()
     {
         return $this;
     }
@@ -39,11 +38,10 @@ class Query extends AbstractQuery
     /**
      * orWhere  
      * 
-     * @param mixed $condition 
      * @access public
      * @return Query
      */
-    public function orWhere($condition)
+    public function orWhere()
     {
         return $this;
     }
