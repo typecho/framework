@@ -31,7 +31,7 @@ class Insert extends AbstractQuery
      * @access public
      * @return Insert
      */
-    public function where($condition)
+    public function where()
     {
         return $this;
     }
@@ -43,7 +43,7 @@ class Insert extends AbstractQuery
      * @access public
      * @return Insert
      */
-    public function orWhere($condition)
+    public function orWhere()
     {
         return $this;
     }
