@@ -153,15 +153,17 @@ abstract class AbstractData extends Base implements \Iterator, \Countable, \Arra
      */
     public function __get($name)
     {
-        $method = 'get' . ucfirst($name);
-        $key = trim(preg_replace("/([A-Z])/e", "'_' . strtolower('\\1')", $name), '_');
-        if (array_key_exists($name, $this->_data[$this->_pos])) {
-            return $this->_data[$this->_pos][$name];
-        } else if (array_key_exists($key, $this->_data[$this->_pos])) {
-            return $this->_data[$this->_pos][$key];
-        } else if (method_exists($this, $method)) {
-            $this->_data[$this->_pos][$name] = $this->{$method}();
-            return $this->_data[$this->_pos][$name];
+        if ($this->_length) {
+            $method = 'get' . ucfirst($name);
+            $key = trim(preg_replace("/([A-Z])/e", "'_' . strtolower('\\1')", $name), '_');
+            if (array_key_exists($name, $this->_data[$this->_pos])) {
+                return $this->_data[$this->_pos][$name];
+            } else if (array_key_exists($key, $this->_data[$this->_pos])) {
+                return $this->_data[$this->_pos][$key];
+            } else if (method_exists($this, $method)) {
+                $this->_data[$this->_pos][$name] = $this->{$method}();
+                return $this->_data[$this->_pos][$name];
+            }
         }
 
         return $this->fallback($name);
