@@ -150,9 +150,14 @@ abstract class AbstractData extends Base implements \Iterator, \Countable, \Arra
      * @param mixed $name 
      * @access public
      * @return mixed
+     * @throws \Exception
      */
     public function __get($name)
     {
+        if (!$this->_length) {
+            throw new \Exception('Can not access null data');
+        }
+
         $method = 'get' . ucfirst($name);
         $key = trim(preg_replace("/([A-Z])/e", "'_' . strtolower('\\1')", $name), '_');
         if (array_key_exists($name, $this->_data[$this->_pos])) {
@@ -174,9 +179,14 @@ abstract class AbstractData extends Base implements \Iterator, \Countable, \Arra
      * @param mixed $args 
      * @access public
      * @return void
+     * @throws \Exception
      */
     public function __call($name, $args)
     {
+        if (!$this->_length) {
+            throw new \Exception('Can not access null data');
+        }
+
         if (empty($args)) {
             echo $this->{$name};
         } else {

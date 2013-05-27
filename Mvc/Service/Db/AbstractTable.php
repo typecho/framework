@@ -277,8 +277,10 @@ abstract class AbstractTable extends Base
 
         if (!empty($order)) {
             if (is_array($order)) {
-                foreach ($order as $column => $sort) {                   
-                    if ('ASC' == strtoupper($sort)) {
+                foreach ($order as $column => $sort) {
+                    if (is_int($column)) {
+                        $select->orderAsc($sort);
+                    } else if ('ASC' == strtoupper($sort)) {
                         $select->orderAsc($column);
                     } else {
                         $select->orderDesc($column);
