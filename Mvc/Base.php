@@ -137,7 +137,7 @@ abstract class Base
         foreach ($props as $prop) {
             $name = $prop->getName();
             if ($prop->isDefault() && 0 !== strpos($name, '_')
-                && !isset($this->_injectedProperties[$name])) {
+                && (!isset($this->_injectedProperties[$name]) || $prop->isPrivate())) {
                 $result[$name] = $prop;
                 $this->_injectedProperties[$name] = true;
             }
