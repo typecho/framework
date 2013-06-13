@@ -163,7 +163,7 @@ class Response implements ResponseInterface
     {
         if (is_array($value)) {
             foreach ($value as $name => $val) {
-                $this->_cookies[] = array("{$key}[{$name}]", $value, $timeout, $path, $domain);
+                $this->_cookies[] = array("{$key}[{$name}]", $val, $timeout, $path, $domain);
             }
         } else {
             $this->_cookies[] = array($key, $value, $timeout, $path, $domain);
