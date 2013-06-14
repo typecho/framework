@@ -131,7 +131,7 @@ abstract class AbstractCachingTable extends AbstractTable
      * @param mixed $columns
      * @return array
      */
-    public function getMultiple($keys, $columns = NULL)
+    public function getMultiple(array $keys, $columns = NULL)
     {
         $cachedKeys = array_map(array($this, 'getCacheKey'), $keys);
         $cached = $this->serviceDbCache->getMultipleHash($cachedKeys);
