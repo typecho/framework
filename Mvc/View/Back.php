@@ -2,6 +2,8 @@
 
 namespace TE\Mvc\View;
 
+use TE\Mvc\Action\ActionEvent as Event;
+
 /**
  * 往回跳转
  * 
