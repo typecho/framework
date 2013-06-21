@@ -26,6 +26,9 @@ class Logger
      */
     public function __construct($dir)
     {
+        if (!in_array(substr($dir, -1) array("/", "\\"))) {
+            $dir .= DIRECTORY_SEPARATOR;
+        }
         $this->_dir = $dir;
     }
 
@@ -39,8 +42,10 @@ class Logger
      */
     public function __call($name, array $args)
     {
+        $stack = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 1);
+        $caller = $stack[0];
         $message = $args[0];
-        $log = date('c') . ' - ';
+        $log = date('c') . ' - ' . $caller['file'] . '[' . $caller['line'] . ']';
 
         if (is_array($message)) {
             foreach ($message as $key => $val) {
@@ -50,7 +55,7 @@ class Logger
             $log .= ' ' . $message;
         }
 
-        error_log($log . "\n", 3, $this->_dir . '/' . $name . '.log');
+        error_log($log . "\n", 3, $this->_dir . $name . '.log');
     }
 }
 
