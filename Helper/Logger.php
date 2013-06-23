@@ -26,7 +26,7 @@ class Logger
      */
     public function __construct($dir)
     {
-        if (!in_array(substr($dir, -1) array("/", "\\"))) {
+        if (!in_array(substr($dir, -1), array("/", "\\"))) {
             $dir .= DIRECTORY_SEPARATOR;
         }
         $this->_dir = $dir;
