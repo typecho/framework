@@ -11,7 +11,7 @@ namespace TE\Cache;
  */
 class File implements CacheInterface
 {
-  /**
+	/**
 	 * 缓存路径
 	 */
 	private $_cacheDir;
