@@ -76,7 +76,7 @@ abstract class AbstractQuery
             $result = array();
 
             foreach ($value as $key => $val) {
-                $result[$this->applyPrefix($key)] = $this->applyPrefix($val);
+                $result[$this->applyPrefix($key)] = $val;
             }
 
             return $result;
