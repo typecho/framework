@@ -36,4 +36,3 @@ class Server extends AbstractServer
         return new Response();
     }
 }
-

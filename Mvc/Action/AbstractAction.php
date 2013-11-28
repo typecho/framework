@@ -21,7 +21,7 @@ abstract class AbstractAction extends Base
     /**
      * request 
      * 
-     * @var mixed
+     * @var Request
      * @access protected
      */
     protected $request;
@@ -29,7 +29,7 @@ abstract class AbstractAction extends Base
     /**
      * response  
      * 
-     * @var mixed
+     * @var Response
      * @access protected
      */
     protected $response;
@@ -47,7 +47,7 @@ abstract class AbstractAction extends Base
      * @param Response           $response
      * @param InterceptorManager $interceptorManager
      */
-    public final function __construct(Request $request, Response $response, InterceptorManager $interceptorManager)
+    public function __construct(Request $request, Response $response, InterceptorManager $interceptorManager)
     {
         $this->request = $request;
         $this->response = $response;
