@@ -22,7 +22,7 @@ abstract class AbstractRouter extends Base implements RouterInterface
      * @var array
      * @access private
      */
-    private $_exceptionHandler = array('TE\Mvc\Action\ExceptionHandler', array(), array());
+    private $_exceptionHandler = array('TE\Mvc\Action\ExceptionHandler', array(), array('viewClass'));
 
     /**
      * _routeNotFound  
@@ -59,7 +59,7 @@ abstract class AbstractRouter extends Base implements RouterInterface
      * @access public
      * @return void
      */
-    public function setExceptionHandler($exceptionHandlerClass, array $params = array(), $interceptors = array())
+    public function setExceptionHandler($exceptionHandlerClass, array $params = array(), $interceptors = array('viewClass'))
     {
         $this->_exceptionHandler = array($exceptionHandlerClass, $params, $interceptors);
     }
