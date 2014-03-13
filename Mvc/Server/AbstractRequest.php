@@ -95,13 +95,22 @@ abstract class AbstractRequest implements RequestInterface
             }
         }
 
-        return $this->_params[$key];
+        $result = $this->_params[$key];
+        if (is_array($result)) {
+            return array_filter($result, function ($value) {
+                return mb_check_encoding($value, 'UTF-8');
+            });
+        } else if (!mb_check_encoding($result, 'UTF-8')) {
+            return $default;
+        }
+
+        return $result;
     }
 
     /**
      * 从请求中获取json数据
-     * 
-     * @param mixed $key 
+     *
+     * @param mixed $key
      * @access public
      * @return mixed
      */
@@ -109,7 +118,7 @@ abstract class AbstractRequest implements RequestInterface
     {
         if (!isset($this->_jsonParams[$key])) {
             $this->_jsonParams[$key] = NULL;
-            
+
             if (!empty($_REQUEST[$key])) {
                 $result = json_decode($this->get($key), true);
                 if (NULL !== $result) {
