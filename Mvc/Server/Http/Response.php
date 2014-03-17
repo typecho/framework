@@ -3,7 +3,7 @@
 namespace TE\Mvc\Server\Http;
 
 use TE\Mvc\Server\ResponseInterface;
-use TE\Mvc\View\AbstractView as View;
+use TE\Mvc\Result\AbstractResult as Result;
 
 /**
  * Response  
@@ -105,12 +105,12 @@ class Response implements ResponseInterface
     private $_headers = array();
 
     /**
-     * _view
+     * _result
      * 
-     * @var View
+     * @var Result
      * @access private
      */
-    private $_view;
+    private $_result;
 
     /**
      * respond  
@@ -143,8 +143,8 @@ class Response implements ResponseInterface
             setCookie($key, $value, $timeout, $path, $domain);
         }
 
-        if (NULL !== $this->_view) {
-            $this->_view->render();
+        if (NULL !== $this->_result) {
+            $this->_result->render();
         }
     }
 
@@ -281,16 +281,16 @@ class Response implements ResponseInterface
     }
 
     /**
-     * setView
+     * setResult
      * 
-     * @param mixed $view
+     * @param mixed $result
      * @access public
      * @return Response
      */
-    public function setView(View $view)
+    public function setResult(Result $result)
     {
-        $view->prepareResponse($this);
-        $this->_view = $view;
+        $result->prepareResponse($this);
+        $this->_result = $result;
         return $this;
     }
 }

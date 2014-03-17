@@ -2,7 +2,7 @@
 
 namespace TE\Mvc\Server;
 
-use TE\Mvc\View\AbstractView as View;
+use TE\Mvc\Result\AbstractResult as Result;
 
 /**
  * ResponseInterface  
@@ -14,13 +14,13 @@ use TE\Mvc\View\AbstractView as View;
 interface ResponseInterface
 {
     /**
-     * setView  
+     * setResult
      * 
-     * @param View $view 
+     * @param Result $result
      * @access public
      * @return void
      */
-    public function setView(View $view);
+    public function setResult(Result $result);
 
     /**
      * respond  

@@ -1,18 +1,18 @@
 <?php
 
-namespace TE\Mvc\View;
+namespace TE\Mvc\Result;
 
 use TE\Mvc\Server\ResponseInterface as Response;
 
 /**
- * AbstractView 
+ * AbstractResult
  * 
  * @abstract
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-abstract class AbstractView
+abstract class AbstractResult
 {
     /**
      * 必须实现渲染方法

@@ -64,13 +64,13 @@ abstract class AbstractAction extends Base
         $this->_event->invoke();
 
         $result = $this->_event->getResult();
-        $viewClass = $result->getViewClass();
+        $resultClass = $result->getResultClass();
         $params = $result->getParams();
         array_unshift($params, $this->_event);
-        $viewRefelect = new \ReflectionClass($viewClass);
-        $view = $viewRefelect->newInstanceArgs($params);
+        $resultRefelect = new \ReflectionClass($resultClass);
+        $result = $resultRefelect->newInstanceArgs($params);
 
-        $this->response->setView($view);
+        $this->response->setResult($result);
     }
 
     /**

@@ -1,49 +1,49 @@
 <?php
 
-namespace TE\Mvc\View;
+namespace TE\Mvc\Result;
 
 use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Action\ActionEvent as Event;
 
 /**
- * Jsonp
+ * 渲染一个字符串
  * 
- * @uses AbstractView
+ * @uses AbstractResult
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class Jsonp extends AbstractView
+class Content extends AbstractResult
 {
     /**
-     * _data
+     * _content 
      * 
      * @var mixed
      * @access private
      */
-    private $_data;
+    private $_content;
 
     /**
-     * _callback  
+     * _contentType 
      * 
      * @var mixed
      * @access private
      */
-    private $_callback;
+    private $_contentType;
 
     /**
      * @param Event  $event
-     * @param        $data      jsonp的数据
-     * @param string $callback  jsonp的回调函数名
+     * @param        $content       渲染的字符串
+     * @param string $contentType   页面类型
      */
-    public function __construct(Event $event, $data, $callback = 'callback')
+    public function __construct(Event $event, $content, $contentType = 'text/html')
     {
-        $this->_data = $data;
-        $this->_callback = $event->getAction()->getRequest()->get($callback, 'jsonp');
+        $this->_content = $content;
+        $this->_contentType = $contentType;
     }
 
     /**
-     * prepareResponse 
+     * prepareResponse  
      * 
      * @param Response $response 
      * @access public
@@ -51,20 +51,18 @@ class Jsonp extends AbstractView
      */
     public function prepareResponse(Response $response)
     {
-        $response->setStatusCode(200)
-            ->setHeader('Cache-Control', 'no-cache')
-            ->setContentType('text/javascript');
+        $response->setContentType($this->_contentType);
     }
 
     /**
-     * render  
+     * render 
      * 
      * @access public
      * @return void
      */
     public function render()
     {
-        echo $this->_callback . '(' . json_encode($this->_data) . ')';
+        echo $this->_content;
         exit;
     }
 }

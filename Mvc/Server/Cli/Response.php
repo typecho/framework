@@ -3,7 +3,7 @@
 namespace TE\Mvc\Server\Cli;
 
 use TE\Mvc\Server\ResponseInterface;
-use TE\Mvc\View\AbstractView as View;
+use TE\Mvc\Result\AbstractResult as Result;
 
 /**
  * Response 
@@ -16,12 +16,12 @@ use TE\Mvc\View\AbstractView as View;
 class Response implements ResponseInterface
 {
     /**
-     * _view  
+     * _result
      * 
      * @var mixed
      * @access private
      */
-    private $_view;
+    private $_result;
 
     /**
      * respond  
@@ -30,21 +30,21 @@ class Response implements ResponseInterface
      */
     public function respond()
     {
-        if (NULL !== $this->_view) {
-            $this->_view->render();
+        if (NULL !== $this->_result) {
+            $this->_result->render();
         }
     }
 
     /**
-     * setView  
+     * setResult
      * 
-     * @param View $view 
+     * @param Result $result
      * @access public
      * @return Response
      */
-    public function setView(View $view)
+    public function setResult(Result $result)
     {
-        $this->_view = $view;
+        $this->_result = $result;
         return $this;
     }
 }

@@ -5,7 +5,7 @@ namespace TE\Mvc\Data;
 use TE\Mvc\Base;
 
 /**
- * ViewData 
+ * ResultData
  * 
  * @uses Base
  * @abstract

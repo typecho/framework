@@ -126,5 +126,16 @@ class Connector
     {
         return new Query($this->_adapter, $this->_prefix, $query);
     }
+
+    /**
+     * table
+     *
+     * @param string $table
+     * @return Connector
+     */
+    public function table($table)
+    {
+        return new Table($table, $this);
+    }
 }
 

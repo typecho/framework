@@ -12,12 +12,12 @@ namespace TE\Mvc\Action;
 class ActionResult
 {
     /**
-     * _viewName  
+     * _resultName
      * 
      * @var mixed
      * @access private
      */
-    private $_viewName;
+    private $_resultName;
 
     /**
      * _params  
@@ -28,49 +28,49 @@ class ActionResult
     private $_params;
 
     /**
-     * _viewClass
+     * _resultClass
      * 
      * @var mixed
      * @access private
      */
-    private $_viewClass;
+    private $_resultClass;
 
     /**
-     * @param       $viewName
+     * @param       $resultName
      * @param array $params
      */
-    public function __construct($viewName, array $params = array())
+    public function __construct($resultName, array $params = array())
     {
-        $this->_viewName = $viewName;
-        $this->_viewClass = $viewName;
+        $this->_resultName = $resultName;
+        $this->_resultClass = $resultName;
         $this->_params = $params;
     }
 
     /**
-     * getViewName  
+     * getResultName
      * 
      * @access public
      * @return string
      */
-    public function getViewName()
+    public function getResultName()
     {
-        return $this->_viewName;
+        return $this->_resultName;
     }
 
     /**
-     * setViewName  
+     * setResultName
      * 
-     * @param mixed $viewName 
+     * @param mixed $resultName
      * @access public
      * @return void
      */
-    public function setViewName($viewName)
+    public function setResultName($resultName)
     {
-        if ($this->_viewName == $this->_viewClass) {
-            $this->_viewClass = $viewName;
+        if ($this->_resultName == $this->_resultClass) {
+            $this->_resultClass = $resultName;
         }
 
-        $this->_viewName = $viewName;
+        $this->_resultName = $resultName;
     }
 
     /**
@@ -97,26 +97,26 @@ class ActionResult
     }
 
     /**
-     * getViewClass  
+     * getResultClass
      * 
      * @access public
      * @return string
      */
-    public function getViewClass()
+    public function getResultClass()
     {
-        return $this->_viewClass;
+        return $this->_resultClass;
     }
 
     /**
-     * setViewClass  
+     * setResultClass
      * 
-     * @param mixed $viewClass 
+     * @param mixed $resultClass
      * @access public
      * @return void
      */
-    public function setViewClass($viewClass)
+    public function setResultClass($resultClass)
     {
-        $this->_viewClass = $viewClass;
+        $this->_resultClass = $resultClass;
     }
 }
 

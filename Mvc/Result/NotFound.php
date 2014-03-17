@@ -1,6 +1,6 @@
 <?php
 
-namespace TE\Mvc\View;
+namespace TE\Mvc\Result;
 
 use TE\Mvc\Server\ResponseInterface as Response;
 

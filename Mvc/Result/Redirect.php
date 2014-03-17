@@ -1,6 +1,6 @@
 <?php
 
-namespace TE\Mvc\View;
+namespace TE\Mvc\Result;
 
 use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Action\ActionEvent as Event;
@@ -8,12 +8,12 @@ use TE\Mvc\Action\ActionEvent as Event;
 /**
  * 跳转
  * 
- * @uses AbstractView
+ * @uses AbstractResult
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class Redirect extends AbstractView
+class Redirect extends AbstractResult
 {
     /**
      * _url  

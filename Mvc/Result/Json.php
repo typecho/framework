@@ -1,28 +1,36 @@
 <?php
 
-namespace TE\Mvc\View;
+namespace TE\Mvc\Result;
 
 use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Action\ActionEvent as Event;
 
 /**
- * 空白页
+ * Json  
  * 
- * @uses AbstractView
+ * @uses AbstractResult
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class Blank extends AbstractView
+class Json extends AbstractResult
 {
     /**
-     * __construct  
+     * _data
      * 
-     * @param Event $event 
-     * @access public
+     * @var mixed
+     * @access private
      */
-    public function __construct(Event $event)
-    {}
+    private $_data;
+
+    /**
+     * @param Event $event
+     * @param       $data   json数据
+     */
+    public function __construct(Event $event, $data)
+    {
+        $this->_data = $data;
+    }
 
     /**
      * prepareResponse 
@@ -32,7 +40,11 @@ class Blank extends AbstractView
      * @return void
      */
     public function prepareResponse(Response $response)
-    {}
+    {
+        $response->setStatusCode(200)
+            ->setHeader('Cache-Control', 'no-cache')
+            ->setContentType('application/json');
+    }
 
     /**
      * render  
@@ -42,6 +54,7 @@ class Blank extends AbstractView
      */
     public function render()
     {
+        echo json_encode($this->_data);
         exit;
     }
 }

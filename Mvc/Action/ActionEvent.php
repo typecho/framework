@@ -54,7 +54,7 @@ class ActionEvent
         $this->_action = $action;
         $this->_manager = $manager;
         $this->_result = new ActionResult('blank');
-        $this->_result->setViewClass('TE\Mvc\View\Blank');
+        $this->_result->setResultClass('TE\Mvc\Result\Blank');
     }
 
     /**
@@ -91,9 +91,9 @@ class ActionEvent
                 $result = 'blank';
             }
 
-            $viewName = is_array($result) ? array_shift($result) : $result;
+            $resultName = is_array($result) ? array_shift($result) : $result;
             $params = is_array($result) ? $result : array();
-            $this->_result->setViewName($viewName);
+            $this->_result->setResultName($resultName);
             $this->_result->setParams($params);
 
             $data = get_object_vars($this->_action);

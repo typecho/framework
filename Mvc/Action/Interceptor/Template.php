@@ -43,7 +43,7 @@ class Template implements InterceptorInterface
     {
         $event->invoke();
         $result = $event->getResult();
-        $name = $result->getViewName();
+        $name = $result->getResultName();
         $params = $result->getParams();
 
         if ('template' == $name) {

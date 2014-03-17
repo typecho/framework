@@ -1,13 +1,13 @@
 <?php
 
-namespace TE\Mvc\View;
+namespace TE\Mvc\Result;
 
 use TE\Mvc\Action\ActionEvent as Event;
 
 /**
  * 往回跳转
  * 
- * @uses AbstractView
+ * @uses AbstractResult
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0

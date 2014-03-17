@@ -19,14 +19,14 @@ class InterceptorManager
      */
     private $_interceptors = array(
         'default'   =>  array(
-            'viewClass',
+            'resultClass',
             'template'
         ),
         'template'  =>  array(
             'interceptor'   =>  'TE\Mvc\Action\Interceptor\Template',
             'params'        =>  array()
         ),
-        'viewClass' =>  'TE\Mvc\Action\Interceptor\ViewClass'
+        'resultClass' =>  'TE\Mvc\Action\Interceptor\ResultClass'
     );
 
     /**
