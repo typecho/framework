@@ -2,7 +2,6 @@
 
 namespace TE\Mvc\Result;
 
-use TE\Mvc\Action\ActionEvent as Event;
 use TE\Mvc\Server\ResponseInterface as Response;
 
 /**
@@ -16,27 +15,13 @@ use TE\Mvc\Server\ResponseInterface as Response;
 class Error extends Template
 {
     /**
-     * _content 
-     * 
-     * @var mixed
-     * @access private
+     * init some vars
      */
-    private $_content;
-
-    /**
-     * @param Event  $event
-     * @param string $content   错误信息
-     * @param null   $template  错误模板
-     * @param string $prefix    模板前缀
-     */
-    public function __construct(Event $event, $content = 'Error found', $template = NULL, $prefix = '')
+    public function init()
     {
-        if (!empty($template)) {
-            $event->setData('content', $content);
-            parent::__construct($event, $template, $prefix);
-        } else {
-            $this->_content = $content;
-        }
+        $this->getEvent()->setData('content', $this->getParam(0, 'Error'));
+        $this->setParam(0, $this->getParam(1));
+        $this->setParam(1, $this->getParam(2));
     }
 
     /**
@@ -49,21 +34,6 @@ class Error extends Template
     public function prepareResponse(Response $response)
     {
         $response->setStatusCode(500);
-    }
-
-    /**
-     * render  
-     * 
-     * @access public
-     * @return void
-     */
-    public function render()
-    {
-        if (!empty($this->_content)) {
-            echo $this->_content;
-        } else {
-            parent::render();
-        }
     }
 }
 

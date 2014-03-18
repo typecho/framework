@@ -5,6 +5,7 @@ namespace TE\Mvc\Server;
 use TE\Mvc\Router\RouterInterface as Router;
 use TE\Mvc\Router\RouterResult;
 use TE\Mvc\Action\Interceptor\InterceptorManager;
+use TE\Mvc\Settings;
 
 /**
  * AbstractServer 
@@ -15,52 +16,34 @@ use TE\Mvc\Action\Interceptor\InterceptorManager;
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-abstract class AbstractServer implements ServerInterface
+abstract class AbstractServer
 {
     /**
      * _request  
      * 
      * @var mixed
-     * @access private
+     * @access protected
      */
-    private $_request;
+    protected  $request;
 
     /**
      * _response  
      * 
      * @var mixed
-     * @access private
+     * @access protected
      */
-    private $_response;
+    protected $response;
 
     /**
-     * _router  
-     * 
-     * @var mixed
-     * @access private
+     * @param array $routes
      */
-    private $_router;
-
-    /**
-     * _manager  
-     * 
-     * @var mixed
-     * @access private
-     */
-    private $_manager;
-
-    /**
-     * @param Router             $router
-     * @param InterceptorManager $manager
-     */
-    public function __construct(Router $router, InterceptorManager $manager)
+    public function __construct(array $routes)
     {
-        $this->_router = $router;
-        $this->_manager = $manager;
-        $this->_request = $this->createRequest();
-        $this->_response = $this->createResponse();
+        $this->request = $this->createRequest();
+        $this->response = $this->createResponse();
+        $action = $this->route($routes);
 
-        $this->serve();
+        $this->serve($action);
     }
 
     /**
@@ -81,58 +64,55 @@ abstract class AbstractServer implements ServerInterface
      */
     abstract protected function createResponse();
 
+
+    /**
+     * 路由实现
+     *
+     * @param array $routes
+     * @return string
+     */
+    abstract protected function route(array $routes);
+
     /**
      * 执行回调
-     */
-    protected function serve()
-    {
-        // find action by request
-        $result = $this->_router->route($this->_request, $this->_response);
-
-        try {
-            $this->executeAction($result);
-        } catch (\Exception $e) {
-            // inject exception to action
-            $result = $this->_router->getExceptionResult($e);
-            $this->executeAction($result);
-        }
-
-        // respond to client
-        $this->_response->respond();
-    }
-
-
-    /**
-     * 执行一个Action
      *
-     * @param RouterResult $result
+     * @param string $action
      */
-    protected function executeAction(RouterResult $result)
+    protected function serve($action)
     {
-        $actionName = $result->getAction();
-        $interceptors = $result->getInterceptors();
-        $params = $result->getParams();
-
-        // create new interceptor stack list
-        foreach ($interceptors as $key => $val) {
-            if (is_string($key) && is_array($val)) {
-                $this->_manager->push($key, $val);
-            } else {
-                $this->_manager->push($val, array());
+        try {
+            if (empty($action)) {
+                $action = Settings::routerNotFound();
             }
+
+            $parts = parse_url($action);
+            $action = $parts['path'];
+            $interceptorManager = new InterceptorManager();
+
+            if (!empty($parts['scheme'])) {
+                $interceptors = explode('+', $parts['scheme']);
+                foreach ($interceptors as $interceptor) {
+                    Settings::pushInterceptor($interceptorManager, $interceptor);
+                }
+            }
+
+            $actionInstance = new $action($this->request, $this->response, $interceptorManager);
+
+            if (!empty($parts['params'])) {
+                parse_str($parts['params'], $params);
+
+                foreach ($params as $key => $val) {
+                    $actionInstance->{$key} = $val;
+                }
+            }
+
+            $actionInstance->handle();
+
+        } catch (\Exception $e) {
+            Settings::catchException($e);
         }
 
-        $action = new $actionName($this->_request, $this->_response, $this->_manager);
-
-        foreach ($params as $key => $val) {
-            $method = 'set' . ucfirst($key);
-
-            if (method_exists($action, $method)) {
-                $action->{$method}($val);
-            }
-        }
-
-        $action->handle();
+        $this->response->respond();
     }
 }
 

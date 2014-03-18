@@ -3,7 +3,6 @@
 namespace TE\Mvc\Result;
 
 use TE\Mvc\Server\ResponseInterface as Response;
-use TE\Mvc\Action\ActionEvent as Event;
 
 /**
  * Jsonp
@@ -15,33 +14,6 @@ use TE\Mvc\Action\ActionEvent as Event;
  */
 class Jsonp extends AbstractResult
 {
-    /**
-     * _data
-     * 
-     * @var mixed
-     * @access private
-     */
-    private $_data;
-
-    /**
-     * _callback  
-     * 
-     * @var mixed
-     * @access private
-     */
-    private $_callback;
-
-    /**
-     * @param Event  $event
-     * @param        $data      jsonp的数据
-     * @param string $callback  jsonp的回调函数名
-     */
-    public function __construct(Event $event, $data, $callback = 'callback')
-    {
-        $this->_data = $data;
-        $this->_callback = $event->getAction()->getRequest()->get($callback, 'jsonp');
-    }
-
     /**
      * prepareResponse 
      * 
@@ -64,8 +36,9 @@ class Jsonp extends AbstractResult
      */
     public function render()
     {
-        echo $this->_callback . '(' . json_encode($this->_data) . ')';
-        exit;
+        $callback = $this->getEvent()->getAction()
+            ->getRequest()->get($this->getParam(1, 'callback'), 'jsonp');
+        echo $callback . '(' . json_encode($this->getParam(0)) . ')';
     }
 }
 

@@ -3,7 +3,6 @@
 namespace TE\Mvc\Result;
 
 use TE\Mvc\Server\ResponseInterface as Response;
-use TE\Mvc\Action\ActionEvent as Event;
 
 /**
  * Json  
@@ -15,23 +14,6 @@ use TE\Mvc\Action\ActionEvent as Event;
  */
 class Json extends AbstractResult
 {
-    /**
-     * _data
-     * 
-     * @var mixed
-     * @access private
-     */
-    private $_data;
-
-    /**
-     * @param Event $event
-     * @param       $data   json数据
-     */
-    public function __construct(Event $event, $data)
-    {
-        $this->_data = $data;
-    }
-
     /**
      * prepareResponse 
      * 
@@ -54,8 +36,7 @@ class Json extends AbstractResult
      */
     public function render()
     {
-        echo json_encode($this->_data);
-        exit;
+        echo json_encode($this->getParam(0));
     }
 }
 

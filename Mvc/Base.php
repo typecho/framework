@@ -29,14 +29,6 @@ abstract class Base
     private static $_holdingObjectsStack = array();
 
     /**
-     * _injectiveObjects 
-     * 
-     * @var array
-     * @access private
-     */
-    private static $_injectiveObjects = array();
-
-    /**
      * 已经注入的属性
      *
      * @var array
@@ -61,19 +53,6 @@ abstract class Base
     }
 
     /**
-     * setInjectiveObjects
-     * 
-     * @param array $objects 
-     * @static
-     * @access public
-     * @return void
-     */
-    public static function setInjectiveObjects(array $objects)
-    {
-        self::$_injectiveObjects = array_merge(self::$_injectiveObjects, $objects);
-    }
-
-    /**
      * 链式注入
      * 
      * @access private
@@ -82,10 +61,9 @@ abstract class Base
     private function initChainedClass()
     {
         $class = new \ReflectionClass($this);
-        $shared = self::$_injectiveObjects;
-        
+
         do {
-            $this->injectProperties($class, $shared);
+            $this->injectProperties($class);
             $class = $class->getParentClass();
         } while (!empty($class) && 'TE\Mvc\Base' != $class->getName());
     }
@@ -94,16 +72,16 @@ abstract class Base
      * 根据给出类获取可以注入的属性列表
      *
      * @param \ReflectionClass  $class      可以是对象也可以是类名
-     * @param array             $shared
      * @throws \Exception
      */
-    private function injectProperties(\ReflectionClass $class, array $shared)
+    private function injectProperties(\ReflectionClass $class)
     {
         $props = $this->getAvailableProperties($class);
 
         // 检查属性是否可以注入
         foreach ($props as $name => $prop) {
-            if (isset($shared[$name])) {
+            $shared = Settings::inject($name);
+            if (!empty($shared)) {
                 // 首先检测交叉依赖
                 if (in_array($name, self::$_holdingObjectsStack)) {
                     throw new \Exception('Cross dependencies found in ' . $name);
@@ -112,7 +90,7 @@ abstract class Base
                 // 写入对象池
                 if (!isset(self::$_injectedObjectsPool[$name])) {
                     self::$_holdingObjectsStack[] = $name;
-                    self::$_injectedObjectsPool[$name] = $this->createInstance($shared[$name]);
+                    self::$_injectedObjectsPool[$name] = $this->createInstance($shared);
                     self::$_holdingObjectsStack = array_slice(self::$_holdingObjectsStack, 0, -1);
                 }
 
@@ -162,6 +140,7 @@ abstract class Base
             $reflect = new \ReflectionClass($className);
             return $reflect->newInstanceArgs($args);
         } else if (is_string($define)) {
+            debug_print_backtrace();
             return new $define();
         } else if (is_callable($define)) {
             return $define($this);

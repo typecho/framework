@@ -3,7 +3,6 @@
 namespace TE\Mvc\Result;
 
 use TE\Mvc\Server\ResponseInterface as Response;
-use TE\Mvc\Action\ActionEvent as Event;
 
 /**
  * 跳转
@@ -16,33 +15,6 @@ use TE\Mvc\Action\ActionEvent as Event;
 class Redirect extends AbstractResult
 {
     /**
-     * _url  
-     * 
-     * @var mixed
-     * @access private
-     */
-    private $_url;
-
-    /**
-     * _isPermanently  
-     * 
-     * @var mixed
-     * @access private
-     */
-    private $_isPermanently = false;
-
-    /**
-     * @param Event $event
-     * @param       $url            跳转的url
-     * @param bool  $isPermanently  是否为永久跳转
-     */
-    public function __construct(Event $event, $url, $isPermanently = false)
-    {
-        $this->_url = $url;
-        $this->_isPermanently = $isPermanently;
-    }
-
-    /**
      * prepareResponse 
      * 
      * @param Response $response 
@@ -51,8 +23,8 @@ class Redirect extends AbstractResult
      */
     public function prepareResponse(Response $response)
     {
-        $response->setStatusCode($this->_isPermanently ? 301 : 302)
-            ->setHeader('Location', $this->_url);
+        $response->setStatusCode($this->getParam(1, false) ? 301 : 302)
+            ->setHeader('Location', $this->getParam(0));
     }
 
     /**
@@ -63,9 +35,8 @@ class Redirect extends AbstractResult
      */
     public function render()
     {
-        echo '<h1>Moved ' . ($this->_isPermanently ? 'permanently' : 'temporarily') . '</h1>'
-            . '<p>Click the <a href="' . $this->_url . '">url</a> to redirect</p>';
-        exit;
+        echo '<h1>Moved ' . ($this->getParam(1, false) ? 'permanently' : 'temporarily') . '</h1>'
+            . '<p>Click the <a href="' . $this->getParam(0) . '">url</a> to redirect</p>';
     }
 }
 

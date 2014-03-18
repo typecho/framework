@@ -2,8 +2,6 @@
 
 namespace TE\Mvc\Result;
 
-use TE\Mvc\Action\ActionEvent as Event;
-
 /**
  * 往回跳转
  * 
@@ -15,11 +13,11 @@ use TE\Mvc\Action\ActionEvent as Event;
 class Back extends Redirect
 {
     /**
-     * @param Event $event
+     * init some data
      */
-    public function __construct(Event $event)
+    public function init()
     {
-        parent::__construct($event, $event->getAction()->getRequest()->getReferer());
+        $this->setParam(0, $this->getEvent()->getAction()->getRequest()->getReferer());
     }
 }
 

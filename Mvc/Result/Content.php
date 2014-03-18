@@ -3,7 +3,6 @@
 namespace TE\Mvc\Result;
 
 use TE\Mvc\Server\ResponseInterface as Response;
-use TE\Mvc\Action\ActionEvent as Event;
 
 /**
  * 渲染一个字符串
@@ -16,33 +15,6 @@ use TE\Mvc\Action\ActionEvent as Event;
 class Content extends AbstractResult
 {
     /**
-     * _content 
-     * 
-     * @var mixed
-     * @access private
-     */
-    private $_content;
-
-    /**
-     * _contentType 
-     * 
-     * @var mixed
-     * @access private
-     */
-    private $_contentType;
-
-    /**
-     * @param Event  $event
-     * @param        $content       渲染的字符串
-     * @param string $contentType   页面类型
-     */
-    public function __construct(Event $event, $content, $contentType = 'text/html')
-    {
-        $this->_content = $content;
-        $this->_contentType = $contentType;
-    }
-
-    /**
      * prepareResponse  
      * 
      * @param Response $response 
@@ -51,7 +23,7 @@ class Content extends AbstractResult
      */
     public function prepareResponse(Response $response)
     {
-        $response->setContentType($this->_contentType);
+        $response->setContentType($this->getParam(1, 'text/html'));
     }
 
     /**
@@ -62,8 +34,7 @@ class Content extends AbstractResult
      */
     public function render()
     {
-        echo $this->_content;
-        exit;
+        echo $this->getParam(0);
     }
 }
 

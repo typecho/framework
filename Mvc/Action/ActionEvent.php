@@ -3,6 +3,7 @@
 namespace TE\Mvc\Action;
 
 use TE\Mvc\Action\Interceptor\InterceptorManager;
+use TE\Mvc\Settings;
 
 /**
  * ActionEvent  
@@ -24,7 +25,7 @@ class ActionEvent
     /**
      * _result  
      * 
-     * @var ActionResult
+     * @var \TE\Mvc\Result\AbstractResult
      * @access private
      */
     private $_result;
@@ -53,8 +54,6 @@ class ActionEvent
     {
         $this->_action = $action;
         $this->_manager = $manager;
-        $this->_result = new ActionResult('blank');
-        $this->_result->setResultClass('TE\Mvc\Result\Blank');
     }
 
     /**
@@ -93,21 +92,37 @@ class ActionEvent
 
             $resultName = is_array($result) ? array_shift($result) : $result;
             $params = is_array($result) ? $result : array();
-            $this->_result->setResultName($resultName);
-            $this->_result->setParams($params);
 
+            $this->setResult($resultName, $params);
             $data = get_object_vars($this->_action);
             $this->_data = array_merge($this->_data, $data);
         } else {
             $interceptor->intercept($this);
         }
     }
+
+    /**
+     * set result
+     *
+     * @param string $resultName
+     * @param array $params
+     */
+    public function setResult($resultName, $params)
+    {
+        $resultClass = Settings::getResultClass($resultName);
+        $params = Settings::getResultParams($resultName, $params);
+
+        $this->_result = new $resultClass;
+        $this->_result->setEvent($this);
+        $this->_result->setParams($params);
+        $this->_result->init();
+    }
  
     /**
      * getResult  
      * 
      * @access public
-     * @return ActionResult
+     * @return \TE\Mvc\Result\AbstractResult
      */
     public function getResult()
     {

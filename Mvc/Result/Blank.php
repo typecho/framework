@@ -3,7 +3,6 @@
 namespace TE\Mvc\Result;
 
 use TE\Mvc\Server\ResponseInterface as Response;
-use TE\Mvc\Action\ActionEvent as Event;
 
 /**
  * 空白页
@@ -15,15 +14,6 @@ use TE\Mvc\Action\ActionEvent as Event;
  */
 class Blank extends AbstractResult
 {
-    /**
-     * __construct  
-     * 
-     * @param Event $event 
-     * @access public
-     */
-    public function __construct(Event $event)
-    {}
-
     /**
      * prepareResponse 
      * 
@@ -41,8 +31,6 @@ class Blank extends AbstractResult
      * @return void
      */
     public function render()
-    {
-        exit;
-    }
+    {}
 }
 

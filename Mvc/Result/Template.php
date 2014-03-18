@@ -3,7 +3,6 @@
 namespace TE\Mvc\Result;
 
 use TE\Mvc\Server\ResponseInterface as Response;
-use TE\Mvc\Action\ActionEvent as Event;
 
 /**
  * 模板
@@ -15,42 +14,6 @@ use TE\Mvc\Action\ActionEvent as Event;
  */
 class Template extends AbstractResult
 {
-    /**
-     * _template  
-     * 
-     * @var string
-     * @access private
-     */
-    private $_template = '';
-
-    /**
-     * _prefix  
-     * 
-     * @var string
-     * @access private
-     */
-    private $_prefix = '';
-
-    /**
-     * _vars  
-     * 
-     * @var array
-     * @access protected
-     */
-    protected $vars = array();
-
-    /**
-     * @param Event  $event
-     * @param        $template  模板文件
-     * @param string $prefix    模板文件前缀
-     */
-    public function __construct(Event $event, $template, $prefix = '')
-    {
-        $this->vars = $event->getData();
-        $this->_template = $template;
-        $this->_prefix = $prefix;
-    }
-
     /**
      * prepareResponse  
      * 
@@ -68,9 +31,9 @@ class Template extends AbstractResult
     {
         global $template;
 
-        $_file = $this->_template;
-        $_data = $this->vars;
-        $_prefix = $this->_prefix;
+        $_file = $this->getParam(0);
+        $_data = $this->getEvent()->getData();
+        $_prefix = $this->getParam(1, '');
 
         $template = function ($_file, array $_merge = NULL) use ($_data, $_prefix) {
             global $template;
@@ -94,7 +57,6 @@ class Template extends AbstractResult
         };
 
         $template($_file);
-        exit;
     }
 }
 

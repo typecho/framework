@@ -59,18 +59,10 @@ abstract class AbstractAction extends Base
     /**
      * handle
      */
-    public function handle()
+    final public function handle()
     {
         $this->_event->invoke();
-
-        $result = $this->_event->getResult();
-        $resultClass = $result->getResultClass();
-        $params = $result->getParams();
-        array_unshift($params, $this->_event);
-        $resultRefelect = new \ReflectionClass($resultClass);
-        $result = $resultRefelect->newInstanceArgs($params);
-
-        $this->response->setResult($result);
+        $this->response->setResult($this->_event->getResult());
     }
 
     /**
