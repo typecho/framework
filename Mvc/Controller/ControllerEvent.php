@@ -1,26 +1,26 @@
 <?php
 
-namespace TE\Mvc\Action;
+namespace TE\Mvc\Controller;
 
-use TE\Mvc\Action\Interceptor\InterceptorManager;
+use TE\Mvc\Controller\Interceptor\InterceptorManager;
 use TE\Mvc\Settings;
 
 /**
- * ActionEvent  
+ * ControllerEvent
  * 
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class ActionEvent
+class ControllerEvent
 {
     /**
-     * _action  
+     * _controller
      * 
-     * @var AbstractAction
+     * @var AbstractController
      * @access private
      */
-    private $_action;
+    private $_controller;
 
     /**
      * _result  
@@ -47,44 +47,74 @@ class ActionEvent
     private $_manager;
 
     /**
-     * @param AbstractAction     $action
+     * @param AbstractController     $controller
      * @param InterceptorManager $manager
      */
-    public function __construct(AbstractAction $action, InterceptorManager $manager)
+    public function __construct(AbstractController $controller, InterceptorManager $manager)
     {
-        $this->_action = $action;
+        $this->_controller = $controller;
         $this->_manager = $manager;
     }
 
     /**
-     * getAction  
+     * @param $method
+     * @return mixed
+     */
+    private function invokeMethod($method)
+    {
+        $controllerRef = new \ReflectionClass($this->_controller);
+        $methodRef = $controllerRef->getMethod($method);
+        $params = $methodRef->getParameters();
+        $args = array();
+        $request = $this->_controller->getRequest();
+
+        foreach ($params as $param) {
+            $name = $param->getName();
+
+            if ($param->isArray()) {
+                $args[] = $request->getArray($name,
+                    $param->isDefaultValueAvailable() ? $param->getDefaultValue() : array());
+            } else {
+                $default = $param->isDefaultValueAvailable()
+                    ? $param->getDefaultValue() : NULL;
+                $value = $request->get($name, $default);
+                $args[] = is_array($value) ? $default : $value;
+            }
+        }
+
+        return call_user_func_array(array($this->_controller, $method), $args);
+    }
+
+    /**
+     * getController
      * 
      * @access public
-     * @return AbstractAction
+     * @return AbstractController
      */
-    public function getAction()
+    public function getController()
     {
-        return $this->_action;
+        return $this->_controller;
     }
 
     /**
      * invoke
      * 
      * @access public
+     * @param string $method
      * @return void
      */
-    public function invoke()
+    public function invoke($method)
     {
         $interceptor = $this->_manager->fetch();
 
         if (empty($interceptor)) {
             foreach ($this->_data as $key => $val) {
-                if (empty($this->_action->{$key})) {
-                    $this->_action->{$key} = $val;
+                if (empty($this->_controller->{$key})) {
+                    $this->_controller->{$key} = $val;
                 }
             }
 
-            $result = $this->_action->execute();
+            $result = $this->invokeMethod($method);
 
             if (NULL === $result) {
                 $result = 'blank';
@@ -94,7 +124,7 @@ class ActionEvent
             $params = is_array($result) ? $result : array();
 
             $this->setResult($resultName, $params);
-            $data = get_object_vars($this->_action);
+            $data = get_object_vars($this->_controller);
             $this->_data = array_merge($this->_data, $data);
         } else {
             $interceptor->intercept($this);
@@ -135,7 +165,7 @@ class ActionEvent
      * @param mixed $name 
      * @param mixed $value 
      * @access public
-     * @return ActionEvent
+     * @return ControllerEvent
      */
     public function setData($name, $value)
     {

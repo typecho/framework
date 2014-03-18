@@ -1,8 +1,8 @@
 <?php
 
-namespace TE\Mvc\Action\Interceptor;
+namespace TE\Mvc\Controller\Interceptor;
 
-use TE\Mvc\Action\ActionEvent;
+use TE\Mvc\Controller\ControllerEvent;
 
 /**
  * InterceptorInterface  
@@ -16,8 +16,8 @@ interface InterceptorInterface
     /**
      * intercept
      *
-     * @param ActionEvent $event
+     * @param ControllerEvent $event
      */
-    public function intercept(ActionEvent $event);
+    public function intercept(ControllerEvent $event);
 }
 

@@ -20,12 +20,19 @@ interface RequestInterface
     public function getPathInfo();
 
     /**
-     * getArgs  
-     * 
-     * @access public
-     * @return array
+     * get params
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
      */
-    public function getArgs();
+    public function get($key, $default = NULL);
+
+    /**
+     * @param mixed $key
+     * @return mixed
+     */
+    public function getArray($key);
 
     /**
      * setParams  

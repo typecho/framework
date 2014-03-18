@@ -1,6 +1,6 @@
 <?php
 
-namespace TE\Mvc\Action\Interceptor;
+namespace TE\Mvc\Controller\Interceptor;
 
 /**
  * InterceptorManager 

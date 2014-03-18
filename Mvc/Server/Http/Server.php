@@ -2,7 +2,7 @@
 
 namespace TE\Mvc\Server\Http;
 
-use TE\Mvc\Action\Interceptor\InterceptorManager;
+use TE\Mvc\Controller\Interceptor\InterceptorManager;
 use TE\Mvc\Server\AbstractServer;
 use TE\Mvc\Settings;
 
@@ -53,7 +53,7 @@ class Server extends AbstractServer
     {
         $pathInfo = $this->request->getPathInfo();
 
-        foreach ($routes as $route => $action) {
+        foreach ($routes as $route => $controller) {
             $routeParts = parse_url($route);
 
             $params = array();
@@ -63,7 +63,7 @@ class Server extends AbstractServer
             }, $routeParts['path']);
 
             $route = str_replace('%', '([^\/]+)', preg_quote($route));
-            if (preg_match('|^' . $route . '$|', $pathInfo, $matches)) {
+            if (preg_match('|^' . $route . '$|u', $pathInfo, $matches)) {
                 if (!empty($routeParts['scheme'])) {
                     $method = 'is' . ucfirst($routeParts['scheme']);
                     if (method_exists($this->request, $method) && !$this->request->{$method}()) {
@@ -81,7 +81,7 @@ class Server extends AbstractServer
                     $this->request->setParams($params);
                 }
 
-                return $action;
+                return $controller;
             }
         }
     }

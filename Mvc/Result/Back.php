@@ -17,7 +17,7 @@ class Back extends Redirect
      */
     public function init()
     {
-        $this->setParam(0, $this->getEvent()->getAction()->getRequest()->getReferer());
+        $this->setParam(0, $this->getEvent()->getController()->getRequest()->getReferer());
     }
 }
 

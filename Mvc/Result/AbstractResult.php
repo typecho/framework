@@ -2,7 +2,7 @@
 
 namespace TE\Mvc\Result;
 
-use TE\Mvc\Action\ActionEvent;
+use TE\Mvc\Controller\ControllerEvent;
 use TE\Mvc\Server\ResponseInterface as Response;
 
 /**
@@ -16,7 +16,7 @@ use TE\Mvc\Server\ResponseInterface as Response;
 abstract class AbstractResult
 {
     /**
-     * @var ActionEvent
+     * @var ControllerEvent
      */
     private $_event;
 
@@ -35,15 +35,15 @@ abstract class AbstractResult
     abstract public function render();
 
     /**
-     * @param ActionEvent $event
+     * @param ControllerEvent $event
      */
-    final public function setEvent(ActionEvent $event)
+    final public function setEvent(ControllerEvent $event)
     {
         $this->_event = $event;
     }
 
     /**
-     * @return ActionEvent
+     * @return ControllerEvent
      */
     final public function getEvent()
     {

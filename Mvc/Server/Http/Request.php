@@ -104,6 +104,23 @@ class Request extends AbstractRequest
     private $_isMobile = NULL;
 
     /**
+     * json字符串
+     *
+     * @var array
+     */
+    private $_jsonParams = array();
+
+    /**
+     * 初始化变量
+     */
+    public function __construct()
+    {
+        if (preg_match("/^application\/json,/i", $_SERVER['HTTP_ACCEPT'])) {
+            $this->_jsonParams = json_decode(file_get_contents('php://input'), true, 16);
+        }
+    }
+
+    /**
      * 获取客户端识别串 
      * 
      * @static
@@ -118,17 +135,21 @@ class Request extends AbstractRequest
     /**
      * 获取前端传递变量
      * 
-     * @static
+     * @param string $name
      * @access public
      * @return array
      */
-    public function getArgs()
+    public function getArg($name)
     {
-        if (NULL === $this->_args) {
-            $this->_args = array_merge($_POST, $_GET);
+        if (isset($_POST[$name])) {
+            return $_POST[$name];
+        } else if (isset($_GET[$name])) {
+            return $_GET[$name];
+        } else if (isset($this->_jsonParams[$name])) {
+            return $this->_jsonParams[$name];
         }
 
-        return $this->_args;
+        return false;
     }
 
     /**

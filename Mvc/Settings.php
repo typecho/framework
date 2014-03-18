@@ -2,7 +2,7 @@
 
 namespace TE\Mvc;
 
-use TE\Mvc\Action\Interceptor\InterceptorManager;
+use TE\Mvc\Controller\Interceptor\InterceptorManager;
 
 /**
  * Class Settings

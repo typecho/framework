@@ -1,24 +1,24 @@
 <?php
 /**
- * AbstractHttpAction.php
+ * AbstractCliController.php
  *
  * @author joyqi
- * @date 2013-11-28 14:00
+ * @date 2013-11-28 14:08
  * @project framework
  */
 
-namespace TE\Mvc\Action;
+namespace TE\Mvc\Controller;
 
 
-use TE\Mvc\Action\Interceptor\InterceptorManager;
-use TE\Mvc\Server\Http\Request;
-use TE\Mvc\Server\Http\Response;
+use TE\Mvc\Controller\Interceptor\InterceptorManager;
+use TE\Mvc\Server\Cli\Request;
+use TE\Mvc\Server\Cli\Response;
 
 /**
- * Class AbstractHttpAction
- * @package TE\Mvc\Action
+ * Class AbstractCliController
+ * @package TE\Mvc\Controller
  */
-abstract class AbstractHttpAction extends AbstractAction
+abstract class AbstractCliController extends AbstractController
 {
     /**
      * @var Request

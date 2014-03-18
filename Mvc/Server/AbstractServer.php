@@ -4,7 +4,7 @@ namespace TE\Mvc\Server;
 
 use TE\Mvc\Router\RouterInterface as Router;
 use TE\Mvc\Router\RouterResult;
-use TE\Mvc\Action\Interceptor\InterceptorManager;
+use TE\Mvc\Controller\Interceptor\InterceptorManager;
 use TE\Mvc\Settings;
 
 /**
@@ -41,9 +41,9 @@ abstract class AbstractServer
     {
         $this->request = $this->createRequest();
         $this->response = $this->createResponse();
-        $action = $this->route($routes);
+        $controller = $this->route($routes);
 
-        $this->serve($action);
+        $this->serve($controller);
     }
 
     /**
@@ -76,17 +76,18 @@ abstract class AbstractServer
     /**
      * 执行回调
      *
-     * @param string $action
+     * @param string $controller
      */
-    protected function serve($action)
+    protected function serve($controller)
     {
         try {
-            if (empty($action)) {
-                $action = Settings::routerNotFound();
+            if (empty($controller)) {
+                $controller = Settings::routerNotFound();
             }
 
-            $parts = parse_url($action);
-            $action = $parts['path'];
+            $parts = parse_url($controller);
+            $controller = $parts['path'];
+            $method = 'execute';
             $interceptorManager = new InterceptorManager();
 
             if (!empty($parts['scheme'])) {
@@ -96,17 +97,21 @@ abstract class AbstractServer
                 }
             }
 
-            $actionInstance = new $action($this->request, $this->response, $interceptorManager);
+            if (!empty($parts['fragment'])) {
+                $method = $parts['fragment'];
+            }
 
-            if (!empty($parts['params'])) {
-                parse_str($parts['params'], $params);
+            $controllerInstance = new $controller($this->request, $this->response, $interceptorManager);
+
+            if (!empty($parts['query'])) {
+                parse_str($parts['query'], $params);
 
                 foreach ($params as $key => $val) {
-                    $actionInstance->{$key} = $val;
+                    $controllerInstance->{$key} = $val;
                 }
             }
 
-            $actionInstance->handle();
+            $controllerInstance->handle($method);
 
         } catch (\Exception $e) {
             Settings::catchException($e);

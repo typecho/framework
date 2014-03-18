@@ -1,14 +1,14 @@
 <?php
 
-namespace TE\Mvc\Action;
+namespace TE\Mvc\Controller;
 
 use TE\Mvc\Server\RequestInterface as Request;
 use TE\Mvc\Server\ResponseInterface as Response;
 use TE\Mvc\Base;
-use TE\Mvc\Action\Interceptor\InterceptorManager;
+use TE\Mvc\Controller\Interceptor\InterceptorManager;
 
 /**
- * AbstractAction
+ * AbstractController
  * 
  * @uses Base
  * @abstract
@@ -16,7 +16,7 @@ use TE\Mvc\Action\Interceptor\InterceptorManager;
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-abstract class AbstractAction extends Base
+abstract class AbstractController extends Base
 {
     /**
      * request 
@@ -37,7 +37,7 @@ abstract class AbstractAction extends Base
     /**
      * _event  
      * 
-     * @var ActionEvent
+     * @var ControllerEvent
      * @access private
      */
     private $_event;
@@ -51,17 +51,19 @@ abstract class AbstractAction extends Base
     {
         $this->request = $request;
         $this->response = $response;
-        $this->_event = new ActionEvent($this, $interceptorManager);
+        $this->_event = new ControllerEvent($this, $interceptorManager);
 
         parent::__construct();
     }
 
     /**
      * handle
+     *
+     * @param string $method
      */
-    final public function handle()
+    final public function handle($method)
     {
-        $this->_event->invoke();
+        $this->_event->invoke($method);
         $this->response->setResult($this->_event->getResult());
     }
 
@@ -94,6 +96,7 @@ abstract class AbstractAction extends Base
      * @access public
      * @return mixed
      */
-    abstract public function execute();
+    public function execute()
+    {}
 }
 

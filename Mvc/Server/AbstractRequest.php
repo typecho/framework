@@ -22,14 +22,6 @@ abstract class AbstractRequest implements RequestInterface
     private $_params = array();
 
     /**
-     * json参数列表
-     * 
-     * @var array
-     * @access private
-     */
-    private $_jsonParams = array();
-
-    /**
      * setParams  
      * 
      * @param array $params 
@@ -42,92 +34,36 @@ abstract class AbstractRequest implements RequestInterface
         $this->_params = array_merge($this->_params, $params);
     }
 
+
+    /**
+     * getArg
+     *
+     * @param string $name
+     * @access public
+     * @return array
+     */
+    abstract public function getArg($name);
+
     /**
      * 获取前端传递参数
      * 
      * @param string $key 参数值 
      * @param mixed $default 
-     * @param mixed $realKey
      * @access public
      * @return mixed
      */
-    public function get($key, $default = NULL, &$realKey = NULL)
+    public function get($key, $default = NULL)
     {
-        $realKey = $key;
-        if (!isset($this->_params[$key])) {
-            $request = array_merge($this->getArgs(), $this->_params);
-            $paramKeys = explode('|', $key);
-            $this->_params[$key] = $default;
-            
-            foreach ($paramKeys as $paramKey) {
-                $filters = NULL;
-                
-                if (false !== strpos($paramKey, '#')) {
-                    list ($paramKey, $filters) = explode('#', $paramKey);
-                    $realKey = $paramKey;
-                    $filters = explode(',', $filters);
-                }
-
-                if (!empty($request[$paramKey]) || (isset($request[$paramKey]) && strlen($request[$paramKey]) > 0)) {
-                    $this->_params[$key] = $request[$paramKey];
-                    $realKey = $paramKey;
-                } else if (false !== strpos($paramKey, ':')) {
-                    list($jsonParamKey, $jsonKey) = explode(':', $paramKey);
-                    $realKey = $paramKey;
-                    if (false !== strpos($jsonKey, '#')) {
-                        list ($jsonKey, $filters) = explode('#', $jsonKey);
-                        $realKey = $jsonParamKey . ':' . $jsonKey;
-                        $filters = explode(',', $filters);
-                    }
-
-                    $json = $this->getJson($jsonParamKey);
-
-                    if (isset($json[$jsonKey])) {
-                        $this->_params[$key] = $json[$jsonKey];
-                    }
-                }
-                
-                if (!empty($filters)) {
-                    foreach ($filters as $filter) {
-                        $this->_params[$key] = $filter($this->_params[$key]);
-                    }
-                }
-            }
+        if (isset($this->_params[$key])) {
+            return $this->_params[$key];
         }
 
-        $result = $this->_params[$key];
-        if (is_array($result)) {
-            return array_filter($result, function ($value) {
-                return mb_check_encoding($value, 'UTF-8');
-            });
-        } else if (!mb_check_encoding($result, 'UTF-8')) {
+        $arg = $this->getArg($key);
+        if (false === $arg) {
             return $default;
         }
 
-        return $result;
-    }
-
-    /**
-     * 从请求中获取json数据
-     *
-     * @param mixed $key
-     * @access public
-     * @return mixed
-     */
-    public function getJson($key)
-    {
-        if (!isset($this->_jsonParams[$key])) {
-            $this->_jsonParams[$key] = NULL;
-
-            if (!empty($_REQUEST[$key])) {
-                $result = json_decode($this->get($key), true);
-                if (NULL !== $result) {
-                    $this->_jsonParams[$key] = $result;
-                }
-            }
-        }
-
-        return $this->_jsonParams[$key];
+        return $arg;
     }
 
     /**
@@ -142,13 +78,13 @@ abstract class AbstractRequest implements RequestInterface
         if (is_array($key)) {
             $result = array();
             foreach ($key as $k) {
-                $val = $this->get($k, NULL, $realKey);
-                $result[$realKey] = $val;
+                $val = $this->get($k, NULL);
+                $result[$k] = $val;
             }
             return $result;
         } else {
             $result = $this->get($key, array());
-            return is_array($result) ? $result : (NULL === $result ? array() : array($result));
+            return is_array($result) ? $result : array($result);
         }
     }
 
@@ -171,7 +107,7 @@ abstract class AbstractRequest implements RequestInterface
         }
 
         /** 验证串 */
-        if ($params) {
+        if (!empty($params)) {
             $validated = true;
             foreach ($params as $key => $val) {
                 $validated = empty($val) ? ($val != $this->get($key)) : ($val == $this->get($key));

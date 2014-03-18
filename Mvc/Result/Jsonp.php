@@ -36,7 +36,7 @@ class Jsonp extends AbstractResult
      */
     public function render()
     {
-        $callback = $this->getEvent()->getAction()
+        $callback = $this->getEvent()->getController()
             ->getRequest()->get($this->getParam(1, 'callback'), 'jsonp');
         echo $callback . '(' . json_encode($this->getParam(0)) . ')';
     }
