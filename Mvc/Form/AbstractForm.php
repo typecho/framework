@@ -42,9 +42,25 @@ class AbstractForm extends Base
         // get public field
         foreach ($props as $prop) {
             $name = $prop->getName();
-            $default = $prop->getValue($this);
             $setterName = 'set' . ucfirst($name);
             $this->_props[] = $name;
+
+            // get value by default define
+            $default = $prop->getValue($this);
+            if (is_array($default)) {
+                $value = $request->getArray($name);
+                if (empty($value)) {
+                    $value = $default;
+                }
+            } else {
+                $value = $request->get($name, $default);
+                if (is_array($value)) {
+                    $value = $default;
+                }
+            }
+
+            // set value to current var
+            $this->_current = $value;
 
             if ($reflect->hasMethod($setterName)) {
                 $method = $reflect->getMethod($setterName);
@@ -52,41 +68,14 @@ class AbstractForm extends Base
                 if ($method->isPublic()) {
                     $params = $method->getParameters();
                     if (1 == count($params)) {
-                        $default = $params[0]->isDefaultValueAvailable()
-                            ? $params[0]->getDefaultValue() : $default;
-
-                        if ($params[0]->isArray()) {
-                            $value = $request->getArray($name);
-                            if (empty($value) && is_array($default)) {
-                                $value = $default;
-                            }
-                        } else {
-                            $default = is_array($default) ? NULL : $default;
-                            $value = $request->get($name, $default);
-                            $value = is_array($value) ? $default : $value;
-                        }
-
-                        $this->_current = $value;
-
                         try {
                             $this->{$setterName}($value);
+                            continue;
                         } catch (ValidateException $e) {
                             $this->_messages[$name] = $e->getMessage();
-                            $prop->setValue($this, $value);
                             $this->_isValid = false;
                         }
-
-                        continue;
                     }
-                }
-            }
-
-            if (is_array($default)) {
-                $value = $request->getArray($name);
-            } else {
-                $value = $request->get($name, $default);
-                if (is_array($value)) {
-                    $value = NULL;
                 }
             }
 
@@ -149,15 +138,23 @@ class AbstractForm extends Base
                 case 'mail':
                     $this->checkValid(preg_match("/^[_a-z0-9-\.]+@[^@]+\.[a-z]{2,}$/i", $this->_current), $message);
                     break;
-                case 'digit':
-                    $this->checkValid(ctype_digit($this->_current), $message);
+                case 'type':
+                    list ($type) = $this->requireArgs($args, 1);
+                    if (!in_array($type, array('alnum', 'alpha', 'cntrl', 'digit', 'graph', 'lower', 'print',
+                        'punct', 'space', 'upper', 'xdigit'))) {
+                        break;
+                    }
+
+                    $method = 'ctype_' . $type;
+                    $this->checkValid($method($this->_current), $message);
                     break;
                 case 'confirm':
                     list ($name) = $this->requireArgs($args, 1);
                     $this->checkValid($this->_current == $this->{$name}, $message);
                     break;
                 case 'required':
-                    $this->checkValid(strlen($this->_current) > 0, $message);
+                    $this->checkValid(is_array($this->_current) ? !empty($this->_current) :
+                        strlen($this->_current) > 0, $message);
                     break;
                 default:
                     break;
