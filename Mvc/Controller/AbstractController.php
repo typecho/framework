@@ -2,9 +2,10 @@
 
 namespace TE\Mvc\Controller;
 
-use TE\Mvc\Server\RequestInterface as Request;
-use TE\Mvc\Server\ResponseInterface as Response;
-use TE\Mvc\Base;
+use TE\Mvc\Form\AbstractForm;
+use TE\Mvc\Request;
+use TE\Mvc\Response;
+use TE\Base;
 use TE\Mvc\Controller\Interceptor\InterceptorManager;
 
 /**
@@ -95,8 +96,23 @@ abstract class AbstractController extends Base
      * @abstract
      * @access public
      * @return mixed
+     * @throws \Exception
      */
     public function execute()
-    {}
+    {
+        throw new \Exception("Please implements action 'execute'");
+    }
+
+    /**
+     * 处理表单错误
+     *
+     * @param string $action
+     * @param AbstractForm $form
+     * @throws \Exception
+     */
+    public function formAssert($action, AbstractForm $form)
+    {
+        throw new \Exception("Please implements formAssert " . get_class($form) . " from action {$action}");
+    }
 }
 

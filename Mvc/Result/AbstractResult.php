@@ -3,7 +3,7 @@
 namespace TE\Mvc\Result;
 
 use TE\Mvc\Controller\ControllerEvent;
-use TE\Mvc\Server\ResponseInterface as Response;
+use TE\Mvc\Response;
 
 /**
  * AbstractResult

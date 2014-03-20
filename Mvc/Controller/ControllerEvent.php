@@ -3,7 +3,7 @@
 namespace TE\Mvc\Controller;
 
 use TE\Mvc\Controller\Interceptor\InterceptorManager;
-use TE\Mvc\Settings;
+use TE\Settings;
 
 /**
  * ControllerEvent
@@ -70,10 +70,19 @@ class ControllerEvent
 
         foreach ($params as $param) {
             $name = $param->getName();
+            $class = $param->getClass();
 
             if ($param->isArray()) {
                 $args[] = $request->getArray($name,
                     $param->isDefaultValueAvailable() ? $param->getDefaultValue() : array());
+            } else if (!empty($class) && $class->isSubclassOf('\TE\Mvc\Form\AbstractForm')) {
+                $form = new $class($request);
+
+                if (!$form->isValid()) {
+                    return $this->_controller->formAssert($method, $form);
+                }
+
+                $args[] = $form;
             } else {
                 $default = $param->isDefaultValueAvailable()
                     ? $param->getDefaultValue() : NULL;

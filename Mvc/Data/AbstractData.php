@@ -2,7 +2,7 @@
 
 namespace TE\Mvc\Data;
 
-use TE\Mvc\Base;
+use TE\Base;
 
 /**
  * ResultData

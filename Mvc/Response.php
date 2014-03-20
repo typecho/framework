@@ -1,19 +1,17 @@
 <?php
 
-namespace TE\Mvc\Server\Http;
+namespace TE\Mvc;
 
-use TE\Mvc\Server\ResponseInterface;
 use TE\Mvc\Result\AbstractResult as Result;
 
 /**
  * Response  
  * 
- * @uses ResponseInterface
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
  * @author Joyqi <magike.net@gmail.com> 
  * @license GNU General Public License 2.0
  */
-class Response implements ResponseInterface
+class Response
 {
     /**
      * http code

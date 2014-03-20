@@ -2,7 +2,7 @@
 
 namespace TE\Mvc\Result;
 
-use TE\Mvc\Server\ResponseInterface as Response;
+use TE\Mvc\Response;
 
 /**
  * Error 

@@ -1,6 +1,6 @@
 <?php
 
-namespace TE\Mvc;
+namespace TE;
 
 /**
  * Base 
