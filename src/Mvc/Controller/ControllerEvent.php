@@ -195,4 +195,3 @@ class ControllerEvent
             (isset($this->_data[$name]) ? $this->_data[$name] : NULL);
     }
 }
-

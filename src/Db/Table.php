@@ -23,9 +23,9 @@ class Table
     private $_name;
 
     /**
-     * 数据库表初始化
+     * init table
      *
-     * @param string $name 表名
+     * @param string $name table name
      * @param Connector $connector
      */
     public function __construct($name, Connector $connector)

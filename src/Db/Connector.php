@@ -50,9 +50,9 @@ class Connector
     private $_prefix;
 
     /**
-     * @param        $adapterName   适配器名称
-     * @param array  $params        初始化参数
-     * @param string $prefix        表名前缀
+     * @param string  $adapterName   adapter name
+     * @param array  $params        db connect params
+     * @param string $prefix        the prefix of table
      * @throws AdapterException
      */
     public function __construct($adapterName, array $params, $prefix = '')

@@ -65,7 +65,7 @@ abstract class AbstractResult
     final public function setParam($pos, $value)
     {
         $this->_params[$pos] = $value;
-        ksort($this->pos);
+        ksort($this->_params);
     }
 
     /**

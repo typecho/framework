@@ -104,10 +104,11 @@ abstract class AbstractController extends Base
     }
 
     /**
-     * 处理表单错误
+     * handle form assert
      *
      * @param string $action
      * @param AbstractForm $form
+     * @return mixed
      * @throws \Exception
      */
     public function formAssert($action, AbstractForm $form)

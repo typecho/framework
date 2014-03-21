@@ -5,7 +5,7 @@ namespace TE\Mvc\Result;
 use TE\Mvc\Response;
 
 /**
- * 模板
+ * tempalte engine
  * 
  * @uses AbstractResult
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)

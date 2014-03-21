@@ -5,7 +5,7 @@ namespace TE\Mvc\Result;
 use TE\Mvc\Response;
 
 /**
- * 渲染一个字符串
+ * display content directly
  * 
  * @uses AbstractResult
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)

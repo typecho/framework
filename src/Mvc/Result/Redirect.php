@@ -5,7 +5,7 @@ namespace TE\Mvc\Result;
 use TE\Mvc\Response;
 
 /**
- * 跳转
+ * redirect
  * 
  * @uses AbstractResult
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)

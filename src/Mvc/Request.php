@@ -13,7 +13,7 @@ namespace TE\Mvc;
 class Request
 {
     /**
-     * 客户端ip 
+     * agent ip
      * 
      * @var mixed
      * @access private

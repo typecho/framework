@@ -5,7 +5,7 @@ namespace TE\Mvc\Result;
 use TE\Mvc\Response;
 
 /**
- * 空白页
+ * blank page
  * 
  * @uses AbstractResult
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)

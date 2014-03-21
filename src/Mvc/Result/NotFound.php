@@ -5,7 +5,7 @@ namespace TE\Mvc\Result;
 use TE\Mvc\Response;
 
 /**
- * 404错误页
+ * 404 page
  * 
  * @uses Error
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)

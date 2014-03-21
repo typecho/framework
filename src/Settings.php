@@ -16,8 +16,6 @@ class Settings
     private static $_class;
 
     /**
-     * @param $name
-     * @param array $args
      * @return mixed
      */
     final private static function call()
