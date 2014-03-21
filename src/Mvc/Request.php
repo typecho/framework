@@ -112,7 +112,7 @@ class Request
      */
     public function __construct()
     {
-        if (preg_match("/^application\/json,/i", $_SERVER['HTTP_ACCEPT'])) {
+        if (preg_match("/^application\/json/i", $_SERVER['HTTP_ACCEPT'])) {
             $this->_jsonParams = json_decode(file_get_contents('php://input'), true, 16);
         }
     }

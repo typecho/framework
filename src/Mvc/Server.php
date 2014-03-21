@@ -44,7 +44,7 @@ class Server
     }
 
     /**
-     * 路由实现
+     * implements route
      *
      * @param array $routes
      * @return string
@@ -87,7 +87,7 @@ class Server
     }
 
     /**
-     * 执行回调
+     * handle controller
      *
      * @param string $controller
      */

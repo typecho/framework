@@ -173,6 +173,17 @@ class AbstractForm extends Base
     }
 
     /**
+     * getMessages  
+     * 
+     * @access public
+     * @return varray
+     */
+    public function getMessages()
+    {
+        return $this->_messages;
+    }
+
+    /**
      * @return array
      */
     public function toArray()
