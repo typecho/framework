@@ -76,7 +76,7 @@ class ControllerEvent
                 $args[] = $request->getArray($name,
                     $param->isDefaultValueAvailable() ? $param->getDefaultValue() : array());
             } else if (!empty($class) && $class->isSubclassOf('\TE\Mvc\Form\AbstractForm')) {
-                $form = new $class($request);
+                $form = $class->newInstance($request);
 
                 if (!$form->isValid()) {
                     return $this->_controller->formAssert($method, $form);
@@ -149,11 +149,12 @@ class ControllerEvent
     public function setResult($resultName, $params)
     {
         $resultClass = Settings::getResultClass($resultName);
-        $params = Settings::getResultParams($resultName, $params);
 
         $this->_result = new $resultClass;
         $this->_result->setEvent($this);
         $this->_result->setParams($params);
+
+        Settings::setResult($resultName, $this->_result);
         $this->_result->init();
     }
  

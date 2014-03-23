@@ -53,7 +53,7 @@ class Template extends AbstractResult
                 }
             }
 
-            throw new \Exception('Template file not found');
+            throw new \Exception('Template file "' . $_file . '" not found');
         };
 
         $template($_file);

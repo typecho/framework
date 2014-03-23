@@ -125,12 +125,11 @@ class Server
             }
 
             $controllerInstance->handle($method);
+            $this->response->respond();
 
         } catch (\Exception $e) {
             Settings::catchException($e);
         }
-
-        $this->response->respond();
     }
 }
 

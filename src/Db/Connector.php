@@ -131,7 +131,7 @@ class Connector
      * table
      *
      * @param string $table
-     * @return Connector
+     * @return Table
      */
     public function table($table)
     {

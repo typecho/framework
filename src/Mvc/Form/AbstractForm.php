@@ -36,6 +36,8 @@ class AbstractForm extends Base
      */
     public function __construct(Request $request)
     {
+        parent::__construct($request);
+
         $reflect = new \ReflectionClass($this);
         $props = $reflect->getProperties(\ReflectionProperty::IS_PUBLIC);
 

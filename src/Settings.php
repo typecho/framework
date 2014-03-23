@@ -3,6 +3,7 @@
 namespace TE;
 
 use TE\Mvc\Controller\Interceptor\InterceptorManager;
+use TE\Mvc\Result\AbstractResult;
 
 /**
  * Class Settings
@@ -31,22 +32,13 @@ class Settings
     }
 
     /**
-     * @param Settings $class
+     * @param string $class
      */
-    final public static function setClass(Settings $class)
+    final public static function setClass($class)
     {
-        self::$_class = $class;
-    }
-
-    /**
-     * autoLoad
-     * 
-     * @param mixed $path 
-     * @param mixed $namespace 
-     */
-    final public static function autoLoad($path, $namespace = NULL)
-    {
-        self::call(__FUNCTION__, $path, $namespace);
+        if (is_subclass_of($class, '\TE\Settings')) {
+            self::$_class = new $class;
+        }
     }
 
     /**
@@ -55,7 +47,7 @@ class Settings
      * @param mixed $path 
      * @param mixed $namespace 
      */
-    protected function onAutoLoad($path, $namespace = NULL)
+    final public static function autoLoad($path, $namespace = NULL)
     {
         spl_autoload_register(function ($class) use ($path, $namespace) {
             if (!empty($namespace)) {
@@ -128,24 +120,20 @@ class Settings
     }
 
     /**
-     * @param $resultName
-     * @param $params
-     * @return array
+     * @param string $resultName
+     * @param AbstractResult $result
      */
-    final public static function getResultParams($resultName, $params)
+    final public static function setResult($resultName, AbstractResult $result)
     {
-        return self::call(__FUNCTION__, $resultName, $params);
+        self::call(__FUNCTION__, $resultName, $result);
     }
 
     /**
-     * @param $resultName
-     * @param $params
-     * @return array
+     * @param string $resultName
+     * @param AbstractResult $result
      */
-    protected function onGetResultParams($resultName, $params)
-    {
-        return $params;
-    }
+    protected function onSetResult($resultName, AbstractResult $result)
+    {}
 
     /**
      * @param InterceptorManager $interceptorManager
