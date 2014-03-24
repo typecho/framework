@@ -20,6 +20,11 @@ class HttpClient
     private $_url;
 
     /**
+     * @var string
+     */
+    private $_method;
+
+    /**
      * _timeout  
      * 
      * @var mixed
@@ -44,6 +49,11 @@ class HttpClient
     private $_maxSize = 0;
 
     /**
+     * @var string
+     */
+    private $_auth;
+
+    /**
      * _contentType 
      * 
      * @var array
@@ -57,7 +67,9 @@ class HttpClient
      * @var array
      * @access private
      */
-    private $_headers = array();
+    private $_headers = array(
+        'Expect:'
+    );
 
     /**
      * _responseStatusCode
@@ -149,9 +161,17 @@ class HttpClient
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
+        if (!empty($this->_method)) {
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $this->_method);
+        }
+
+        if (!empty($this->_auth)) {
+            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+            curl_setopt($ch, CURLOPT_USERPWD, $this->_auth);
+        }
+
         if (!empty($data)) {
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($data) ? http_build_query($data) : $data);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         }
 
         if (!empty($this->_headers)) {
@@ -172,7 +192,7 @@ class HttpClient
             if (preg_match("/^HTTP\/1\.[0-9]\s+([0-9]{3})\s+.*/i", $line, $matches)) {
                 $status = intval($matches[1]);
 
-                if (200 == $status) {
+                if (200 == $status || 100 == $status) {
                     $redirect = false;
                 } else if (301 == $status || 302 == $status) {
                     $redirect = true;
@@ -238,6 +258,27 @@ class HttpClient
         $this->_responseContentLength = $size;
         $this->_responseHeaders = $headers;
         curl_close($ch);
+    }
+
+    /**
+     * @param $method
+     * @return $this
+     */
+    public function setMethod($method)
+    {
+        $this->_method = $method;
+        return $this;
+    }
+
+    /**
+     * @param string $user
+     * @param string $password
+     * @return HttpClient
+     */
+    public function setAuth($user, $password)
+    {
+        $this->_auth = "{$user}:{$password}";
+        return $this;
     }
 
     /**

@@ -140,7 +140,6 @@ abstract class Base
             $reflect = new \ReflectionClass($className);
             return $reflect->newInstanceArgs($args);
         } else if (is_string($define)) {
-            debug_print_backtrace();
             return new $define();
         } else if (is_callable($define)) {
             return $define($this);

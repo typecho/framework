@@ -75,13 +75,12 @@ class AbstractForm extends Base
                             continue;
                         } catch (ValidateException $e) {
                             $this->_messages[$name] = $e->getMessage();
+                            $prop->setValue($this, $value);
                             $this->_isValid = false;
                         }
                     }
                 }
             }
-
-            $prop->setValue($this, $value);
         }
     }
 
