@@ -15,13 +15,25 @@ use TE\Mvc\Response;
 class Error extends Template
 {
     /**
+     * @var string
+     */
+    private $_template = '';
+
+    /**
+     * @param string $template
+     */
+    public function setTemplate($template)
+    {
+        $this->_template = $template;
+    }
+
+    /**
      * init some vars
      */
     public function init()
     {
         $this->getEvent()->setData('content', $this->getParam(0, 'Error'));
-        $this->setParam(0, $this->getParam(1));
-        $this->setParam(1, $this->getParam(2));
+        $this->setParam(0, $this->_template);
     }
 
     /**

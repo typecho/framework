@@ -15,6 +15,19 @@ use TE\Mvc\Response;
 class Template extends AbstractResult
 {
     /**
+     * @var string
+     */
+    private $_prefix = '';
+
+    /**
+     * @param string $prefix
+     */
+    public function setPrefix($prefix)
+    {
+        $this->_prefix = $prefix;
+    }
+
+    /**
      * prepareResponse  
      * 
      * @param Response $response 
@@ -33,7 +46,7 @@ class Template extends AbstractResult
 
         $_file = $this->getParam(0);
         $_data = $this->getEvent()->getData();
-        $_prefix = $this->getParam(1, '');
+        $_prefix = $this->_prefix;
 
         $template = function ($_file, array $_merge = NULL) use ($_data, $_prefix) {
             global $template;

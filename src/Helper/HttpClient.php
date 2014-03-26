@@ -4,16 +4,16 @@ namespace TE\Helper;
 
 /**
  * HttpClient
- * 
+ *
  * @copyright Copyright (c) 2012 Typecho Team. (http://typecho.org)
- * @author Joyqi <magike.net@gmail.com> 
+ * @author Joyqi <magike.net@gmail.com>
  * @license GNU General Public License 2.0
  */
 class HttpClient
 {
     /**
-     * _url  
-     * 
+     * _url
+     *
      * @var mixed
      * @access private
      */
@@ -25,24 +25,24 @@ class HttpClient
     private $_method;
 
     /**
-     * _timeout  
-     * 
+     * _timeout
+     *
      * @var mixed
      * @access private
      */
     private $_timeout = 10;
 
     /**
-     * _agent  
-     * 
+     * _agent
+     *
      * @var string
      * @access private
      */
     private $_agent = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)';
 
     /**
-     * _maxSize  
-     * 
+     * _maxSize
+     *
      * @var float
      * @access private
      */
@@ -54,16 +54,21 @@ class HttpClient
     private $_auth;
 
     /**
-     * _contentType 
-     * 
+     * @var bool
+     */
+    private $_multipart = true;
+
+    /**
+     * _contentType
+     *
      * @var array
      * @access private
      */
     private $_contentType = array();
 
     /**
-     * _headers  
-     * 
+     * _headers
+     *
      * @var array
      * @access private
      */
@@ -73,39 +78,39 @@ class HttpClient
 
     /**
      * _responseStatusCode
-     * 
+     *
      * @var float
      * @access private
      */
     private $_responseStatusCode = 0;
 
     /**
-     * _responseContentLength  
-     * 
+     * _responseContentLength
+     *
      * @var float
      * @access private
      */
     private $_responseContentLength = 0;
 
     /**
-     * _responseBody  
-     * 
+     * _responseBody
+     *
      * @var string
      * @access private
      */
     private $_responseBody = '';
 
     /**
-     * _responseHeaders  
-     * 
+     * _responseHeaders
+     *
      * @var array
      * @access private
      */
     private $_responseHeaders = array();
 
     /**
-     * _responseContentType  
-     * 
+     * _responseContentType
+     *
      * @var mixed
      * @access private
      */
@@ -120,21 +125,21 @@ class HttpClient
     }
 
     /**
-     * buildUrl  
-     * 
-     * @param array $params 
+     * buildUrl
+     *
+     * @param array $params
      * @access private
      * @return string
      */
     private function buildUrl(array $params)
     {
         return (isset($params['scheme']) ? $params['scheme'] . '://' : null)
-            . (isset($params['user']) ? $params['user'] . (isset($params['pass']) ? ':' . $params['pass'] : null) . '@' : null)
-            . (isset($params['host']) ? $params['host'] : null)
-            . (isset($params['port']) ? ':' . $params['port'] : null)
-            . (isset($params['path']) ? $params['path'] : null)
-            . (isset($params['query']) ? '?' . $params['query'] : null)
-            . (isset($params['fragment']) ? '#' . $params['fragment'] : null);
+        . (isset($params['user']) ? $params['user'] . (isset($params['pass']) ? ':' . $params['pass'] : null) . '@' : null)
+        . (isset($params['host']) ? $params['host'] : null)
+        . (isset($params['port']) ? ':' . $params['port'] : null)
+        . (isset($params['path']) ? $params['path'] : null)
+        . (isset($params['query']) ? '?' . $params['query'] : null)
+        . (isset($params['fragment']) ? '#' . $params['fragment'] : null);
     }
 
     /**
@@ -171,6 +176,10 @@ class HttpClient
         }
 
         if (!empty($data)) {
+            if (!$this->_multipart) {
+                curl_setopt($ch, CURLOPT_POST, true);
+                $data = is_array($data) ? http_build_query($data) : $data;
+            }
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         }
 
@@ -224,7 +233,7 @@ class HttpClient
                         break;
                 }
             }
-            
+
             return strlen($str);
         });
 
@@ -271,6 +280,16 @@ class HttpClient
     }
 
     /**
+     * @param $multipart
+     * @return $this
+     */
+    public function setMultipart($multipart)
+    {
+        $this->_multipart = $multipart;
+        return $this;
+    }
+
+    /**
      * @param string $user
      * @param string $password
      * @return HttpClient
@@ -282,9 +301,9 @@ class HttpClient
     }
 
     /**
-     * setTimeout  
-     * 
-     * @param mixed $timeout 
+     * setTimeout
+     *
+     * @param mixed $timeout
      * @access public
      * @return HttpClient
      */
@@ -295,9 +314,9 @@ class HttpClient
     }
 
     /**
-     * setMaxSize  
-     * 
-     * @param mixed $maxSize 
+     * setMaxSize
+     *
+     * @param mixed $maxSize
      * @access public
      * @return HttpClient
      */
@@ -308,9 +327,9 @@ class HttpClient
     }
 
     /**
-     * setContentType  
-     * 
-     * @param mixed $contentType 
+     * setContentType
+     *
+     * @param mixed $contentType
      * @access public
      * @return HttpClient
      */
@@ -326,9 +345,9 @@ class HttpClient
     }
 
     /**
-     * setAgent  
-     * 
-     * @param mixed $agent 
+     * setAgent
+     *
+     * @param mixed $agent
      * @access public
      * @return HttpClient
      */
@@ -339,10 +358,10 @@ class HttpClient
     }
 
     /**
-     * setHeader  
-     * 
-     * @param mixed $name 
-     * @param mixed $value 
+     * setHeader
+     *
+     * @param mixed $name
+     * @param mixed $value
      * @access public
      * @return HttpClient
      */
@@ -354,8 +373,8 @@ class HttpClient
     }
 
     /**
-     * getResponseStatusCode  
-     * 
+     * getResponseStatusCode
+     *
      * @access public
      * @return integer
      */
@@ -365,8 +384,8 @@ class HttpClient
     }
 
     /**
-     * getResponseContentType  
-     * 
+     * getResponseContentType
+     *
      * @access public
      * @return string
      */
@@ -376,8 +395,8 @@ class HttpClient
     }
 
     /**
-     * getResponseContentLength  
-     * 
+     * getResponseContentLength
+     *
      * @access public
      * @return integer
      */
@@ -387,8 +406,8 @@ class HttpClient
     }
 
     /**
-     * getResponseBody  
-     * 
+     * getResponseBody
+     *
      * @access public
      * @return string
      */
@@ -398,9 +417,9 @@ class HttpClient
     }
 
     /**
-     * getResponseHeader  
-     * 
-     * @param mixed $key 
+     * getResponseHeader
+     *
+     * @param mixed $key
      * @access public
      * @return string
      */
@@ -414,8 +433,8 @@ class HttpClient
     }
 
     /**
-     * getUrl  
-     * 
+     * getUrl
+     *
      * @access public
      * @return string
      */
@@ -425,9 +444,9 @@ class HttpClient
     }
 
     /**
-     * get  
-     * 
-     * @param mixed $data 
+     * get
+     *
+     * @param mixed $data
      * @access public
      * @return HttpClient
      */
@@ -451,9 +470,9 @@ class HttpClient
     }
 
     /**
-     * post  
-     * 
-     * @param mixed $data 
+     * post
+     *
+     * @param mixed $data
      * @access public
      * @return HttpClient
      */
@@ -463,4 +482,3 @@ class HttpClient
         return $this;
     }
 }
-
